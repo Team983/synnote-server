@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class RecordApplication
 
 fun main(args: Array<String>) {
-	runApplication<RecordApplication>(*args)
+    runApplication<RecordApplication>(*args)
 }
