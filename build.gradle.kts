@@ -27,16 +27,34 @@ repositories {
 }
 
 dependencies {
+    // spring web
     implementation("org.springframework.boot:spring-boot-starter-web")
+
+    // spring jpa
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    // validation
     implementation("org.springframework.boot:spring-boot-starter-validation")
+
+    // kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    compileOnly("org.projectlombok:lombok")
-    runtimeOnly("com.h2database:h2")
+
+    // annotation processor
     annotationProcessor("org.projectlombok:lombok")
+
+    // h2 DB
+    testImplementation("com.h2database:h2")
+
+    // test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("com.h2database:h2:1.3.148")
+    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+
+    // kotest
+    testImplementation("io.kotest:kotest-runner-junit5:5.5.5")
+    testImplementation("io.kotest:kotest-assertions-core:5.5.5")
+    testImplementation("io.kotest:kotest-extensions-spring:4.4.3")
+    testImplementation("io.mockk:mockk:1.13.5")
 }
 
 tasks.withType<KotlinCompile> {
