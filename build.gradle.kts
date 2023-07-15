@@ -4,6 +4,7 @@ plugins {
     id("org.springframework.boot") version "3.1.1"
     id("io.spring.dependency-management") version "1.1.0"
     id("org.jlleitschuh.gradle.ktlint") version "11.5.0"
+    id("com.epages.restdocs-api-spec") version "0.17.1"
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.spring") version "1.8.22"
     kotlin("plugin.jpa") version "1.8.22"
@@ -44,7 +45,11 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
 
     // h2 DB
+    runtimeOnly("com.h2database:h2")
     testImplementation("com.h2database:h2")
+
+    // swagger
+    testImplementation("com.epages:restdocs-api-spec-mockmvc:0.17.1")
 
     // test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -57,6 +62,13 @@ dependencies {
     testImplementation("io.mockk:mockk:1.13.5")
 }
 
+tasks.register<Copy>("copyOasToSwagger") {
+    delete("src/main/resources/static/swagger-ui/openapi3.yaml")
+    from("$buildDir/api-spec/openapi3.yaml")
+    into("src/main/resources/static/swagger-ui/.")
+    dependsOn("openapi3")
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs += "-Xjsr305=strict"
@@ -66,4 +78,12 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+openapi3 {
+    this.setServer("https://dev.synnote.com:8080")
+    title = "Synnote API Documentation"
+    description = "Synnote API Documentation"
+    version = "0.1.0"
+    format = "yaml"
 }
