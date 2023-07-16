@@ -43,6 +43,7 @@ dependencies {
 
     // annotation processor
     annotationProcessor("org.projectlombok:lombok")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     // h2 DB
     runtimeOnly("com.h2database:h2")
@@ -50,6 +51,9 @@ dependencies {
 
     // swagger
     testImplementation("com.epages:restdocs-api-spec-mockmvc:0.17.1")
+
+    // Amazon S3
+    implementation("io.awspring.cloud:spring-cloud-starter-aws:2.4.4")
 
     // test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
