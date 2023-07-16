@@ -1,6 +1,6 @@
-package com.synnote.record.domain.s3.applications
+package com.team983.synnote.domain.s3.applications
 
-import com.synnote.record.domain.s3.domain.S3UrlGenerationService
+import com.team983.synnote.domain.s3.domain.S3UrlGenerationService
 import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
 

@@ -1,4 +1,4 @@
-package com.synnote.record.domain.healthCheck
+package com.team983.synnote.domain.healthCheck
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController

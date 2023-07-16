@@ -1,4 +1,4 @@
-package com.synnote.record.sample
+package com.team983.synnote.sample
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/samples")
 @RestController
 class SampleController {
+
     @GetMapping("{sampleId}")
     fun getSampleById(
         @PathVariable sampleId: String

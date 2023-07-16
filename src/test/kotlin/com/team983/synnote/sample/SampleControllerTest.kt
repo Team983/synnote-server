@@ -1,4 +1,4 @@
-package com.synnote.record.sample
+package com.team983.synnote.sample
 
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper
 import com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName

@@ -1,4 +1,4 @@
-package com.synnote.record.domain.s3.domain
+package com.team983.synnote.domain.s3.domain
 
 interface S3UrlGenerationService {
 

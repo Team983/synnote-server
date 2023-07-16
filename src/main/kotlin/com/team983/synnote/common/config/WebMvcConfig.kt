@@ -1,4 +1,4 @@
-package com.synnote.record.common.config
+package com.team983.synnote.common.config
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.CorsRegistry

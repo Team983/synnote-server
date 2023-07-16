@@ -1,4 +1,4 @@
-package com.synnote.record.common.config
+package com.team983.synnote.common.config
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider
 import com.amazonaws.auth.BasicAWSCredentials

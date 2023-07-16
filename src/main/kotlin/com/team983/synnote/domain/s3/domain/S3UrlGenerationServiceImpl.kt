@@ -1,8 +1,8 @@
-package com.synnote.record.domain.s3.domain
+package com.team983.synnote.domain.s3.domain
 
 import com.amazonaws.HttpMethod
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest
-import com.synnote.record.common.config.AmazonS3Config
+import com.team983.synnote.common.config.AmazonS3Config
 import org.springframework.stereotype.Service
 import java.io.Serializable
 import java.time.LocalDateTime

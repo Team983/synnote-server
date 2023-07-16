@@ -1,1 +1,1 @@
-rootProject.name = "record"
+rootProject.name = "synnote"

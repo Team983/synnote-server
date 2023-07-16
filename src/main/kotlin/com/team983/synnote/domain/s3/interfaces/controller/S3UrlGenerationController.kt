@@ -1,6 +1,6 @@
-package com.synnote.record.domain.s3.interfaces.controller
+package com.team983.synnote.domain.s3.interfaces.controller
 
-import com.synnote.record.domain.s3.applications.S3UrlGenerationFacade
+import com.team983.synnote.domain.s3.applications.S3UrlGenerationFacade
 import org.springframework.http.HttpStatus.OK
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
