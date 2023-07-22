@@ -45,6 +45,9 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
+    // mysql
+    runtimeOnly("com.mysql:mysql-connector-j")
+
     // h2 DB
     runtimeOnly("com.h2database:h2")
     testImplementation("com.h2database:h2")
