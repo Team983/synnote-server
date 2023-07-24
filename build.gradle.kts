@@ -52,6 +52,9 @@ dependencies {
     runtimeOnly("com.h2database:h2")
     testImplementation("com.h2database:h2")
 
+    // flyway
+    implementation("org.flywaydb:flyway-mysql")
+
     // swagger
     testImplementation("com.epages:restdocs-api-spec-mockmvc:0.17.1")
 
