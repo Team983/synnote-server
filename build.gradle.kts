@@ -1,13 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    val kotlinVersion = "1.8.22"
     id("org.springframework.boot") version "3.1.1"
     id("io.spring.dependency-management") version "1.1.0"
     id("org.jlleitschuh.gradle.ktlint") version "11.5.0"
     id("com.epages.restdocs-api-spec") version "0.17.1"
-    kotlin("jvm") version "1.8.22"
-    kotlin("plugin.spring") version "1.8.22"
-    kotlin("plugin.jpa") version "1.8.22"
+    kotlin("jvm") version kotlinVersion
+    kotlin("plugin.spring") version kotlinVersion
+    kotlin("plugin.jpa") version kotlinVersion
 }
 
 group = "com.synnote"
@@ -78,6 +79,14 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core:5.5.5")
     testImplementation("io.kotest:kotest-extensions-spring:4.4.3")
     testImplementation("io.mockk:mockk:1.13.5")
+}
+
+allOpen {
+    annotation("jakarta.persistence.Entity")
+}
+
+noArg {
+    annotation("jakarta.persistence.Entity")
 }
 
 tasks.register<Copy>("copyOasToSwagger") {
