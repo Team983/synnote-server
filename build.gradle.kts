@@ -48,6 +48,14 @@ dependencies {
     // mysql
     runtimeOnly("com.mysql:mysql-connector-j")
 
+    // gson
+    implementation("com.google.code.gson:gson:2.10.1")
+
+    // jwt
+    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
+
     // h2 DB
     runtimeOnly("com.h2database:h2")
     testImplementation("com.h2database:h2")
