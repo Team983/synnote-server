@@ -22,7 +22,13 @@ class GlobalExceptionHandler {
             val errorMessage = error.defaultMessage
             errors[fieldName] = errorMessage ?: "Not Exception Message"
         }
-        return ResponseEntity(BaseResponse(ResultCode.ERROR.name, ResultCode.ERROR.msg, errors), HttpStatus.BAD_REQUEST)
+        return ResponseEntity(
+            BaseResponse(
+                resultCode = ResultCode.INVALID_INPUT_VALUE.code,
+                message = ResultCode.INVALID_INPUT_VALUE.msg,
+                data = errors
+            ), HttpStatus.BAD_REQUEST
+        )
     }
 
     @ExceptionHandler(Exception::class)
@@ -30,6 +36,11 @@ class GlobalExceptionHandler {
         ex: Exception
     ): ResponseEntity<BaseResponse<Map<String, String>>> {
         val errors = mapOf("Unprocessed Error" to (ex.message ?: "Not Exception Message"))
-        return ResponseEntity(BaseResponse(ResultCode.ERROR.name, ResultCode.ERROR.msg, errors), HttpStatus.BAD_REQUEST)
+        return ResponseEntity(
+            BaseResponse(
+                resultCode = ResultCode.ERROR.code,
+                message = ResultCode.ERROR.msg,
+                data = errors
+            ), HttpStatus.BAD_REQUEST)
     }
 }
