@@ -27,7 +27,8 @@ class GlobalExceptionHandler {
                 resultCode = ResultCode.INVALID_INPUT_VALUE.code,
                 message = ResultCode.INVALID_INPUT_VALUE.msg,
                 data = errors
-            ), HttpStatus.BAD_REQUEST
+            ),
+            HttpStatus.BAD_REQUEST
         )
     }
 
@@ -41,6 +42,8 @@ class GlobalExceptionHandler {
                 resultCode = ResultCode.ERROR.code,
                 message = ResultCode.ERROR.msg,
                 data = errors
-            ), HttpStatus.BAD_REQUEST)
+            ),
+            HttpStatus.BAD_REQUEST
+        )
     }
 }
