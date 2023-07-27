@@ -3,8 +3,8 @@ package com.team983.synnote.domain.s3.domain
 import com.amazonaws.HttpMethod
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest
 import com.team983.synnote.common.config.AmazonS3Config
+import com.team983.synnote.domain.s3.interfaces.dto.S3UrlDtoResponse
 import org.springframework.stereotype.Service
-import java.io.Serializable
 import java.time.LocalDateTime
 import java.util.Date
 
@@ -12,7 +12,7 @@ import java.util.Date
 class S3UrlGenerationServiceImpl(
     private val amazonS3Config: AmazonS3Config
 ) : S3UrlGenerationService {
-    override fun getPresignedUrl(fileName: String): Map<String, Serializable>? {
+    override fun getPresignedUrl(fileName: String): S3UrlDtoResponse {
         val encodedFileName = "${fileName}_${LocalDateTime.now()}"
         val objectKey = "full/$encodedFileName"
 
@@ -26,9 +26,9 @@ class S3UrlGenerationServiceImpl(
                 .withMethod(HttpMethod.PUT)
                 .withExpiration(expiration)
 
-        return mapOf(
-            "preSignedUrl" to amazonS3Config.amazonS3().generatePresignedUrl(generatePresignedUrlRequest),
-            "encodedFileName" to encodedFileName
+        return S3UrlDtoResponse(
+            amazonS3Config.amazonS3().generatePresignedUrl(generatePresignedUrlRequest),
+            encodedFileName
         )
     }
 }

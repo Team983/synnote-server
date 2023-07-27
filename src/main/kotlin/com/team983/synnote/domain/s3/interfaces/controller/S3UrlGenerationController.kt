@@ -1,6 +1,8 @@
 package com.team983.synnote.domain.s3.interfaces.controller
 
+import com.team983.synnote.common.dto.BaseResponse
 import com.team983.synnote.domain.s3.applications.S3UrlGenerationFacade
+import com.team983.synnote.domain.s3.interfaces.dto.S3UrlDtoResponse
 import org.springframework.http.HttpStatus.OK
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -18,5 +20,5 @@ class S3UrlGenerationController(
     @ResponseStatus(OK)
     fun getPresignedUrl(
         @PathVariable fileName: String
-    ): Map<String, Any>? = facade.getPresignedUrl(fileName)
+    ): BaseResponse<S3UrlDtoResponse> = BaseResponse(data = facade.getPresignedUrl(fileName))
 }
