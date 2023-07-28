@@ -24,7 +24,7 @@ class UserController(
     private val userFacade: UserFacade
 ) {
 
-    @GetMapping
+    @GetMapping("info")
     @ResponseStatus(OK)
     fun getUserInfo(
         @RequestHeader("x-amzn-oidc-data") encodedJwt: String
@@ -38,14 +38,12 @@ class UserController(
     @PutMapping("agreement")
     @ResponseStatus(OK)
     fun updateUserAgreement(
-        //@RequestHeader("x-amzn-oidc-data") encodedJwt: String,
+        @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
         @RequestBody
         @Valid
         userAgreementDtoRequest: UserAgreementDtoRequest
     ): BaseResponse<UserDtoResponse> {
-        //log.info("encodedJwt: $encodedJwt")
-        //val userAgreementCommand = UserAgreementCommand(decodeJwt(encodedJwt1).sub, userAgreementDtoRequest)
-        val userAgreementCommand = UserAgreementCommand("asdasd", userAgreementDtoRequest) // TODO Delete this line
+        val userAgreementCommand = UserAgreementCommand(decodeJwt(encodedJwt).sub, userAgreementDtoRequest)
         val userDtoResponse = UserDtoResponse(userFacade.updateUserAgreement(userAgreementCommand))
         return BaseResponse(data = userDtoResponse)
     }
