@@ -1,5 +1,6 @@
 package com.team983.synnote.domain.user.domains.entity
 
+import com.team983.synnote.domain.user.domains.dto.UserAgreementCommand
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -41,4 +42,27 @@ class User(
 
     @Column(name = "removed_date", nullable = false)
     var removedDate: LocalDateTime? = LocalDateTime.of(2000, 1, 1, 1, 1)
-)
+) {
+    fun updateAgreement(userAgreementCommand: UserAgreementCommand) {
+        when {
+            agreement.privacyPolicy != userAgreementCommand.privacyPolicy -> {
+                agreement.privacyPolicy = userAgreementCommand.privacyPolicy
+                agreement.privacyPolicyDate = LocalDateTime.now()
+            }
+        }
+
+        when {
+            agreement.termsAndCons != userAgreementCommand.termsAndCons -> {
+                agreement.termsAndCons = userAgreementCommand.termsAndCons
+                agreement.termsAndConsDate = LocalDateTime.now()
+            }
+        }
+
+        when {
+            agreement.serviceImprovement != userAgreementCommand.serviceImprovement -> {
+                agreement.serviceImprovement = userAgreementCommand.serviceImprovement
+                agreement.serviceImprovementDate = LocalDateTime.now()
+            }
+        }
+    }
+}
