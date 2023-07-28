@@ -2,6 +2,7 @@ package com.team983.synnote.common.exception
 
 import com.team983.synnote.common.dto.BaseResponse
 import com.team983.synnote.common.status.ResultCode
+import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.FieldError
@@ -36,6 +37,7 @@ class GlobalExceptionHandler {
     protected fun defaultException(
         ex: Exception
     ): ResponseEntity<BaseResponse<Map<String, String>>> {
+        log.info(ex.stackTraceToString())
         val errors = mapOf("Unprocessed Error" to (ex.message ?: "Not Exception Message"))
         return ResponseEntity(
             BaseResponse(
