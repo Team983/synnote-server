@@ -2,6 +2,7 @@ package com.team983.synnote.domain.user.interfaces.dto
 
 import com.team983.synnote.domain.user.domains.dto.AgreementInfo
 import com.team983.synnote.domain.user.domains.dto.UserInfo
+import jakarta.validation.constraints.NotNull
 import java.time.LocalDateTime
 
 data class UserDtoResponse(
@@ -23,3 +24,14 @@ data class UserDtoResponse(
         agreement = userInfo.agreement
     )
 }
+
+data class UserAgreementDtoRequest(
+    @field:NotNull
+    val privacyPolicy: Boolean?,
+
+    @field:NotNull
+    val termsAndCons: Boolean?,
+
+    @field:NotNull
+    val serviceImprovement: Boolean?
+)

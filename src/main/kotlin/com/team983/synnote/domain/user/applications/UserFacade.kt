@@ -1,5 +1,6 @@
 package com.team983.synnote.domain.user.applications
 
+import com.team983.synnote.domain.user.domains.dto.UserAgreementCommand
 import com.team983.synnote.domain.user.domains.dto.UserCommand
 import com.team983.synnote.domain.user.domains.dto.UserInfo
 import com.team983.synnote.domain.user.domains.service.UserService
@@ -11,4 +12,8 @@ class UserFacade(
 ) {
 
     fun getUserInfo(userCommand: UserCommand): UserInfo = userService.getUserInfo(userCommand)
+
+    fun updateUserAgreement(userAgreementCommand: UserAgreementCommand): UserInfo {
+        return userService.updateUserAgreement(userAgreementCommand)
+    }
 }

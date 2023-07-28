@@ -1,5 +1,6 @@
 package com.team983.synnote.domain.user.domains.service
 
+import com.team983.synnote.domain.user.domains.dto.UserAgreementCommand
 import com.team983.synnote.domain.user.domains.dto.UserCommand
 import com.team983.synnote.domain.user.domains.dto.UserInfo
 import jakarta.transaction.Transactional
@@ -18,6 +19,12 @@ class UserServiceImpl(
         }
 
         val user = userStore.addUser(userCommand.toEntity())
+        return UserInfo(user)
+    }
+
+    override fun updateUserAgreement(userAgreementCommand: UserAgreementCommand): UserInfo {
+        val user = userReader.getUserInfoById(userAgreementCommand.id) ?: throw Exception("User not found")
+        user.updateAgreement(userAgreementCommand)
         return UserInfo(user)
     }
 }
