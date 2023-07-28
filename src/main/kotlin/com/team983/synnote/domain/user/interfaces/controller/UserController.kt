@@ -2,7 +2,6 @@ package com.team983.synnote.domain.user.interfaces.controller
 
 import com.team983.synnote.common.authority.decodeJwt
 import com.team983.synnote.common.dto.BaseResponse
-import com.team983.synnote.common.dto.UserAttributeDto
 import com.team983.synnote.domain.user.applications.UserFacade
 import com.team983.synnote.domain.user.domains.dto.UserCommand
 import com.team983.synnote.domain.user.interfaces.dto.UserDtoResponse
