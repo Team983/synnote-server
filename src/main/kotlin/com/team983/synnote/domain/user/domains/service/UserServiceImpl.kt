@@ -1,5 +1,7 @@
 package com.team983.synnote.domain.user.domains.service
 
+import com.team983.synnote.common.exception.EntityNotFoundException
+import com.team983.synnote.common.status.ResultCode.USER_NOT_FOUND
 import com.team983.synnote.domain.user.domains.dto.UserAgreementCommand
 import com.team983.synnote.domain.user.domains.dto.UserCommand
 import com.team983.synnote.domain.user.domains.dto.UserInfo
@@ -23,7 +25,7 @@ class UserServiceImpl(
     }
 
     override fun updateUserAgreement(userAgreementCommand: UserAgreementCommand): UserInfo {
-        val user = userReader.getUserInfoById(userAgreementCommand.id) ?: throw Exception("User not found")
+        val user = userReader.getUserInfoById(userAgreementCommand.id) ?: throw EntityNotFoundException(USER_NOT_FOUND)
         user.updateAgreement(userAgreementCommand)
         return UserInfo(user)
     }
