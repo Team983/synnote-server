@@ -1,6 +1,7 @@
-package com.team983.synnote.common.exception
+package com.team983.synnote.common.exception.handler
 
 import com.team983.synnote.common.dto.BaseResponse
+import com.team983.synnote.common.exception.BusinessException
 import com.team983.synnote.common.status.ResultCode
 import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.http.HttpStatus
@@ -12,6 +13,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
+
+    @ExceptionHandler(BusinessException::class)
+    protected fun businessException(
+        ex: BusinessException
+    ): ResponseEntity<BaseResponse<Map<String, String>>> {
+        return ResponseEntity(
+            BaseResponse(
+                resultCode = ex.resultCode.code,
+                message = ex.resultCode.msg
+            ),
+            HttpStatus.BAD_REQUEST
+        )
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
     protected fun methodArgumentNotValidException(
