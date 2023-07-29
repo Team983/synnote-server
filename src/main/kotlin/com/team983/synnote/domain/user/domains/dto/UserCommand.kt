@@ -8,9 +8,9 @@ data class UserCommand(
     val id: String,
     val name: String
 ) {
-    constructor(id: UserAttributeDto) : this(
-        id = id.sub,
-        name = id.email
+    constructor(userAttributeDto: UserAttributeDto) : this(
+        id = userAttributeDto.sub,
+        name = userAttributeDto.email
     )
 
     fun toEntity(): User {
