@@ -3,18 +3,15 @@ package com.team983.synnote.domain.note.domains.entity
 import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.enums.Status
 import com.team983.synnote.domain.note.domains.enums.UploadType
-import com.team983.synnote.domain.user.domains.entity.User
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
-import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
@@ -28,7 +25,7 @@ class Note(
     domainType: DomainType,
     status: Status,
     uploadType: UploadType,
-    user: User
+    userId: String
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,8 +63,6 @@ class Note(
     var updatedDate: LocalDateTime? = null
         protected set
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    var user: User? = user
-        protected set
+    val userId: String = userId
 }
