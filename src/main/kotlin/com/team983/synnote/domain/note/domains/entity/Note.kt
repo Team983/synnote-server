@@ -63,6 +63,6 @@ class Note(
     var updatedDate: LocalDateTime? = null
         protected set
 
-    @JoinColumn(name = "user_id", nullable = false)
+    @Column(name = "user_id", nullable = false)
     val userId: String = userId
 }
