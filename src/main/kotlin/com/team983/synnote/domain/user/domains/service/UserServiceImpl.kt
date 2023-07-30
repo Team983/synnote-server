@@ -16,7 +16,7 @@ class UserServiceImpl(
 ) : UserService {
 
     override fun getUserInfo(userRegisterCommand: UserRegisterCommand): UserInfo {
-        userReader.getUserInfoById(userRegisterCommand.id)?.let {
+        userReader.getUserById(userRegisterCommand.id)?.let {
             return UserInfo(it)
         }
 
@@ -25,7 +25,7 @@ class UserServiceImpl(
     }
 
     override fun updateUserAgreement(userAgreementUpdateCommand: UserAgreementUpdateCommand): UserInfo {
-        val user = userReader.getUserInfoById(userAgreementUpdateCommand.id)
+        val user = userReader.getUserById(userAgreementUpdateCommand.id)
             ?: throw EntityNotFoundException(USER_NOT_FOUND)
         user.updateAgreement(userAgreementUpdateCommand)
         return UserInfo(user)

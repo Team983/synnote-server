@@ -10,7 +10,7 @@ class UserReaderImpl(
     private val userRepository: UserRepository
 ) : UserReader {
 
-    override fun getUserInfoById(id: String): User? = userRepository.findByIdOrNull(id)?.let {
+    override fun getUserById(id: String): User? = userRepository.findByIdOrNull(id)?.let {
         return it
     }
 }
