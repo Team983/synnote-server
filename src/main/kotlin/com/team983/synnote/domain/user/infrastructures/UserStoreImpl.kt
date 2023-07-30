@@ -9,7 +9,7 @@ class UserStoreImpl(
     private val userRepository: UserRepository
 ) : UserStore {
 
-    override fun addUser(user: User): User {
+    override fun registerUser(user: User): User {
         return userRepository.save(user)
     }
 }

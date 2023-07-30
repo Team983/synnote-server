@@ -20,7 +20,7 @@ class UserServiceImpl(
             return UserInfo(it)
         }
 
-        val user = userStore.addUser(userRegisterCommand.toEntity())
+        val user = userStore.registerUser(userRegisterCommand.toEntity())
         return UserInfo(user)
     }
 
