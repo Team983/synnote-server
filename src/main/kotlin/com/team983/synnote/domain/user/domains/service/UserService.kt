@@ -8,4 +8,6 @@ interface UserService {
     fun getUserInfo(userRegisterCommand: UserRegisterCommand): UserInfo
 
     fun updateUserAgreement(userAgreementUpdateCommand: UserAgreementUpdateCommand): UserInfo
+
+    fun isRegisteredUser(id: String): Boolean
 }

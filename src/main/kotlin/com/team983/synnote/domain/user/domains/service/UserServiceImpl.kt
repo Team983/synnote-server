@@ -30,4 +30,6 @@ class UserServiceImpl(
         user.updateAgreement(userAgreementUpdateCommand)
         return UserInfo(user)
     }
+
+    override fun isRegisteredUser(id: String): Boolean = userReader.isRegisteredUser(id)
 }

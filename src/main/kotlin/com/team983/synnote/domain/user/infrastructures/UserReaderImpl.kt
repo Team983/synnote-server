@@ -13,4 +13,6 @@ class UserReaderImpl(
     override fun getUserById(id: String): User? = userRepository.findByIdOrNull(id)?.let {
         return it
     }
+
+    override fun isRegisteredUser(id: String): Boolean = userRepository.existsById(id)
 }
