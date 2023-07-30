@@ -1,5 +1,6 @@
 package com.team983.synnote.domain.note.domains.entity
 
+import com.team983.synnote.common.status.ResultCode.UPLOADTYPE_INIT_STATUS_NOT_MATCH
 import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.enums.Status
 import com.team983.synnote.domain.note.domains.enums.UploadType
@@ -11,7 +12,6 @@ import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
 import jakarta.persistence.Table
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
@@ -65,4 +65,13 @@ class Note(
 
     @Column(name = "user_id", nullable = false)
     val userId: String = userId
+
+    init {
+        require(
+            uploadType == UploadType.RECORDING && status == Status.RECORDING ||
+                uploadType == UploadType.FILE && status == Status.PROCESSING
+        ) {
+            UPLOADTYPE_INIT_STATUS_NOT_MATCH.msg
+        }
+    }
 }
