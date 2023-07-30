@@ -2,9 +2,9 @@ package com.team983.synnote.domain.user.domains.service
 
 import com.team983.synnote.common.exception.EntityNotFoundException
 import com.team983.synnote.common.status.ResultCode.USER_NOT_FOUND
-import com.team983.synnote.domain.user.domains.dto.UserAgreementCommand
-import com.team983.synnote.domain.user.domains.dto.UserCommand
+import com.team983.synnote.domain.user.domains.dto.UserAgreementUpdateCommand
 import com.team983.synnote.domain.user.domains.dto.UserInfo
+import com.team983.synnote.domain.user.domains.dto.UserRegisterCommand
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
@@ -15,18 +15,19 @@ class UserServiceImpl(
     private val userStore: UserStore
 ) : UserService {
 
-    override fun getUserInfo(userCommand: UserCommand): UserInfo {
-        userReader.getUserInfoById(userCommand.id)?.let {
+    override fun getUserInfo(userRegisterCommand: UserRegisterCommand): UserInfo {
+        userReader.getUserInfoById(userRegisterCommand.id)?.let {
             return UserInfo(it)
         }
 
-        val user = userStore.addUser(userCommand.toEntity())
+        val user = userStore.addUser(userRegisterCommand.toEntity())
         return UserInfo(user)
     }
 
-    override fun updateUserAgreement(userAgreementCommand: UserAgreementCommand): UserInfo {
-        val user = userReader.getUserInfoById(userAgreementCommand.id) ?: throw EntityNotFoundException(USER_NOT_FOUND)
-        user.updateAgreement(userAgreementCommand)
+    override fun updateUserAgreement(userAgreementUpdateCommand: UserAgreementUpdateCommand): UserInfo {
+        val user = userReader.getUserInfoById(userAgreementUpdateCommand.id)
+            ?: throw EntityNotFoundException(USER_NOT_FOUND)
+        user.updateAgreement(userAgreementUpdateCommand)
         return UserInfo(user)
     }
 }
