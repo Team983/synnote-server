@@ -1,5 +1,6 @@
 package com.team983.synnote.domain.note.interfaces.controller
 
+import com.team983.synnote.common.authority.decodeJwt
 import com.team983.synnote.common.dto.BaseResponse
 import com.team983.synnote.domain.note.applications.NoteFacade
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
@@ -9,6 +10,7 @@ import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
@@ -22,11 +24,12 @@ class NoteController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createNote(
+        @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
         @RequestBody
         @Valid
         createNoteRequest: CreateNoteRequest
     ): BaseResponse<NoteResponse> {
-        val createNoteCommand = CreateNoteCommand("adasd", createNoteRequest)
+        val createNoteCommand = CreateNoteCommand(decodeJwt(encodedJwt).sub, createNoteRequest)
         val noteResponse = NoteResponse(noteFacade.createNote(createNoteCommand))
         return BaseResponse(data = noteResponse)
     }
