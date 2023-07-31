@@ -25,7 +25,7 @@ data class UserResponse(
     )
 }
 
-data class UserAgreementDtoRequest(
+data class UpdateAgreementRequest(
     @field:NotNull
     val privacyPolicy: Boolean?,
 

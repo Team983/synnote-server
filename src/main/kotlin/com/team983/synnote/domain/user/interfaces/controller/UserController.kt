@@ -4,8 +4,8 @@ import com.team983.synnote.common.authority.decodeJwt
 import com.team983.synnote.common.dto.BaseResponse
 import com.team983.synnote.domain.user.applications.UserFacade
 import com.team983.synnote.domain.user.domains.dto.RegisterUserCommand
-import com.team983.synnote.domain.user.domains.dto.UserAgreementUpdateCommand
-import com.team983.synnote.domain.user.interfaces.dto.UserAgreementDtoRequest
+import com.team983.synnote.domain.user.domains.dto.UpdateAgreementCommand
+import com.team983.synnote.domain.user.interfaces.dto.UpdateAgreementRequest
 import com.team983.synnote.domain.user.interfaces.dto.UserResponse
 import jakarta.validation.Valid
 import org.hibernate.query.sqm.tree.SqmNode.log
@@ -37,14 +37,14 @@ class UserController(
 
     @PutMapping("agreement")
     @ResponseStatus(OK)
-    fun updateUserAgreement(
+    fun updateAgreement(
         @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
         @RequestBody
         @Valid
-        userAgreementDtoRequest: UserAgreementDtoRequest
+        updateAgreementRequest: UpdateAgreementRequest
     ): BaseResponse<UserResponse> {
-        val userAgreementCommand = UserAgreementUpdateCommand(decodeJwt(encodedJwt).sub, userAgreementDtoRequest)
-        val userResponse = UserResponse(userFacade.updateUserAgreement(userAgreementCommand))
+        val updateAgreementCommand = UpdateAgreementCommand(decodeJwt(encodedJwt).sub, updateAgreementRequest)
+        val userResponse = UserResponse(userFacade.updateAgreement(updateAgreementCommand))
         return BaseResponse(data = userResponse)
     }
 }

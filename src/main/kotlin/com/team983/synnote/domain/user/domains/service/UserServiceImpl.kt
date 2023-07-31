@@ -3,7 +3,7 @@ package com.team983.synnote.domain.user.domains.service
 import com.team983.synnote.common.exception.EntityNotFoundException
 import com.team983.synnote.common.status.ResultCode.USER_NOT_FOUND
 import com.team983.synnote.domain.user.domains.dto.RegisterUserCommand
-import com.team983.synnote.domain.user.domains.dto.UserAgreementUpdateCommand
+import com.team983.synnote.domain.user.domains.dto.UpdateAgreementCommand
 import com.team983.synnote.domain.user.domains.dto.UserInfo
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
@@ -24,10 +24,10 @@ class UserServiceImpl(
         return UserInfo(user)
     }
 
-    override fun updateUserAgreement(userAgreementUpdateCommand: UserAgreementUpdateCommand): UserInfo {
-        val user = userReader.getUserById(userAgreementUpdateCommand.id)
+    override fun updateAgreement(updateAgreementCommand: UpdateAgreementCommand): UserInfo {
+        val user = userReader.getUserById(updateAgreementCommand.id)
             ?: throw EntityNotFoundException(USER_NOT_FOUND)
-        user.updateAgreement(userAgreementUpdateCommand)
+        user.updateAgreement(updateAgreementCommand)
         return UserInfo(user)
     }
 

@@ -3,7 +3,7 @@ package com.team983.synnote.domain.user.domains.dto
 import com.team983.synnote.common.dto.UserAttributeDto
 import com.team983.synnote.domain.user.domains.entity.Agreement
 import com.team983.synnote.domain.user.domains.entity.User
-import com.team983.synnote.domain.user.interfaces.dto.UserAgreementDtoRequest
+import com.team983.synnote.domain.user.interfaces.dto.UpdateAgreementRequest
 
 data class RegisterUserCommand(
     val id: String,
@@ -19,16 +19,16 @@ data class RegisterUserCommand(
     }
 }
 
-data class UserAgreementUpdateCommand(
+data class UpdateAgreementCommand(
     val id: String,
     val privacyPolicy: Boolean,
     val termsAndCons: Boolean,
     val serviceImprovement: Boolean
 ) {
-    constructor(sub: String, userAgreementDtoRequest: UserAgreementDtoRequest) : this(
+    constructor(sub: String, updateAgreementRequest: UpdateAgreementRequest) : this(
         id = sub,
-        privacyPolicy = userAgreementDtoRequest.privacyPolicy!!,
-        termsAndCons = userAgreementDtoRequest.termsAndCons!!,
-        serviceImprovement = userAgreementDtoRequest.serviceImprovement!!
+        privacyPolicy = updateAgreementRequest.privacyPolicy!!,
+        termsAndCons = updateAgreementRequest.termsAndCons!!,
+        serviceImprovement = updateAgreementRequest.serviceImprovement!!
     )
 }
