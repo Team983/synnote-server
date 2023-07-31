@@ -5,7 +5,7 @@ import com.team983.synnote.domain.user.domains.dto.UserInfo
 import jakarta.validation.constraints.NotNull
 import java.time.LocalDateTime
 
-data class UserDtoResponse(
+data class UserResponse(
     val id: String,
     val name: String,
     val email: String,
