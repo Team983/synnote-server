@@ -74,4 +74,10 @@ class Note(
             UPLOADTYPE_INIT_STATUS_NOT_MATCH.msg
         }
     }
+
+    fun isOwnedBy(userId: String): Boolean = this.userId == userId
+
+    fun delete() {
+        deletedFlag = true
+    }
 }
