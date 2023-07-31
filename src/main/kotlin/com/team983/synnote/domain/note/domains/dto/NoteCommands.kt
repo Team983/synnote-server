@@ -28,3 +28,8 @@ data class CreateNoteCommand(
         )
     }
 }
+
+data class DeleteNoteCommand(
+    val userId: String,
+    val noteId: Long
+)
