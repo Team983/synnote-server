@@ -5,7 +5,7 @@ import com.team983.synnote.domain.user.domains.entity.Agreement
 import com.team983.synnote.domain.user.domains.entity.User
 import com.team983.synnote.domain.user.interfaces.dto.UserAgreementDtoRequest
 
-data class UserRegisterCommand(
+data class RegisterUserCommand(
     val id: String,
     val name: String
 ) {

@@ -3,8 +3,8 @@ package com.team983.synnote.domain.user.interfaces.controller
 import com.team983.synnote.common.authority.decodeJwt
 import com.team983.synnote.common.dto.BaseResponse
 import com.team983.synnote.domain.user.applications.UserFacade
+import com.team983.synnote.domain.user.domains.dto.RegisterUserCommand
 import com.team983.synnote.domain.user.domains.dto.UserAgreementUpdateCommand
-import com.team983.synnote.domain.user.domains.dto.UserRegisterCommand
 import com.team983.synnote.domain.user.interfaces.dto.UserAgreementDtoRequest
 import com.team983.synnote.domain.user.interfaces.dto.UserResponse
 import jakarta.validation.Valid
@@ -30,8 +30,8 @@ class UserController(
         @RequestHeader("x-amzn-oidc-data") encodedJwt: String
     ): BaseResponse<UserResponse> {
         log.info("encodedJwt: $encodedJwt")
-        val userCommand = UserRegisterCommand(decodeJwt(encodedJwt))
-        val userResponse = UserResponse(userFacade.getUserInfo(userCommand))
+        val registerUserCommand = RegisterUserCommand(decodeJwt(encodedJwt))
+        val userResponse = UserResponse(userFacade.getUserInfo(registerUserCommand))
         return BaseResponse(data = userResponse)
     }
 

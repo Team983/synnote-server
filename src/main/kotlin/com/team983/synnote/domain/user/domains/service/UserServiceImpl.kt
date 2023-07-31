@@ -2,9 +2,9 @@ package com.team983.synnote.domain.user.domains.service
 
 import com.team983.synnote.common.exception.EntityNotFoundException
 import com.team983.synnote.common.status.ResultCode.USER_NOT_FOUND
+import com.team983.synnote.domain.user.domains.dto.RegisterUserCommand
 import com.team983.synnote.domain.user.domains.dto.UserAgreementUpdateCommand
 import com.team983.synnote.domain.user.domains.dto.UserInfo
-import com.team983.synnote.domain.user.domains.dto.UserRegisterCommand
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
@@ -15,12 +15,12 @@ class UserServiceImpl(
     private val userStore: UserStore
 ) : UserService {
 
-    override fun getUserInfo(userRegisterCommand: UserRegisterCommand): UserInfo {
-        userReader.getUserById(userRegisterCommand.id)?.let {
+    override fun getUserInfo(registerUserCommand: RegisterUserCommand): UserInfo {
+        userReader.getUserById(registerUserCommand.id)?.let {
             return UserInfo(it)
         }
 
-        val user = userStore.registerUser(userRegisterCommand.toEntity())
+        val user = userStore.registerUser(registerUserCommand.toEntity())
         return UserInfo(user)
     }
 
