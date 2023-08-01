@@ -13,26 +13,26 @@ data class CreateNoteRequest(
     @field:NotBlank
     @field:ValidEnum(enumClass = DomainType::class, message = "IT, GENERAL 중 하나를 선택해주세요.")
     @JsonProperty("domain")
-    private val _domain: String,
+    private val _domain: String?,
 
     @field:NotBlank
     @field:ValidEnum(enumClass = Status::class, message = "RECORDING, PROCESSING, DONE 중 하나를 선택해주세요.")
     @JsonProperty("status")
-    private val _status: String,
+    private val _status: String?,
 
     @field:NotBlank
     @field:ValidEnum(enumClass = UploadType::class, message = "RECORDING, FILE 중 하나를 선택해주세요.")
     @JsonProperty("uploadType")
-    private val _uploadType: String
+    private val _uploadType: String?
 ) {
     val domainType: DomainType
-        get() = DomainType.valueOf(_domain)
+        get() = DomainType.valueOf(_domain!!)
 
     val status: Status
-        get() = Status.valueOf(_status)
+        get() = Status.valueOf(_status!!)
 
     val uploadType: UploadType
-        get() = UploadType.valueOf(_uploadType)
+        get() = UploadType.valueOf(_uploadType!!)
 }
 
 data class NoteResponse(

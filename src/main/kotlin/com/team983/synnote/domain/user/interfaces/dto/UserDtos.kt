@@ -1,5 +1,6 @@
 package com.team983.synnote.domain.user.interfaces.dto
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.team983.synnote.domain.user.domains.dto.AgreementInfo
 import com.team983.synnote.domain.user.domains.dto.UserInfo
 import jakarta.validation.constraints.NotNull
@@ -27,11 +28,23 @@ data class UserResponse(
 
 data class UpdateAgreementRequest(
     @field:NotNull
-    val privacyPolicy: Boolean?,
+    @JsonProperty("privacyPolicy")
+    private val _privacyPolicy: Boolean?,
 
     @field:NotNull
-    val termsAndCons: Boolean?,
+    @JsonProperty("termsAndCons")
+    private val _termsAndCons: Boolean?,
 
     @field:NotNull
-    val serviceImprovement: Boolean?
-)
+    @JsonProperty("serviceImprovement")
+    private val _serviceImprovement: Boolean?
+) {
+    val privacyPolicy: Boolean
+        get() = _privacyPolicy!!
+
+    val termsAndCons: Boolean
+        get() = _termsAndCons!!
+
+    val serviceImprovement: Boolean
+        get() = _serviceImprovement!!
+}
