@@ -1,18 +1,18 @@
-package com.team983.synnote.domain.s3.domain
+package com.team983.synnote.domain.recording.domain
 
 import com.amazonaws.HttpMethod
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest
 import com.team983.synnote.common.config.AmazonS3Config
-import com.team983.synnote.domain.s3.interfaces.dto.S3UrlDtoResponse
+import com.team983.synnote.domain.recording.interfaces.dto.PresignedUrlResponse
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.util.Date
 
 @Service
-class S3UrlGenerationServiceImpl(
+class RecordingServiceImpl(
     private val amazonS3Config: AmazonS3Config
-) : S3UrlGenerationService {
-    override fun getPresignedUrl(fileName: String): S3UrlDtoResponse {
+) : RecordingService {
+    override fun getPresignedUrl(fileName: String): PresignedUrlResponse {
         val encodedFileName = "${fileName}_${LocalDateTime.now()}"
         val objectKey = "full/$encodedFileName"
 
@@ -26,7 +26,7 @@ class S3UrlGenerationServiceImpl(
                 .withMethod(HttpMethod.PUT)
                 .withExpiration(expiration)
 
-        return S3UrlDtoResponse(
+        return PresignedUrlResponse(
             amazonS3Config.amazonS3().generatePresignedUrl(generatePresignedUrlRequest),
             encodedFileName
         )
