@@ -1,4 +1,4 @@
-package com.team983.synnote.domain.recording.domain
+package com.team983.synnote.domain.recording.domain.service
 
 import com.team983.synnote.domain.recording.interfaces.dto.PresignedUrlResponse
 

@@ -1,4 +1,4 @@
-package com.team983.synnote.domain.recording.domain
+package com.team983.synnote.domain.recording.domain.service
 
 import com.amazonaws.HttpMethod
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest
@@ -14,7 +14,7 @@ class RecordingServiceImpl(
 ) : RecordingService {
     override fun getPresignedUrl(fileName: String): PresignedUrlResponse {
         val encodedFileName = "${fileName}_${LocalDateTime.now()}"
-        val objectKey = "full/$encodedFileName"
+        val objectKey = "$encodedFileName"
 
         val expiration = Date()
         var expTimeMillis: Long = expiration.time
