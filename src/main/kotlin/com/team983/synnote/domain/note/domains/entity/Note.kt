@@ -4,6 +4,7 @@ import com.team983.synnote.common.status.ResultCode.UPLOADTYPE_INIT_STATUS_NOT_M
 import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.enums.Status
 import com.team983.synnote.domain.note.domains.enums.UploadType
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners
@@ -12,6 +13,8 @@ import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
@@ -66,6 +69,11 @@ class Note(
     @Column(name = "user_id", nullable = false)
     val userId: String = userId
 
+    @OneToOne(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "recording_id")
+    var recording: Recording? = null
+        protected set
+
     init {
         require(
             uploadType == UploadType.RECORDING && status == Status.RECORDING ||
@@ -79,5 +87,13 @@ class Note(
 
     fun delete() {
         deletedFlag = true
+    }
+
+    fun attachRecording(recording: Recording) {
+        this.recording = recording
+    }
+
+    fun updateStatus(status: Status) {
+        this.status = status
     }
 }
