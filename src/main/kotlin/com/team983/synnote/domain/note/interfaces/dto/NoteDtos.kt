@@ -7,6 +7,7 @@ import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.enums.Status
 import com.team983.synnote.domain.note.domains.enums.UploadType
 import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
 import java.time.LocalDateTime
 
 data class CreateNoteRequest(
@@ -55,4 +56,27 @@ data class NoteResponse(
         createdDate = noteInfo.createdDate,
         updatedDate = noteInfo.updatedDate
     )
+}
+
+data class EndRecordingRequest(
+    @field:NotNull
+    @JsonProperty("noteId")
+    private val _noteId: Long?,
+
+    @field:NotBlank
+    @JsonProperty("encodedFileName")
+    private val _encodedFileName: String?,
+
+    @field:NotBlank
+    @JsonProperty("s3ObjectUrl")
+    private val _s3ObjectUrl: String?
+) {
+    val noteId: Long
+        get() = _noteId!!
+
+    val encodedFileName: String
+        get() = _encodedFileName!!
+
+    val s3ObjectUrl: String
+        get() = _s3ObjectUrl!!
 }

@@ -5,26 +5,29 @@ import com.team983.synnote.common.dto.BaseResponse
 import com.team983.synnote.domain.note.applications.NoteFacade
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
+import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
+import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
+import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
 import com.team983.synnote.domain.note.interfaces.dto.NoteResponse
+import com.team983.synnote.domain.note.interfaces.dto.AsrResultResponse
 import jakarta.validation.Valid
+import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
-@RequestMapping("/api/v1/note")
 @RestController
 class NoteController(
     private val noteFacade: NoteFacade
 ) {
 
-    @PostMapping
+    @PostMapping("/api/v1/note")
     @ResponseStatus(HttpStatus.CREATED)
     fun createNote(
         @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
@@ -37,7 +40,7 @@ class NoteController(
         return BaseResponse(data = noteResponse)
     }
 
-    @DeleteMapping("/{noteId}")
+    @DeleteMapping("/api/v1/note/{noteId}")
     @ResponseStatus(HttpStatus.OK)
     fun deleteNote(
         @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
@@ -46,5 +49,26 @@ class NoteController(
         val deleteNoteCommand = DeleteNoteCommand(decodeJwt(encodedJwt).sub, noteId)
         val noteResponse = NoteResponse(noteFacade.deleteNote(deleteNoteCommand))
         return BaseResponse(data = noteResponse)
+    }
+
+    @PostMapping("/api/v1/note/recording-end")
+    fun endRecordingAndRequestAsr(
+        @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
+        @RequestBody
+        @Valid
+        endRecordingRequest: EndRecordingRequest
+    ): BaseResponse<NoteRecordingInfo> {
+        val endRecordingCommand = EndRecordingCommand(decodeJwt(encodedJwt).sub, endRecordingRequest)
+        return BaseResponse(data = noteFacade.endRecording(endRecordingCommand))
+    }
+
+    @PostMapping("/healthy/recording-completed")
+    fun completeRecording(
+        @RequestBody
+        asrResultResponse: AsrResultResponse
+    ) {
+        asrResultResponse.result.forEach {
+            log.info(it)
+        }
     }
 }

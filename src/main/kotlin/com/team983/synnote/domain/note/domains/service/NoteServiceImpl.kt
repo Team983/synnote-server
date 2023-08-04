@@ -5,7 +5,10 @@ import com.team983.synnote.common.exception.EntityNotFoundException
 import com.team983.synnote.common.status.ResultCode.*
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
+import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
+import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
+import com.team983.synnote.domain.note.domains.enums.Status
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
@@ -29,4 +32,12 @@ class NoteServiceImpl(
             note.delete()
             NoteInfo(note)
         } ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
+
+    override fun attachRecording(endRecordingCommand: EndRecordingCommand): NoteRecordingInfo {
+        val note = noteReader.getNoteById(endRecordingCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
+        val record = endRecordingCommand.toEntity()
+        note.attachRecording(record)
+        note.updateStatus(Status.PROCESSING)
+        return NoteRecordingInfo(note)
+    }
 }

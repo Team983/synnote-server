@@ -1,6 +1,6 @@
 package com.team983.synnote.domain.recording.applications
 
-import com.team983.synnote.domain.recording.domain.RecordingService
+import com.team983.synnote.domain.recording.domain.service.RecordingService
 import com.team983.synnote.domain.recording.interfaces.dto.PresignedUrlResponse
 import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
