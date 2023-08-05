@@ -4,6 +4,7 @@ import com.example.demo.common.annotation.ValidEnum
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
+import com.team983.synnote.domain.note.domains.dto.NoteOverviewInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.RecordingInfo
 import com.team983.synnote.domain.note.domains.dto.ScriptInfo
@@ -134,3 +135,7 @@ data class NoteDetailResponse(
         scriptList = noteDetailInfo.scripts
     )
 }
+
+data class NoteOverviewResponse(
+    val noteList: List<NoteOverviewInfo>
+)

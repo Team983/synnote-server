@@ -108,3 +108,29 @@ data class ScriptInfo(
         end = script.end
     )
 }
+
+data class NoteOverviewInfo(
+    val noteId: Long,
+    val title: String,
+    val domain: DomainType,
+    val status: Status,
+    val uploadType: UploadType,
+    val deletedFlag: Boolean,
+    val createdDate: LocalDateTime,
+    val updatedDate: LocalDateTime,
+    val recordingDuration: Long,
+    val firstScript: String
+) {
+    constructor(note: Note) : this(
+        noteId = note.id!!,
+        title = note.title,
+        domain = note.domainType,
+        status = note.status,
+        uploadType = note.uploadType,
+        deletedFlag = note.deletedFlag,
+        createdDate = note.createdDate!!,
+        updatedDate = note.updatedDate!!,
+        recordingDuration = note.recording!!.recordingDuration,
+        firstScript = note.scripts.first().text
+    )
+}

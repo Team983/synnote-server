@@ -7,14 +7,18 @@ import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
 import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCommand
+import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCommand
 import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
 import com.team983.synnote.domain.note.interfaces.dto.NoteResponse
 import com.team983.synnote.domain.note.interfaces.dto.AsrResultResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteDetailResponse
+import com.team983.synnote.domain.note.interfaces.dto.NoteOverviewResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteRecordingResponse
 import jakarta.validation.Valid
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
@@ -82,5 +87,17 @@ class NoteController(
         val getNoteDetailCommand = GetNoteDetailCommand(decodeJwt(encodedJwt).sub, noteId)
         val noteDetailResponse = NoteDetailResponse(noteFacade.getNoteDetail(getNoteDetailCommand))
         return BaseResponse(data = noteDetailResponse)
+    }
+
+    @GetMapping("/api/v1/note-list")
+    fun getNoteOverviewList(
+        @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
+        @RequestParam("start-index") startIndex: Int,
+        @RequestParam("count") count: Int
+    ): BaseResponse<NoteOverviewResponse> {
+        val pageable = PageRequest.of(startIndex, count, Sort.by("createdDate").descending())
+        val getNoteOverviewListCommand = GetNoteOverviewListCommand(decodeJwt(encodedJwt).sub, pageable)
+        val noteOverviewResponse = NoteOverviewResponse(noteFacade.getNoteOverviewList(getNoteOverviewListCommand))
+        return BaseResponse(data = noteOverviewResponse)
     }
 }
