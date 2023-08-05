@@ -2,9 +2,12 @@ package com.team983.synnote.domain.note.domains.dto
 
 import com.team983.synnote.domain.note.domains.entity.Note
 import com.team983.synnote.domain.note.domains.entity.Recording
+import com.team983.synnote.domain.note.domains.entity.Script
+import com.team983.synnote.domain.note.domains.enums.AsrType
 import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.enums.Status
 import com.team983.synnote.domain.note.domains.enums.UploadType
+import com.team983.synnote.domain.note.interfaces.dto.AsrResultResponse
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
 
@@ -61,5 +64,22 @@ data class EndRecordingCommand(
 
     fun setRecordingDuration(recordingDuration: Long) {
         this.recordingDuration = recordingDuration
+    }
+}
+
+data class SaveFullScriptCommand(
+    val noteId: Long,
+    val texts: List<String>,
+    val asrType: AsrType = AsrType.FULL
+) {
+    constructor(noteId: AsrResultResponse) : this(
+        noteId = noteId.noteId,
+        texts = noteId.texts
+    )
+
+    fun toScripts(): List<Script> {
+        return texts.map { text ->
+            Script(asrType, text)
+        }
     }
 }

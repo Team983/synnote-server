@@ -8,6 +8,7 @@ import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
+import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.domains.service.NoteService
 import com.team983.synnote.domain.note.interfaces.dto.AsrRequestResponse
 import com.team983.synnote.domain.user.domains.service.UserService
@@ -18,7 +19,6 @@ class NoteFacade(
     private val noteService: NoteService,
     private val userService: UserService,
     private val restTemplateRequester: RestTemplateRequester
-
 ) {
     fun createNote(createNoteCommand: CreateNoteCommand): NoteInfo {
         userService.isRegisteredUser(createNoteCommand.userId).takeIf { it }
@@ -36,9 +36,13 @@ class NoteFacade(
 
     private fun sendRequestAsrService(endRecordingCommand: EndRecordingCommand): AsrRequestResponse {
         return restTemplateRequester.sendRequest(
-            //"http://172.20.245.195:8081/asr/${endRecordingCommand.encodedFileName}",
-            "http://localhost:8000/asr/${endRecordingCommand.encodedFileName}",
+            "http://172.20.245.195:8081/asr" +
+                "/${endRecordingCommand.noteId}?filename=${endRecordingCommand.encodedFileName}",
             AsrRequestResponse::class.java
         )
+    }
+
+    fun saveScript(saveFullScriptCommand: SaveFullScriptCommand) {
+        noteService.saveScript(saveFullScriptCommand)
     }
 }

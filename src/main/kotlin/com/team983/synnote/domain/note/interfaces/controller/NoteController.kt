@@ -7,12 +7,12 @@ import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
+import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
 import com.team983.synnote.domain.note.interfaces.dto.NoteResponse
 import com.team983.synnote.domain.note.interfaces.dto.AsrResultResponse
 import jakarta.validation.Valid
-import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -62,13 +62,11 @@ class NoteController(
         return BaseResponse(data = noteFacade.endRecording(endRecordingCommand))
     }
 
-    @PostMapping("/healthy/recording-completed")
+    @PostMapping("/api/v1/note/recording-completed")
     fun completeRecording(
         @RequestBody
         asrResultResponse: AsrResultResponse
     ) {
-        asrResultResponse.result.forEach {
-            log.info(it)
-        }
+        noteFacade.saveScript(SaveFullScriptCommand(asrResultResponse))
     }
 }

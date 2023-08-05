@@ -8,6 +8,7 @@ import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
+import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.domains.enums.Status
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
@@ -39,5 +40,10 @@ class NoteServiceImpl(
         note.attachRecording(record)
         note.updateStatus(Status.PROCESSING)
         return NoteRecordingInfo(note)
+    }
+
+    override fun saveScript(saveFullScriptCommand: SaveFullScriptCommand) {
+        val note = noteReader.getNoteById(saveFullScriptCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
+        saveFullScriptCommand.toScripts().forEach(note::attachScript)
     }
 }
