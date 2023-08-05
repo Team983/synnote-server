@@ -1,5 +1,6 @@
 package com.team983.synnote.domain.note.domains.dto
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.team983.synnote.domain.note.domains.entity.Note
 import com.team983.synnote.domain.note.domains.entity.Recording
 import com.team983.synnote.domain.note.domains.entity.Script
@@ -116,7 +117,9 @@ data class NoteOverviewInfo(
     val status: Status,
     val uploadType: UploadType,
     val deletedFlag: Boolean,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val createdDate: LocalDateTime,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val updatedDate: LocalDateTime,
     val recordingDuration: Long,
     val firstScript: String

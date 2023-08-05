@@ -1,5 +1,6 @@
 package com.team983.synnote.domain.user.interfaces.dto
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.team983.synnote.domain.user.domains.dto.AgreementInfo
 import com.team983.synnote.domain.user.domains.dto.UserInfo
@@ -10,8 +11,11 @@ data class UserResponse(
     val userId: String,
     val name: String,
     val email: String,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val createdDate: LocalDateTime,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val updatedDate: LocalDateTime,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val removedDate: LocalDateTime,
     val agreement: AgreementInfo
 ) {

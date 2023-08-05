@@ -1,6 +1,7 @@
 package com.team983.synnote.domain.note.interfaces.dto
 
 import com.example.demo.common.annotation.ValidEnum
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
@@ -48,7 +49,9 @@ data class NoteResponse(
     val status: Status,
     val uploadType: UploadType,
     val deletedFlag: Boolean,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val createdDate: LocalDateTime,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val updatedDate: LocalDateTime
 ) {
     constructor(noteInfo: NoteInfo) : this(
@@ -93,7 +96,9 @@ data class NoteRecordingResponse(
     val status: String,
     val uploadType: String,
     val deletedFlag: Boolean,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val createdDate: LocalDateTime,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val updatedDate: LocalDateTime,
     val recording: RecordingInfo
 ) {
@@ -117,7 +122,9 @@ data class NoteDetailResponse(
     val status: String,
     val uploadType: String,
     val deletedFlag: Boolean,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val createdDate: LocalDateTime,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val updatedDate: LocalDateTime,
     val recording: RecordingInfo,
     val scriptList: List<ScriptInfo>
