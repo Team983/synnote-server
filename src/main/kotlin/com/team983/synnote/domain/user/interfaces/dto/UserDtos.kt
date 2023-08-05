@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull
 import java.time.LocalDateTime
 
 data class UserResponse(
-    val id: String,
+    val userId: String,
     val name: String,
     val email: String,
     val createdDate: LocalDateTime,
@@ -16,7 +16,7 @@ data class UserResponse(
     val agreement: AgreementInfo
 ) {
     constructor(userInfo: UserInfo) : this(
-        id = userInfo.id,
+        userId = userInfo.id,
         name = userInfo.name,
         email = userInfo.email,
         createdDate = userInfo.createdDate,
