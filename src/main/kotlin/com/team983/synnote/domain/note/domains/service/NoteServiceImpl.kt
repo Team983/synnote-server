@@ -6,6 +6,8 @@ import com.team983.synnote.common.status.ResultCode.*
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
+import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCommand
+import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
@@ -45,5 +47,13 @@ class NoteServiceImpl(
     override fun saveScript(saveFullScriptCommand: SaveFullScriptCommand) {
         val note = noteReader.getNoteById(saveFullScriptCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
         saveFullScriptCommand.toScripts().forEach(note::attachScript)
+    }
+
+    override fun getNoteDetail(noteDetailCommand: GetNoteDetailCommand): NoteDetailInfo {
+        val note = noteReader.getNoteById(noteDetailCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
+        if (!note.isOwnedBy(noteDetailCommand.userId)) {
+            throw AccessDeniedException(NOTE_NOT_ACCESSED)
+        }
+        return NoteDetailInfo(note)
     }
 }

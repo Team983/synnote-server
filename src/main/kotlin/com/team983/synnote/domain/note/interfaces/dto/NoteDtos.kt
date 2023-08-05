@@ -2,9 +2,11 @@ package com.team983.synnote.domain.note.interfaces.dto
 
 import com.example.demo.common.annotation.ValidEnum
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.RecordingInfo
+import com.team983.synnote.domain.note.domains.dto.ScriptInfo
 import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.enums.Status
 import com.team983.synnote.domain.note.domains.enums.UploadType
@@ -104,5 +106,31 @@ data class NoteRecordingResponse(
         createdDate = noteRecordingInfo.createdDate,
         updatedDate = noteRecordingInfo.updatedDate,
         recording = noteRecordingInfo.recording
+    )
+}
+
+data class NoteDetailResponse(
+    val noteId: Long,
+    val title: String,
+    val domain: String,
+    val status: String,
+    val uploadType: String,
+    val deletedFlag: Boolean,
+    val createdDate: LocalDateTime,
+    val updatedDate: LocalDateTime,
+    val recording: RecordingInfo,
+    val scriptList: List<ScriptInfo>
+) {
+    constructor(noteDetailInfo: NoteDetailInfo) : this(
+        noteId = noteDetailInfo.id,
+        title = noteDetailInfo.title,
+        domain = noteDetailInfo.domainType.name,
+        status = noteDetailInfo.status.name,
+        uploadType = noteDetailInfo.uploadType.name,
+        deletedFlag = noteDetailInfo.deletedFlag,
+        createdDate = noteDetailInfo.createdDate,
+        updatedDate = noteDetailInfo.updatedDate,
+        recording = noteDetailInfo.recording,
+        scriptList = noteDetailInfo.scripts
     )
 }

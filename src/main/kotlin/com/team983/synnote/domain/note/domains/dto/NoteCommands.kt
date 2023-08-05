@@ -83,3 +83,8 @@ data class SaveFullScriptCommand(
         }
     }
 }
+
+data class GetNoteDetailCommand(
+    val userId: String,
+    val noteId: Long
+)
