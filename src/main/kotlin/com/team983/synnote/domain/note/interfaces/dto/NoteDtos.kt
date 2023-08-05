@@ -3,6 +3,8 @@ package com.team983.synnote.domain.note.interfaces.dto
 import com.example.demo.common.annotation.ValidEnum
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
+import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
+import com.team983.synnote.domain.note.domains.dto.RecordingInfo
 import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.enums.Status
 import com.team983.synnote.domain.note.domains.enums.UploadType
@@ -79,4 +81,28 @@ data class EndRecordingRequest(
 
     val s3ObjectUrl: String
         get() = _s3ObjectUrl!!
+}
+
+data class NoteRecordingResponse(
+    val noteId: Long,
+    val title: String,
+    val domain: String,
+    val status: String,
+    val uploadType: String,
+    val deletedFlag: Boolean,
+    val createdDate: LocalDateTime,
+    val updatedDate: LocalDateTime,
+    val recording: RecordingInfo
+) {
+    constructor(noteRecordingInfo: NoteRecordingInfo) : this(
+        noteId = noteRecordingInfo.id,
+        title = noteRecordingInfo.title,
+        domain = noteRecordingInfo.domainType.name,
+        status = noteRecordingInfo.status.name,
+        uploadType = noteRecordingInfo.uploadType.name,
+        deletedFlag = noteRecordingInfo.deletedFlag,
+        createdDate = noteRecordingInfo.createdDate,
+        updatedDate = noteRecordingInfo.updatedDate,
+        recording = noteRecordingInfo.recording
+    )
 }

@@ -6,12 +6,12 @@ import com.team983.synnote.domain.note.applications.NoteFacade
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
-import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
 import com.team983.synnote.domain.note.interfaces.dto.NoteResponse
 import com.team983.synnote.domain.note.interfaces.dto.AsrResultResponse
+import com.team983.synnote.domain.note.interfaces.dto.NoteRecordingResponse
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -57,9 +57,10 @@ class NoteController(
         @RequestBody
         @Valid
         endRecordingRequest: EndRecordingRequest
-    ): BaseResponse<NoteRecordingInfo> {
+    ): BaseResponse<NoteRecordingResponse> {
         val endRecordingCommand = EndRecordingCommand(decodeJwt(encodedJwt).sub, endRecordingRequest)
-        return BaseResponse(data = noteFacade.endRecording(endRecordingCommand))
+        val noteRecordingResponse = NoteRecordingResponse(noteFacade.endRecording(endRecordingCommand))
+        return BaseResponse(data = noteRecordingResponse)
     }
 
     @PostMapping("/api/v1/note/recording-completed")
