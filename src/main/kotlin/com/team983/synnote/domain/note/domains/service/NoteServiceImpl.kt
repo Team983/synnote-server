@@ -14,6 +14,7 @@ import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.domains.enums.Status
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import javax.print.attribute.standard.JobState.COMPLETED
 
 @Transactional
 @Service
@@ -47,6 +48,7 @@ class NoteServiceImpl(
     override fun saveScript(saveFullScriptCommand: SaveFullScriptCommand) {
         val note = noteReader.getNoteById(saveFullScriptCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
         saveFullScriptCommand.toScripts().forEach(note::attachScript)
+        note.updateStatus(Status.COMPLETED)
     }
 
     override fun getNoteDetail(noteDetailCommand: GetNoteDetailCommand): NoteDetailInfo {
