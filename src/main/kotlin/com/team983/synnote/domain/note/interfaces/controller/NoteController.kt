@@ -75,7 +75,7 @@ class NoteController(
     }
 
     @GetMapping("/api/v1/note/{noteId}")
-    fun getNote(
+    fun getNoteDetail(
         @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
         @PathVariable("noteId") noteId: Long
     ): BaseResponse<NoteDetailResponse> {
