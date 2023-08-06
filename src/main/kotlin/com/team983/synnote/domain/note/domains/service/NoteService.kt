@@ -23,4 +23,6 @@ interface NoteService {
     fun getNoteDetail(noteDetailCommand: GetNoteDetailCommand): NoteDetailInfo
 
     fun getNoteOverviewList(getNoteOverviewListCommand: GetNoteOverviewListCommand): List<NoteOverviewInfo>
+
+    fun hasNoteNoRecording(endRecordingCommand: EndRecordingCommand)
 }

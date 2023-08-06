@@ -8,4 +8,6 @@ interface NoteReader {
     fun getNoteById(id: Long): Note?
 
     fun getAllNoteOverview(userId: String, pageable: Pageable): Slice<Note>
+
+    fun existsByIdAndRecordingIsNotNull(noteId: Long): Boolean
 }

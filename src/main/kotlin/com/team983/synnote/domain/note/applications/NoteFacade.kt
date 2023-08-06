@@ -33,6 +33,7 @@ class NoteFacade(
     fun deleteNote(deleteNoteCommand: DeleteNoteCommand): NoteInfo = noteService.deleteNote(deleteNoteCommand)
 
     fun endRecording(endRecordingCommand: EndRecordingCommand): NoteRecordingInfo {
+        noteService.hasNoteNoRecording(endRecordingCommand)
         val asrRequestResponse = sendRequestAsrService(endRecordingCommand)
         endRecordingCommand.setRecordingDuration(asrRequestResponse.recordingDuration)
         return noteService.attachRecording(endRecordingCommand)

@@ -40,11 +40,14 @@ class NoteServiceImpl(
             NoteInfo(note)
         } ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
 
-    override fun attachRecording(endRecordingCommand: EndRecordingCommand): NoteRecordingInfo {
-        val note = noteReader.getNoteById(endRecordingCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
-        if (note.hasRecording()) {
+    override fun hasNoteNoRecording(endRecordingCommand: EndRecordingCommand) {
+        if (noteReader.existsByIdAndRecordingIsNotNull(endRecordingCommand.noteId)) {
             throw BusinessException(NOTE_ALREADY_HAS_RECORDING)
         }
+    }
+
+    override fun attachRecording(endRecordingCommand: EndRecordingCommand): NoteRecordingInfo {
+        val note = noteReader.getNoteById(endRecordingCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
         val record = endRecordingCommand.toEntity()
         note.attachRecording(record)
         note.updateStatus(Status.PROCESSING)
@@ -70,4 +73,6 @@ class NoteServiceImpl(
             noteReader.getAllNoteOverview(getNoteOverviewListCommand.userId, getNoteOverviewListCommand.pageable)
         return if (notesSlice.isEmpty) emptyList() else notesSlice.content.map { NoteOverviewInfo(it) }
     }
+
+
 }
