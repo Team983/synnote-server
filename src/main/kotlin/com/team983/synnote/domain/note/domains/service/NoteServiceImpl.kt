@@ -1,6 +1,7 @@
 package com.team983.synnote.domain.note.domains.service
 
 import com.team983.synnote.common.exception.AccessDeniedException
+import com.team983.synnote.common.exception.BusinessException
 import com.team983.synnote.common.exception.EntityNotFoundException
 import com.team983.synnote.common.status.ResultCode.*
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
@@ -41,6 +42,9 @@ class NoteServiceImpl(
 
     override fun attachRecording(endRecordingCommand: EndRecordingCommand): NoteRecordingInfo {
         val note = noteReader.getNoteById(endRecordingCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
+        if (note.hasRecording()) {
+            throw BusinessException(NOTE_ALREADY_HAS_RECORDING)
+        }
         val record = endRecordingCommand.toEntity()
         note.attachRecording(record)
         note.updateStatus(Status.PROCESSING)

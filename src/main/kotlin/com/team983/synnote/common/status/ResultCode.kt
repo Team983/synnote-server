@@ -12,5 +12,6 @@ enum class ResultCode(val code: String, val msg: String) {
     // Note
     UPLOADTYPE_INIT_STATUS_NOT_MATCH("N_01", "업로드 타입과 상태가 매치되지 않습니다."),
     NOTE_NOT_FOUND("N_02", "해당 노트 엔티티를 찾을 수 없습니다."),
-    NOTE_NOT_ACCESSED("N_03", "해당 노트를 접근할 수 있는 권한이 없습니다.")
+    NOTE_NOT_ACCESSED("N_03", "해당 노트를 접근할 수 있는 권한이 없습니다."),
+    NOTE_ALREADY_HAS_RECORDING("N_04", "이미 녹음본이 존재하는 노트입니다.")
 }
