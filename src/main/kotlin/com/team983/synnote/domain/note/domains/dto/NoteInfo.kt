@@ -41,7 +41,7 @@ data class NoteRecordingInfo(
     val deletedFlag: Boolean,
     val createdDate: LocalDateTime,
     val updatedDate: LocalDateTime,
-    val recording: RecordingInfo
+    val recording: RecordingInfo?
 ) {
     constructor(note: Note) : this(
         id = note.id!!,
@@ -52,7 +52,7 @@ data class NoteRecordingInfo(
         deletedFlag = note.deletedFlag,
         createdDate = note.createdDate!!,
         updatedDate = note.updatedDate!!,
-        recording = RecordingInfo(note.recording)
+        recording = note.recording?.let { RecordingInfo(it) }
     )
 }
 
@@ -60,8 +60,8 @@ data class RecordingInfo(
     val s3ObjectUrl: String,
     val recordingDuration: Long
 ) {
-    constructor(recording: Recording?) : this(
-        s3ObjectUrl = recording?.s3ObjectUrl!!,
+    constructor(recording: Recording) : this(
+        s3ObjectUrl = recording.s3ObjectUrl,
         recordingDuration = recording.recordingDuration
     )
 }
@@ -75,7 +75,7 @@ data class NoteDetailInfo(
     val deletedFlag: Boolean,
     val createdDate: LocalDateTime,
     val updatedDate: LocalDateTime,
-    val recording: RecordingInfo,
+    val recording: RecordingInfo?,
     val scripts: List<ScriptInfo>
 ) {
     constructor(note: Note) : this(
@@ -87,7 +87,7 @@ data class NoteDetailInfo(
         deletedFlag = note.deletedFlag,
         createdDate = note.createdDate!!,
         updatedDate = note.updatedDate!!,
-        recording = RecordingInfo(note.recording),
+        recording = note.recording?.let { RecordingInfo(it) },
         scripts = note.scripts.map { ScriptInfo(it) }
     )
 }

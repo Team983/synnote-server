@@ -100,7 +100,7 @@ data class NoteRecordingResponse(
     val createdDate: LocalDateTime,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val updatedDate: LocalDateTime,
-    val recording: RecordingInfo
+    val recording: RecordingInfo?
 ) {
     constructor(noteRecordingInfo: NoteRecordingInfo) : this(
         noteId = noteRecordingInfo.id,
@@ -126,7 +126,7 @@ data class NoteDetailResponse(
     val createdDate: LocalDateTime,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val updatedDate: LocalDateTime,
-    val recording: RecordingInfo,
+    val recording: RecordingInfo?,
     val scriptList: List<ScriptInfo>
 ) {
     constructor(noteDetailInfo: NoteDetailInfo) : this(
