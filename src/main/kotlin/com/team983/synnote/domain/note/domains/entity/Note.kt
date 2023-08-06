@@ -107,4 +107,6 @@ class Note(
         mutableScripts.add(script)
         script.linkToNote(this)
     }
+
+    fun hasRecording(): Boolean = recording != null
 }
