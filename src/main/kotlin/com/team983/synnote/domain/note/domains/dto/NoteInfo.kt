@@ -121,8 +121,8 @@ data class NoteOverviewInfo(
     val createdDate: LocalDateTime,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val updatedDate: LocalDateTime,
-    val recordingDuration: Long,
-    val firstScript: String
+    val recordingDuration: Long?,
+    val firstScript: String?
 ) {
     constructor(note: Note) : this(
         noteId = note.id!!,
@@ -133,7 +133,7 @@ data class NoteOverviewInfo(
         deletedFlag = note.deletedFlag,
         createdDate = note.createdDate!!,
         updatedDate = note.updatedDate!!,
-        recordingDuration = note.recording!!.recordingDuration,
-        firstScript = note.scripts.first().text
+        recordingDuration = note.recording?.recordingDuration,
+        firstScript = note.scripts.firstOrNull()?.text
     )
 }
