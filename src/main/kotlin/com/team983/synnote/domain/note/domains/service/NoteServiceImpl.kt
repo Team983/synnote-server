@@ -73,6 +73,4 @@ class NoteServiceImpl(
             noteReader.getAllNoteOverview(getNoteOverviewListCommand.userId, getNoteOverviewListCommand.pageable)
         return if (notesSlice.isEmpty) emptyList() else notesSlice.content.map { NoteOverviewInfo(it) }
     }
-
-
 }
