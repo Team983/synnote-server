@@ -13,7 +13,7 @@ class RecordingServiceImpl(
     private val amazonS3Config: AmazonS3Config
 ) : RecordingService {
     override fun getPresignedUrl(fileName: String): PresignedUrlResponse {
-        val encodedFileName = "${fileName}_${LocalDateTime.now()}"
+        val encodedFileName = "${LocalDateTime.now()}_$fileName"
         val objectKey = "$encodedFileName"
 
         val expiration = Date()
