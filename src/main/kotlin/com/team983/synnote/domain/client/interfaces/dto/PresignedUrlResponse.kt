@@ -1,4 +1,4 @@
-package com.team983.synnote.domain.recording.interfaces.dto
+package com.team983.synnote.domain.client.interfaces.dto
 
 import java.net.URL
 

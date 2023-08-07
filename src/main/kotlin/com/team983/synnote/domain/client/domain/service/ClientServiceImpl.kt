@@ -1,17 +1,17 @@
-package com.team983.synnote.domain.recording.domain.service
+package com.team983.synnote.domain.client.domain.service
 
 import com.amazonaws.HttpMethod
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest
 import com.team983.synnote.common.config.AmazonS3Config
-import com.team983.synnote.domain.recording.interfaces.dto.PresignedUrlResponse
+import com.team983.synnote.domain.client.interfaces.dto.PresignedUrlResponse
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.util.Date
 
 @Service
-class RecordingServiceImpl(
+class ClientServiceImpl(
     private val amazonS3Config: AmazonS3Config
-) : RecordingService {
+) : ClientService {
     override fun getPresignedUrl(fileName: String): PresignedUrlResponse {
         val encodedFileName = "${LocalDateTime.now()}_$fileName"
         val objectKey = "$encodedFileName"
