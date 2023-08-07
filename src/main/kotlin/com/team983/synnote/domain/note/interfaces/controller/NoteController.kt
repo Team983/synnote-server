@@ -8,11 +8,9 @@ import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
 import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCommand
 import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCommand
-import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
 import com.team983.synnote.domain.note.interfaces.dto.NoteResponse
-import com.team983.synnote.domain.note.interfaces.dto.AsrResultResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteDetailResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteOverviewResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteRecordingResponse
