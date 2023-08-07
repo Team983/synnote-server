@@ -6,8 +6,8 @@ import com.team983.synnote.common.utils.RestTemplateRequester
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
-import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCommand
-import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCommand
+import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCriterion
+import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCriterion
 import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewInfo
@@ -50,11 +50,11 @@ class NoteFacade(
         noteService.saveScript(saveFullScriptCommand)
     }
 
-    fun getNoteDetail(getNoteDetailCommand: GetNoteDetailCommand): NoteDetailInfo {
-        return noteService.getNoteDetail(getNoteDetailCommand)
+    fun getNoteDetail(getNoteDetailCriterion: GetNoteDetailCriterion): NoteDetailInfo {
+        return noteService.getNoteDetail(getNoteDetailCriterion)
     }
 
-    fun getNoteOverviewList(getNoteOverviewListCommand: GetNoteOverviewListCommand): List<NoteOverviewInfo> {
-        return noteService.getNoteOverviewList(getNoteOverviewListCommand)
+    fun getNoteOverviewList(getNoteOverviewListCriterion: GetNoteOverviewListCriterion): List<NoteOverviewInfo> {
+        return noteService.getNoteOverviewList(getNoteOverviewListCriterion)
     }
 }

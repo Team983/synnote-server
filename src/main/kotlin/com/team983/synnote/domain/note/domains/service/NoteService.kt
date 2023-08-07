@@ -3,8 +3,8 @@ package com.team983.synnote.domain.note.domains.service
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
-import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCommand
-import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCommand
+import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCriterion
+import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCriterion
 import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewInfo
@@ -20,9 +20,9 @@ interface NoteService {
 
     fun saveScript(saveFullScriptCommand: SaveFullScriptCommand)
 
-    fun getNoteDetail(noteDetailCommand: GetNoteDetailCommand): NoteDetailInfo
+    fun getNoteDetail(getNoteDetailCriterion: GetNoteDetailCriterion): NoteDetailInfo
 
-    fun getNoteOverviewList(getNoteOverviewListCommand: GetNoteOverviewListCommand): List<NoteOverviewInfo>
+    fun getNoteOverviewList(getNoteOverviewListCriterion: GetNoteOverviewListCriterion): List<NoteOverviewInfo>
 
     fun hasNoteNoRecording(endRecordingCommand: EndRecordingCommand)
 }

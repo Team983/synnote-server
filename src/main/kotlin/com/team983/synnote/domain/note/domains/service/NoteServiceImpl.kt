@@ -7,8 +7,8 @@ import com.team983.synnote.common.status.ResultCode.*
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
-import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCommand
-import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCommand
+import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCriterion
+import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCriterion
 import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewInfo
@@ -17,7 +17,6 @@ import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.domains.enums.Status
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
-import javax.print.attribute.standard.JobState.COMPLETED
 
 @Transactional
 @Service
@@ -60,17 +59,19 @@ class NoteServiceImpl(
         note.updateStatus(Status.COMPLETED)
     }
 
-    override fun getNoteDetail(noteDetailCommand: GetNoteDetailCommand): NoteDetailInfo {
-        val note = noteReader.getNoteById(noteDetailCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
-        if (!note.isOwnedBy(noteDetailCommand.userId)) {
+    override fun getNoteDetail(getNoteDetailCriterion: GetNoteDetailCriterion): NoteDetailInfo {
+        val note = noteReader.getNoteById(getNoteDetailCriterion.noteId)
+            ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
+        if (!note.isOwnedBy(getNoteDetailCriterion.userId)) {
             throw AccessDeniedException(NOTE_NOT_ACCESSED)
         }
         return NoteDetailInfo(note)
     }
 
-    override fun getNoteOverviewList(getNoteOverviewListCommand: GetNoteOverviewListCommand): List<NoteOverviewInfo> {
+    override fun getNoteOverviewList(getNoteOverviewListCriterion: GetNoteOverviewListCriterion):
+        List<NoteOverviewInfo> {
         val notesSlice =
-            noteReader.getAllNoteOverview(getNoteOverviewListCommand.userId, getNoteOverviewListCommand.pageable)
+            noteReader.getAllNoteOverview(getNoteOverviewListCriterion.userId, getNoteOverviewListCriterion.pageable)
         return if (notesSlice.isEmpty) emptyList() else notesSlice.content.map { NoteOverviewInfo(it) }
     }
 }

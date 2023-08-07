@@ -10,7 +10,6 @@ import com.team983.synnote.domain.note.domains.enums.UploadType
 import com.team983.synnote.domain.note.interfaces.dto.AsrResultResponse
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
-import org.springframework.data.domain.PageRequest
 
 data class CreateNoteCommand(
     val userId: String,
@@ -79,13 +78,3 @@ data class SaveFullScriptCommand(
         }
     }
 }
-
-data class GetNoteDetailCommand(
-    val userId: String,
-    val noteId: Long
-)
-
-data class GetNoteOverviewListCommand(
-    val userId: String,
-    val pageable: PageRequest
-)

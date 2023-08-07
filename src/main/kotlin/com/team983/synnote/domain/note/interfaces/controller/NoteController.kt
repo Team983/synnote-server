@@ -6,8 +6,8 @@ import com.team983.synnote.domain.note.applications.NoteFacade
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
-import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCommand
-import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCommand
+import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCriterion
+import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCriterion
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
 import com.team983.synnote.domain.note.interfaces.dto.NoteResponse
@@ -74,8 +74,8 @@ class NoteController(
         @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
         @PathVariable("noteId") noteId: Long
     ): BaseResponse<NoteDetailResponse> {
-        val getNoteDetailCommand = GetNoteDetailCommand(decodeJwt(encodedJwt).sub, noteId)
-        val noteDetailResponse = NoteDetailResponse(noteFacade.getNoteDetail(getNoteDetailCommand))
+        val getNoteDetailCriterion = GetNoteDetailCriterion(decodeJwt(encodedJwt).sub, noteId)
+        val noteDetailResponse = NoteDetailResponse(noteFacade.getNoteDetail(getNoteDetailCriterion))
         return BaseResponse(data = noteDetailResponse)
     }
 
@@ -86,8 +86,8 @@ class NoteController(
         @RequestParam("count") count: Int
     ): BaseResponse<NoteOverviewResponse> {
         val pageable = PageRequest.of(startIndex, count, Sort.by("createdDate").descending())
-        val getNoteOverviewListCommand = GetNoteOverviewListCommand(decodeJwt(encodedJwt).sub, pageable)
-        val noteOverviewResponse = NoteOverviewResponse(noteFacade.getNoteOverviewList(getNoteOverviewListCommand))
+        val getNoteOverviewListCriterion = GetNoteOverviewListCriterion(decodeJwt(encodedJwt).sub, pageable)
+        val noteOverviewResponse = NoteOverviewResponse(noteFacade.getNoteOverviewList(getNoteOverviewListCriterion))
         return BaseResponse(data = noteOverviewResponse)
     }
 }
