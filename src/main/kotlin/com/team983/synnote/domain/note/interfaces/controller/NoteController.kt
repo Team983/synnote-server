@@ -71,14 +71,6 @@ class NoteController(
         return BaseResponse(data = noteRecordingResponse)
     }
 
-    @PostMapping("/api/v1/note/recording-completed")
-    fun completeRecording(
-        @RequestBody
-        asrResultResponse: AsrResultResponse
-    ) {
-        noteFacade.saveScript(SaveFullScriptCommand(asrResultResponse))
-    }
-
     @GetMapping("/api/v1/note/{noteId}")
     fun getNoteDetail(
         @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
