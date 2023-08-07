@@ -34,8 +34,7 @@ class NoteFacade(
 
     fun endRecording(endRecordingCommand: EndRecordingCommand): NoteRecordingInfo {
         noteService.hasNoteNoRecording(endRecordingCommand)
-        val asrRequestResponse = sendRequestAsrService(endRecordingCommand)
-        endRecordingCommand.setRecordingDuration(asrRequestResponse.recordingDuration)
+        sendRequestAsrService(endRecordingCommand)
         return noteService.attachRecording(endRecordingCommand)
     }
 

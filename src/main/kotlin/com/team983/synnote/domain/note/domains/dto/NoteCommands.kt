@@ -44,27 +44,22 @@ data class EndRecordingCommand(
     val userId: String,
     val noteId: Long,
     val encodedFileName: String,
-    val s3ObjectUrl: String
+    val s3ObjectUrl: String,
+    val recordingDuration: Long
 ) {
-    var recordingDuration: Long? = null
-        protected set
-
     constructor(userId: String, endRecordingRequest: EndRecordingRequest) : this(
         userId = userId,
         noteId = endRecordingRequest.noteId,
         encodedFileName = endRecordingRequest.encodedFileName,
-        s3ObjectUrl = endRecordingRequest.s3ObjectUrl
+        s3ObjectUrl = endRecordingRequest.s3ObjectUrl,
+        recordingDuration = endRecordingRequest.recordingDuration
     )
 
     fun toEntity(): Recording {
         return Recording(
             s3ObjectUrl = s3ObjectUrl,
-            recordingDuration = recordingDuration!!
+            recordingDuration = recordingDuration
         )
-    }
-
-    fun setRecordingDuration(recordingDuration: Long) {
-        this.recordingDuration = recordingDuration
     }
 }
 

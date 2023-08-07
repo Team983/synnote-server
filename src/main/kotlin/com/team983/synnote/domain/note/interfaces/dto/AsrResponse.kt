@@ -2,8 +2,7 @@ package com.team983.synnote.domain.note.interfaces.dto
 
 data class AsrRequestResponse(
     val noteId: Long,
-    val filename: String,
-    val recordingDuration: Long
+    val filename: String
 )
 
 data class AsrResultResponse(
