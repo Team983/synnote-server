@@ -12,7 +12,7 @@ import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
 import com.team983.synnote.domain.note.interfaces.dto.NoteResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteDetailResponse
-import com.team983.synnote.domain.note.interfaces.dto.NoteOverviewResponse
+import com.team983.synnote.domain.note.interfaces.dto.NoteOverviewListResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteRecordingResponse
 import jakarta.validation.Valid
 import org.springframework.data.domain.PageRequest
@@ -84,10 +84,12 @@ class NoteController(
         @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
         @RequestParam("start-index") startIndex: Int,
         @RequestParam("count") count: Int
-    ): BaseResponse<NoteOverviewResponse> {
+    ): BaseResponse<NoteOverviewListResponse> {
         val pageable = PageRequest.of(startIndex, count, Sort.by("createdDate").descending())
         val getNoteOverviewListCriterion = GetNoteOverviewListCriterion(decodeJwt(encodedJwt).sub, pageable)
-        val noteOverviewResponse = NoteOverviewResponse(noteFacade.getNoteOverviewList(getNoteOverviewListCriterion))
+        val noteOverviewResponse = NoteOverviewListResponse.fromNoteOverviewInfoList(
+            noteFacade.getNoteOverviewList(getNoteOverviewListCriterion)
+        )
         return BaseResponse(data = noteOverviewResponse)
     }
 }

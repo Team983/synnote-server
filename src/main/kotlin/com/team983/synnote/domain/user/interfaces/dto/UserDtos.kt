@@ -17,7 +17,7 @@ data class UserResponse(
     val updatedDate: LocalDateTime,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val removedDate: LocalDateTime,
-    val agreement: AgreementInfo
+    val agreement: AgreementResponse
 ) {
     constructor(userInfo: UserInfo) : this(
         userId = userInfo.id,
@@ -26,8 +26,29 @@ data class UserResponse(
         createdDate = userInfo.createdDate,
         updatedDate = userInfo.updatedDate,
         removedDate = userInfo.removedDate,
-        agreement = userInfo.agreement
+        agreement = AgreementResponse(userInfo.agreement)
     )
+
+    data class AgreementResponse(
+        val privacyPolicy: Boolean,
+        val termsAndCons: Boolean,
+        val serviceImprovement: Boolean,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val privacyPolicyDate: LocalDateTime,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val termsAndConsDate: LocalDateTime,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val serviceImprovementDate: LocalDateTime
+    ) {
+        constructor(agreementInfo: AgreementInfo) : this(
+            privacyPolicy = agreementInfo.privacyPolicy,
+            termsAndCons = agreementInfo.termsAndCons,
+            serviceImprovement = agreementInfo.serviceImprovement,
+            privacyPolicyDate = agreementInfo.privacyPolicyDate,
+            termsAndConsDate = agreementInfo.termsAndConsDate,
+            serviceImprovementDate = agreementInfo.serviceImprovementDate
+        )
+    }
 }
 
 data class UpdateAgreementRequest(

@@ -9,6 +9,7 @@ import com.team983.synnote.domain.note.domains.dto.NoteOverviewInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.RecordingInfo
 import com.team983.synnote.domain.note.domains.dto.ScriptInfo
+import com.team983.synnote.domain.note.domains.enums.AsrType
 import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.enums.Status
 import com.team983.synnote.domain.note.domains.enums.UploadType
@@ -107,7 +108,7 @@ data class NoteRecordingResponse(
     val createdDate: LocalDateTime,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val updatedDate: LocalDateTime,
-    val recording: RecordingInfo?
+    val recording: RecordingResponse?
 ) {
     constructor(noteRecordingInfo: NoteRecordingInfo) : this(
         noteId = noteRecordingInfo.id,
@@ -118,7 +119,7 @@ data class NoteRecordingResponse(
         deletedFlag = noteRecordingInfo.deletedFlag,
         createdDate = noteRecordingInfo.createdDate,
         updatedDate = noteRecordingInfo.updatedDate,
-        recording = noteRecordingInfo.recording
+        recording = noteRecordingInfo.recording?.let { RecordingResponse(it) }
     )
 }
 
@@ -133,8 +134,8 @@ data class NoteDetailResponse(
     val createdDate: LocalDateTime,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val updatedDate: LocalDateTime,
-    val recording: RecordingInfo?,
-    val scriptList: List<ScriptInfo>
+    val recording: RecordingResponse?,
+    val scriptList: List<ScriptResponse>
 ) {
     constructor(noteDetailInfo: NoteDetailInfo) : this(
         noteId = noteDetailInfo.id,
@@ -145,11 +146,73 @@ data class NoteDetailResponse(
         deletedFlag = noteDetailInfo.deletedFlag,
         createdDate = noteDetailInfo.createdDate,
         updatedDate = noteDetailInfo.updatedDate,
-        recording = noteDetailInfo.recording,
-        scriptList = noteDetailInfo.scripts
+        recording = noteDetailInfo.recording?.let { RecordingResponse(it) },
+        scriptList = noteDetailInfo.scripts.map { ScriptResponse(it) }
+    )
+
+    data class ScriptResponse(
+        val scriptId: Long,
+        val asrType: AsrType,
+        val text: String,
+        val speaker: String?,
+        val start: Long?,
+        val end: Long?
+    ) {
+        constructor(scriptInfo: ScriptInfo) : this(
+            scriptId = scriptInfo.id,
+            asrType = scriptInfo.asrType,
+            text = scriptInfo.text,
+            speaker = scriptInfo.speaker,
+            start = scriptInfo.start,
+            end = scriptInfo.end
+        )
+    }
+}
+
+data class RecordingResponse(
+    val s3ObjectUrl: String,
+    val recordingDuration: Long
+) {
+    constructor(recordingInfo: RecordingInfo) : this(
+        s3ObjectUrl = recordingInfo.s3ObjectUrl,
+        recordingDuration = recordingInfo.recordingDuration
     )
 }
 
-data class NoteOverviewResponse(
-    val noteList: List<NoteOverviewInfo>
-)
+data class NoteOverviewListResponse(
+    val noteList: List<NoteOverviewResponse>
+) {
+    companion object {
+        fun fromNoteOverviewInfoList(noteOverviewInfoList: List<NoteOverviewInfo>): NoteOverviewListResponse {
+            return NoteOverviewListResponse(noteOverviewInfoList.map { NoteOverviewResponse(it) })
+        }
+    }
+
+    data class NoteOverviewResponse(
+        val noteId: Long,
+        val title: String,
+        val domain: DomainType,
+        val status: Status,
+        val uploadType: UploadType,
+        val deletedFlag: Boolean,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val createdDate: LocalDateTime,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val updatedDate: LocalDateTime,
+        val recordingDuration: Long?,
+        val firstScript: String?
+    ) {
+        constructor(noteOverviewInfo: NoteOverviewInfo) : this(
+            noteId = noteOverviewInfo.id,
+            title = noteOverviewInfo.title,
+            domain = noteOverviewInfo.domainType,
+            status = noteOverviewInfo.status,
+            uploadType = noteOverviewInfo.uploadType,
+            deletedFlag = noteOverviewInfo.deletedFlag,
+            createdDate = noteOverviewInfo.createdDate,
+            updatedDate = noteOverviewInfo.updatedDate,
+            recordingDuration = noteOverviewInfo.recordingDuration,
+            firstScript = noteOverviewInfo.firstScript
+        )
+    }
+}

@@ -1,6 +1,5 @@
 package com.team983.synnote.domain.note.domains.dto
 
-import com.fasterxml.jackson.annotation.JsonFormat
 import com.team983.synnote.domain.note.domains.entity.Note
 import com.team983.synnote.domain.note.domains.entity.Recording
 import com.team983.synnote.domain.note.domains.entity.Script
@@ -93,7 +92,7 @@ data class NoteDetailInfo(
 }
 
 data class ScriptInfo(
-    val scriptId: Long,
+    val id: Long,
     val asrType: AsrType,
     val text: String,
     val speaker: String?,
@@ -101,7 +100,7 @@ data class ScriptInfo(
     val end: Long?
 ) {
     constructor(script: Script) : this(
-        scriptId = script.id!!,
+        id = script.id!!,
         asrType = script.asrType,
         text = script.text,
         speaker = script.speaker,
@@ -111,23 +110,21 @@ data class ScriptInfo(
 }
 
 data class NoteOverviewInfo(
-    val noteId: Long,
+    val id: Long,
     val title: String,
-    val domain: DomainType,
+    val domainType: DomainType,
     val status: Status,
     val uploadType: UploadType,
     val deletedFlag: Boolean,
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val createdDate: LocalDateTime,
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val updatedDate: LocalDateTime,
     val recordingDuration: Long?,
     val firstScript: String?
 ) {
     constructor(note: Note) : this(
-        noteId = note.id!!,
+        id = note.id!!,
         title = note.title,
-        domain = note.domainType,
+        domainType = note.domainType,
         status = note.status,
         uploadType = note.uploadType,
         deletedFlag = note.deletedFlag,
