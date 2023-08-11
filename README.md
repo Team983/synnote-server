@@ -29,7 +29,7 @@
 멀티 모달 기반의 Live 음성 기록 정리 어시스턴트로, 강의나 회의 같은 곳에서 다중 음성 분석 기술을 활용해 기록하고 시각화 함으로써 효율적으로 사용자들의 기록물을 동기화하는 협업 플랫폼 서비스이다.
 
 ### 시스템 구성도
-![](images/System Architecture.v1.jpg)
+![](images/System-Architecture.v1.jpg)
 
 ### 개발환경
 `Java`, `Spring Boot`, `JPA`, `Mysql`, `AWS`, `K8S`, `Docker`, `Terraform`
@@ -52,7 +52,7 @@
 ### AWS S3 Presigned URL 기반 녹음본 파일 업로드
 [AWS S3 Presigned URL 기반 녹음본 파일 업로드](https://periodic-case-901.notion.site/AWS-S3-Presigned-URL-8b988752eca2403e8bd096b3c0b82611?pvs=4)
 
-![](images/Recording Upload Process.png)
+![](images/Recording-Upload-Process.png)
 
 ### REST API Custom Response Body
 [REST API Custom Response Body](https://periodic-case-901.notion.site/REST-API-Custom-Response-Body-ac701a8ff0434446bfbcce53c720aeb6?pvs=4)
