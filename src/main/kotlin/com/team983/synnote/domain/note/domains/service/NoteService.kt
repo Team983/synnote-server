@@ -25,4 +25,6 @@ interface NoteService {
     fun getNoteOverviewList(getNoteOverviewListCriterion: GetNoteOverviewListCriterion): List<NoteOverviewInfo>
 
     fun hasNoteNoRecording(endRecordingCommand: EndRecordingCommand)
+
+    fun updateNoteErrorStatus(noteId: Long)
 }

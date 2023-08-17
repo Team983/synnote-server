@@ -45,6 +45,11 @@ class NoteServiceImpl(
         }
     }
 
+    override fun updateNoteErrorStatus(noteId: Long) {
+        val note = noteReader.getNoteById(noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
+        note.updateStatus(Status.ERROR)
+    }
+
     override fun attachRecording(endRecordingCommand: EndRecordingCommand): NoteRecordingInfo {
         val note = noteReader.getNoteById(endRecordingCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
         val record = endRecordingCommand.toEntity()

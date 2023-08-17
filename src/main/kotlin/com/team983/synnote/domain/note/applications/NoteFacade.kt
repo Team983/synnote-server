@@ -57,4 +57,8 @@ class NoteFacade(
     fun getNoteOverviewList(getNoteOverviewListCriterion: GetNoteOverviewListCriterion): List<NoteOverviewInfo> {
         return noteService.getNoteOverviewList(getNoteOverviewListCriterion)
     }
+
+    fun updateNoteErrorStatus(noteId: Long) {
+        noteService.updateNoteErrorStatus(noteId)
+    }
 }

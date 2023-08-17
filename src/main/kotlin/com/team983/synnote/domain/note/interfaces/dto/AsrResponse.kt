@@ -9,3 +9,8 @@ data class AsrResultResponse(
     val noteId: Long,
     val texts: List<String>
 )
+
+data class AsrErrorResponse(
+    val noteId: Long,
+    val message: String
+)
