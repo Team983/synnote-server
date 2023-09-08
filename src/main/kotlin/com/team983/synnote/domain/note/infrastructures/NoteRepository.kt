@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface NoteRepository : JpaRepository<Note, Long> {
 
-    fun findByUserId(userId: String, pageable: Pageable): Slice<Note>
+    fun findByUserIdAndDeletedFlagIsFalse(userId: String, pageable: Pageable): Slice<Note>
 
     fun existsByIdAndRecordingIsNotNull(noteId: Long): Boolean
 }

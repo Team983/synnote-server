@@ -17,7 +17,7 @@ class NoteReaderImpl(
     }
 
     override fun getAllNoteOverview(userId: String, pageable: Pageable): Slice<Note> {
-        return noteRepository.findByUserId(userId, pageable)
+        return noteRepository.findByUserIdAndDeletedFlagIsFalse(userId, pageable)
     }
 
     override fun existsByIdAndRecordingIsNotNull(noteId: Long): Boolean {
