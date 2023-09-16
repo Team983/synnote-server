@@ -64,6 +64,10 @@ dependencies {
     // flyway
     implementation("org.flywaydb:flyway-mysql")
 
+    // metric
+    implementation("org.springframework.boot:spring-boot-starter-actuator:3.1.3")
+    implementation("io.micrometer:micrometer-registry-prometheus:1.11.4")
+
     // swagger
     testImplementation("com.epages:restdocs-api-spec-mockmvc:0.17.1")
 
