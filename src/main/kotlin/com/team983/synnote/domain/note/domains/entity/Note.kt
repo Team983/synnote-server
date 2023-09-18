@@ -1,5 +1,7 @@
 package com.team983.synnote.domain.note.domains.entity
 
+import com.team983.synnote.common.exception.BusinessException
+import com.team983.synnote.common.status.ResultCode.NOTE_TITLE_LENGTH_EXCEEDED
 import com.team983.synnote.common.status.ResultCode.UPLOADTYPE_INIT_STATUS_NOT_MATCH
 import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.enums.Status
@@ -109,4 +111,12 @@ class Note(
     }
 
     fun hasRecording(): Boolean = recording != null
+
+    fun updateTitle(title: String) {
+        if (title.length > 50) {
+            throw BusinessException(NOTE_TITLE_LENGTH_EXCEEDED)
+        }
+
+        this.title = title
+    }
 }
