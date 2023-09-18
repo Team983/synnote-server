@@ -7,6 +7,7 @@ import com.team983.synnote.domain.user.domains.dto.RegisterUserCommand
 import com.team983.synnote.domain.user.domains.dto.UpdateAgreementCommand
 import com.team983.synnote.domain.user.interfaces.dto.UpdateAgreementRequest
 import com.team983.synnote.domain.user.interfaces.dto.UserResponse
+import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid
 import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.http.HttpStatus.OK
@@ -52,5 +53,17 @@ class UserController(
         val updateAgreementCommand = UpdateAgreementCommand(decodeJwt(encodedJwt).sub, updateAgreementRequest)
         val userResponse = UserResponse(userFacade.updateAgreement(updateAgreementCommand))
         return BaseResponse(data = userResponse)
+    }
+
+    @GetMapping("logout")
+    @ResponseStatus(OK)
+    fun logout(
+        @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
+        response: HttpServletResponse
+    ) {
+        response.addHeader(
+            "Set-Cookie",
+            "AWSELBAuthSessionCookie-0=deleted;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT;"
+        )
     }
 }
