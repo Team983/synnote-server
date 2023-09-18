@@ -216,3 +216,12 @@ data class NoteOverviewListResponse(
         )
     }
 }
+
+data class UpdateTitleRequest(
+    @field:NotBlank
+    @JsonProperty("title")
+    private val _title: String?
+) {
+    val title: String
+        get() = _title!!
+}

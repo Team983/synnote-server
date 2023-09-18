@@ -10,6 +10,7 @@ import com.team983.synnote.domain.note.domains.enums.UploadType
 import com.team983.synnote.domain.note.interfaces.dto.AsrResultResponse
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
+import com.team983.synnote.domain.note.interfaces.dto.UpdateTitleRequest
 
 data class CreateNoteCommand(
     val userId: String,
@@ -77,4 +78,16 @@ data class SaveFullScriptCommand(
             Script(asrType, text)
         }
     }
+}
+
+data class UpdateTitleCommand(
+    val userId: String,
+    val noteId: Long,
+    val title: String
+) {
+    constructor(userId: String, noteId: Long, updateTitleRequest: UpdateTitleRequest) : this(
+        userId = userId,
+        noteId = noteId,
+        title = updateTitleRequest.title
+    )
 }

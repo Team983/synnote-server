@@ -14,6 +14,7 @@ import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
+import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
 import com.team983.synnote.domain.note.domains.enums.Status
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
@@ -49,6 +50,15 @@ class NoteServiceImpl(
         val note = noteReader.getNoteById(noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
         note.updateStatus(Status.ERROR)
     }
+
+    override fun updateTitle(updateTitleCommand: UpdateTitleCommand): NoteInfo =
+        noteReader.getNoteById(updateTitleCommand.noteId)?.let { note ->
+            if (!note.isOwnedBy(updateTitleCommand.userId)) {
+                throw AccessDeniedException(NOTE_NOT_ACCESSED)
+            }
+            note.updateTitle(updateTitleCommand.title)
+            NoteInfo(note)
+        } ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
 
     override fun attachRecording(endRecordingCommand: EndRecordingCommand): NoteRecordingInfo {
         val note = noteReader.getNoteById(endRecordingCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)

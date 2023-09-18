@@ -10,6 +10,7 @@ import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
+import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
 
 interface NoteService {
     fun createNote(createNoteCommand: CreateNoteCommand): NoteInfo
@@ -27,4 +28,6 @@ interface NoteService {
     fun hasNoteNoRecording(endRecordingCommand: EndRecordingCommand)
 
     fun updateNoteErrorStatus(noteId: Long)
+
+    fun updateTitle(updateTitleCommand: UpdateTitleCommand): NoteInfo
 }

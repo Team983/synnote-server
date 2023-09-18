@@ -8,18 +8,21 @@ import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
 import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCriterion
 import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCriterion
+import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
 import com.team983.synnote.domain.note.interfaces.dto.NoteResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteDetailResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteOverviewListResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteRecordingResponse
+import com.team983.synnote.domain.note.interfaces.dto.UpdateTitleRequest
 import jakarta.validation.Valid
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -91,5 +94,18 @@ class NoteController(
             noteFacade.getNoteOverviewList(getNoteOverviewListCriterion)
         )
         return BaseResponse(data = noteOverviewResponse)
+    }
+
+    @PatchMapping("/api/v1/note/{noteId}/title")
+    fun updateTitle(
+        @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
+        @PathVariable("noteId") noteId: Long,
+        @RequestBody
+        @Valid
+        updateTitleRequest: UpdateTitleRequest
+    ): BaseResponse<NoteResponse> {
+        val updateTitleCommand = UpdateTitleCommand(decodeJwt(encodedJwt).sub, noteId, updateTitleRequest)
+        val noteResponse = NoteResponse(noteFacade.updateTitle(updateTitleCommand))
+        return BaseResponse(data = noteResponse)
     }
 }
