@@ -12,6 +12,7 @@ import jakarta.validation.Valid
 import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.http.HttpStatus.OK
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
@@ -55,7 +56,7 @@ class UserController(
         return BaseResponse(data = userResponse)
     }
 
-    @GetMapping("logout")
+    @PatchMapping("logout")
     @ResponseStatus(OK)
     fun logout(
         @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
