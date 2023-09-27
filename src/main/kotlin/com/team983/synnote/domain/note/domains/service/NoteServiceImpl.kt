@@ -16,8 +16,8 @@ import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
 import com.team983.synnote.domain.note.domains.enums.Status
-import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Transactional
 @Service
@@ -74,6 +74,7 @@ class NoteServiceImpl(
         note.updateStatus(Status.COMPLETED)
     }
 
+    @Transactional(readOnly = true)
     override fun getNoteDetail(getNoteDetailCriterion: GetNoteDetailCriterion): NoteDetailInfo {
         val note = noteReader.getNoteById(getNoteDetailCriterion.noteId)
             ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
@@ -83,6 +84,7 @@ class NoteServiceImpl(
         return NoteDetailInfo(note)
     }
 
+    @Transactional(readOnly = true)
     override fun getNoteOverviewList(getNoteOverviewListCriterion: GetNoteOverviewListCriterion):
         List<NoteOverviewInfo> {
         val notesSlice =
