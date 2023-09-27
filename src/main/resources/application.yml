@@ -11,6 +11,8 @@ spring:
     url: jdbc:mysql://${AWS_RDS_ENDPOINT}:${AWS_RDS_PORT_NUMBER}/${AWS_RDS_DB_NAME}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: ${AWS_RDS_USERNAME}
     password: ${AWS_RDS_PASSWORD}
+    hikari:
+      maximum-pool-size: 20
   flyway:
     enabled: false
 cloud:
@@ -25,3 +27,7 @@ management:
     web:
       exposure:
         include: health, info, metrics, prometheus
+server:
+  tomcat:
+    threads:
+      max: 100
