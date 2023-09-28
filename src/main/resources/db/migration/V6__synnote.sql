@@ -1,0 +1,1 @@
+CREATE INDEX idx_created_date_desc ON note (created_date desc);
