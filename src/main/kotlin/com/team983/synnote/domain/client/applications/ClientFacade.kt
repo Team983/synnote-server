@@ -10,5 +10,5 @@ import org.springframework.stereotype.Service
 class ClientFacade(
     private val clientService: ClientService
 ) {
-    fun getPresignedUrl(fileName: String): PresignedUrlResponse = clientService.getPresignedUrl(fileName)
+    fun getPresignedUrl(): PresignedUrlResponse = clientService.getPresignedUrl()
 }

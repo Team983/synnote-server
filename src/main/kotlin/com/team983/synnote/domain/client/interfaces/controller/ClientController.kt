@@ -16,9 +16,9 @@ class ClientController(
     private val clientFacade: ClientFacade
 ) {
 
-    @GetMapping("presigned-url/{fileName}")
+    @GetMapping("presigned-url")
     @ResponseStatus(OK)
     fun getPresignedUrl(
         @PathVariable fileName: String
-    ): BaseResponse<PresignedUrlResponse> = BaseResponse(data = clientFacade.getPresignedUrl(fileName))
+    ): BaseResponse<PresignedUrlResponse> = BaseResponse(data = clientFacade.getPresignedUrl())
 }

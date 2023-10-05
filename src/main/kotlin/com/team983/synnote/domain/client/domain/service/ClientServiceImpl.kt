@@ -5,15 +5,15 @@ import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest
 import com.team983.synnote.common.config.AmazonS3Config
 import com.team983.synnote.domain.client.interfaces.dto.PresignedUrlResponse
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 import java.util.Date
+import java.util.UUID
 
 @Service
 class ClientServiceImpl(
     private val amazonS3Config: AmazonS3Config
 ) : ClientService {
-    override fun getPresignedUrl(fileName: String): PresignedUrlResponse {
-        val encodedFileName = "${LocalDateTime.now()}_$fileName"
+    override fun getPresignedUrl(): PresignedUrlResponse {
+        val encodedFileName = UUID.randomUUID().toString()
         val objectKey = "$encodedFileName"
 
         val expiration = Date()
