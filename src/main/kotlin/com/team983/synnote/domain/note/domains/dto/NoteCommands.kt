@@ -1,7 +1,6 @@
 package com.team983.synnote.domain.note.domains.dto
 
 import com.team983.synnote.domain.note.domains.entity.Note
-import com.team983.synnote.domain.note.domains.entity.Recording
 import com.team983.synnote.domain.note.domains.entity.Script
 import com.team983.synnote.domain.note.domains.enums.AsrType
 import com.team983.synnote.domain.note.domains.enums.DomainType
@@ -44,23 +43,14 @@ data class EndRecordingCommand(
     val userId: String,
     val noteId: Long,
     val encodedFileName: String,
-    val s3ObjectUrl: String,
-    val recordingDuration: Long
+    val s3ObjectUrl: String
 ) {
     constructor(userId: String, endRecordingRequest: EndRecordingRequest) : this(
         userId = userId,
         noteId = endRecordingRequest.noteId,
         encodedFileName = endRecordingRequest.encodedFileName,
-        s3ObjectUrl = endRecordingRequest.s3ObjectUrl,
-        recordingDuration = endRecordingRequest.recordingDuration
+        s3ObjectUrl = endRecordingRequest.s3ObjectUrl
     )
-
-    fun toEntity(): Recording {
-        return Recording(
-            s3ObjectUrl = s3ObjectUrl,
-            recordingDuration = recordingDuration
-        )
-    }
 }
 
 data class SaveFullScriptCommand(

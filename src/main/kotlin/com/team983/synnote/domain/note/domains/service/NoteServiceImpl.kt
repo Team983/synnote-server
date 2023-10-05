@@ -15,7 +15,9 @@ import com.team983.synnote.domain.note.domains.dto.NoteOverviewInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
+import com.team983.synnote.domain.note.domains.entity.Recording
 import com.team983.synnote.domain.note.domains.enums.Status
+import com.team983.synnote.domain.note.interfaces.dto.AsrRequestResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -60,9 +62,19 @@ class NoteServiceImpl(
             NoteInfo(note)
         } ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
 
-    override fun attachRecording(endRecordingCommand: EndRecordingCommand): NoteRecordingInfo {
-        val note = noteReader.getNoteById(endRecordingCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
-        val record = endRecordingCommand.toEntity()
+    override fun attachRecording(
+        asrRequestResponse: AsrRequestResponse,
+        endRecordingCommand: EndRecordingCommand
+    ): NoteRecordingInfo {
+        val note = noteReader.getNoteById(asrRequestResponse.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
+        if (asrRequestResponse.status == Status.PREPROCESSING_ERROR) {
+            val record = Recording(endRecordingCommand.s3ObjectUrl, 0)
+            note.attachRecording(record)
+            note.updateStatus(Status.PREPROCESSING_ERROR)
+            return NoteRecordingInfo(note)
+        }
+
+        val record = asrRequestResponse.toEntity()
         note.attachRecording(record)
         note.updateStatus(Status.PROCESSING)
         return NoteRecordingInfo(note)

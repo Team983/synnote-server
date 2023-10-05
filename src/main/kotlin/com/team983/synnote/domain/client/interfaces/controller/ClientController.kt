@@ -5,7 +5,6 @@ import com.team983.synnote.domain.client.applications.ClientFacade
 import com.team983.synnote.domain.client.interfaces.dto.PresignedUrlResponse
 import org.springframework.http.HttpStatus.OK
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
@@ -18,7 +17,5 @@ class ClientController(
 
     @GetMapping("presigned-url")
     @ResponseStatus(OK)
-    fun getPresignedUrl(
-        @PathVariable fileName: String
-    ): BaseResponse<PresignedUrlResponse> = BaseResponse(data = clientFacade.getPresignedUrl())
+    fun getPresignedUrl(): BaseResponse<PresignedUrlResponse> = BaseResponse(data = clientFacade.getPresignedUrl())
 }

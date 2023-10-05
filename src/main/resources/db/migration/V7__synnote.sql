@@ -1,0 +1,1 @@
+ALTER TABLE note MODIFY `status` VARCHAR(20) NOT NULL;

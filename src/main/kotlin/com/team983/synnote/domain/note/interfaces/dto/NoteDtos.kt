@@ -78,11 +78,8 @@ data class EndRecordingRequest(
 
     @field:NotBlank
     @JsonProperty("s3ObjectUrl")
-    private val _s3ObjectUrl: String?,
+    private val _s3ObjectUrl: String?
 
-    @field:NotNull
-    @JsonProperty("recordingDuration")
-    private val _recordingDuration: Long?
 ) {
     val noteId: Long
         get() = _noteId!!
@@ -92,9 +89,6 @@ data class EndRecordingRequest(
 
     val s3ObjectUrl: String
         get() = _s3ObjectUrl!!
-
-    val recordingDuration: Long
-        get() = _recordingDuration!!
 }
 
 data class NoteRecordingResponse(
