@@ -90,7 +90,7 @@ class NoteController(
     ): BaseResponse<NoteOverviewListResponse> {
         val pageable = PageRequest.of(startIndex, count, Sort.by("createdDate").descending())
         val getNoteOverviewListCriterion = GetNoteOverviewListCriterion(decodeJwt(encodedJwt).sub, pageable)
-        val noteOverviewResponse = NoteOverviewListResponse.fromNoteOverviewInfoList(
+        val noteOverviewResponse = NoteOverviewListResponse.fromNoteOverviewListInfo(
             noteFacade.getNoteOverviewList(getNoteOverviewListCriterion)
         )
         return BaseResponse(data = noteOverviewResponse)

@@ -7,7 +7,7 @@ import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCriterion
 import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCriterion
 import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
-import com.team983.synnote.domain.note.domains.dto.NoteOverviewInfo
+import com.team983.synnote.domain.note.domains.dto.NoteOverviewListInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
@@ -27,7 +27,7 @@ interface NoteService {
 
     fun getNoteDetail(getNoteDetailCriterion: GetNoteDetailCriterion): NoteDetailInfo
 
-    fun getNoteOverviewList(getNoteOverviewListCriterion: GetNoteOverviewListCriterion): List<NoteOverviewInfo>
+    fun getNoteOverviewList(getNoteOverviewListCriterion: GetNoteOverviewListCriterion): NoteOverviewListInfo
 
     fun hasNoteNoRecording(endRecordingCommand: EndRecordingCommand)
 

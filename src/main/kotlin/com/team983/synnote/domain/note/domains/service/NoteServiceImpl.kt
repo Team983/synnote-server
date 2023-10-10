@@ -12,6 +12,7 @@ import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCriterion
 import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewInfo
+import com.team983.synnote.domain.note.domains.dto.NoteOverviewListInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
@@ -97,10 +98,13 @@ class NoteServiceImpl(
     }
 
     @Transactional(readOnly = true)
-    override fun getNoteOverviewList(getNoteOverviewListCriterion: GetNoteOverviewListCriterion):
-        List<NoteOverviewInfo> {
+    override fun getNoteOverviewList(getNoteOverviewListCriterion: GetNoteOverviewListCriterion): NoteOverviewListInfo {
         val notesSlice =
             noteReader.getAllNoteOverview(getNoteOverviewListCriterion.userId, getNoteOverviewListCriterion.pageable)
-        return if (notesSlice.isEmpty) emptyList() else notesSlice.content.map { NoteOverviewInfo(it) }
+        if (notesSlice.isEmpty) {
+            return NoteOverviewListInfo(emptyList(), false)
+        }
+        val noteOverviewInfos = notesSlice.content.map { NoteOverviewInfo(it) }
+        return NoteOverviewListInfo(noteOverviewInfos, notesSlice.hasNext())
     }
 }

@@ -134,3 +134,5 @@ data class NoteOverviewInfo(
         firstScript = note.scripts.firstOrNull()?.text
     )
 }
+
+data class NoteOverviewListInfo(val noteOverviewInfos: List<NoteOverviewInfo>, val hasNext: Boolean)
