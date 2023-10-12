@@ -13,6 +13,7 @@ import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewListInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
+import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
 import com.team983.synnote.domain.note.domains.service.NoteService
 import com.team983.synnote.domain.note.interfaces.dto.AsrRequestResponse
@@ -59,8 +60,8 @@ class NoteFacade(
         return noteService.getNoteOverviewList(getNoteOverviewListCriterion)
     }
 
-    fun updateNoteErrorStatus(noteId: Long) {
-        noteService.updateNoteErrorStatus(noteId)
+    fun updateNoteErrorStatus(updateErrorStatusCommand: UpdateErrorStatusCommand) {
+        noteService.updateNoteErrorStatus(updateErrorStatusCommand)
     }
 
     fun updateTitle(updateTitleCommand: UpdateTitleCommand): NoteInfo = noteService.updateTitle(updateTitleCommand)

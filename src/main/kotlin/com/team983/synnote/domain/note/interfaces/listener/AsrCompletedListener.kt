@@ -3,6 +3,7 @@ package com.team983.synnote.domain.note.interfaces.listener
 import com.team983.synnote.common.utils.logger
 import com.team983.synnote.domain.note.applications.NoteFacade
 import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
+import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
 import com.team983.synnote.domain.note.interfaces.dto.AsrErrorResponse
 import com.team983.synnote.domain.note.interfaces.dto.AsrResultResponse
 import org.springframework.web.bind.annotation.PostMapping
@@ -29,6 +30,6 @@ class AsrCompletedListener(
         asrErrorResponse: AsrErrorResponse
     ) {
         log.error("ASR ERROR: ${asrErrorResponse.message}")
-        noteFacade.updateNoteErrorStatus(asrErrorResponse.noteId)
+        noteFacade.updateNoteErrorStatus(UpdateErrorStatusCommand(asrErrorResponse))
     }
 }

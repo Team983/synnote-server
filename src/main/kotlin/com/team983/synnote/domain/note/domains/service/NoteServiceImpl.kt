@@ -15,6 +15,7 @@ import com.team983.synnote.domain.note.domains.dto.NoteOverviewInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewListInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
+import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
 import com.team983.synnote.domain.note.domains.entity.Recording
 import com.team983.synnote.domain.note.domains.enums.Status
@@ -49,9 +50,10 @@ class NoteServiceImpl(
         }
     }
 
-    override fun updateNoteErrorStatus(noteId: Long) {
-        val note = noteReader.getNoteById(noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
-        note.updateStatus(Status.ERROR)
+    override fun updateNoteErrorStatus(updateErrorStatusCommand: UpdateErrorStatusCommand) {
+        val note =
+            noteReader.getNoteById(updateErrorStatusCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
+        note.updateStatus(updateErrorStatusCommand.status)
     }
 
     override fun updateTitle(updateTitleCommand: UpdateTitleCommand): NoteInfo =

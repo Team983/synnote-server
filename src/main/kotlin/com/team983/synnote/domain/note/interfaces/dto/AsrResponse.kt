@@ -25,5 +25,6 @@ data class AsrResultResponse(
 
 data class AsrErrorResponse(
     val noteId: Long,
-    val message: String
+    val message: String,
+    val status: Status
 )

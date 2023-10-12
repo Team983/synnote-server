@@ -10,6 +10,7 @@ import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewListInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
+import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
 import com.team983.synnote.domain.note.interfaces.dto.AsrRequestResponse
 
@@ -31,7 +32,7 @@ interface NoteService {
 
     fun hasNoteNoRecording(endRecordingCommand: EndRecordingCommand)
 
-    fun updateNoteErrorStatus(noteId: Long)
+    fun updateNoteErrorStatus(updateErrorStatusCommand: UpdateErrorStatusCommand)
 
     fun updateTitle(updateTitleCommand: UpdateTitleCommand): NoteInfo
 }

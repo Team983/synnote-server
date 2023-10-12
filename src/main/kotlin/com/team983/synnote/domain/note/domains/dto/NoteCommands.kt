@@ -6,6 +6,7 @@ import com.team983.synnote.domain.note.domains.enums.AsrType
 import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.enums.Status
 import com.team983.synnote.domain.note.domains.enums.UploadType
+import com.team983.synnote.domain.note.interfaces.dto.AsrErrorResponse
 import com.team983.synnote.domain.note.interfaces.dto.AsrResultResponse
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
@@ -79,5 +80,15 @@ data class UpdateTitleCommand(
         userId = userId,
         noteId = noteId,
         title = updateTitleRequest.title
+    )
+}
+
+data class UpdateErrorStatusCommand(
+    val noteId: Long,
+    val status: Status
+) {
+    constructor(asrErrorResponse: AsrErrorResponse) : this(
+        noteId = asrErrorResponse.noteId,
+        status = asrErrorResponse.status
     )
 }
