@@ -10,7 +10,9 @@ import com.team983.synnote.domain.note.interfaces.dto.AsrErrorResponse
 import com.team983.synnote.domain.note.interfaces.dto.AsrResultResponse
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
+import com.team983.synnote.domain.note.interfaces.dto.Segment
 import com.team983.synnote.domain.note.interfaces.dto.UpdateTitleRequest
+import com.team983.synnote.domain.note.interfaces.dto.WhisperxAsrResultResponse
 
 data class CreateNoteCommand(
     val userId: String,
@@ -54,19 +56,50 @@ data class EndRecordingCommand(
     )
 }
 
-data class SaveFullScriptCommand(
-    val noteId: Long,
-    val texts: List<String>,
-    val asrType: AsrType = AsrType.FULL
+abstract class BaseSaveScriptCommand(
+    open val noteId: Long,
+    open val asrType: AsrType = AsrType.FULL,
+    open var language: String? = null
 ) {
-    constructor(noteId: AsrResultResponse) : this(
-        noteId = noteId.noteId,
-        texts = noteId.texts
+    abstract fun toScripts(): List<Script>
+}
+
+data class SaveScriptCommand(
+    override val noteId: Long,
+    val texts: List<String>
+) : BaseSaveScriptCommand(noteId) {
+    constructor(asrResultResponse: AsrResultResponse) : this(
+        noteId = asrResultResponse.noteId,
+        texts = asrResultResponse.texts
     )
 
-    fun toScripts(): List<Script> {
+    override fun toScripts(): List<Script> {
         return texts.map { text ->
             Script(asrType, text)
+        }
+    }
+}
+
+data class SaveFullScriptCommand(
+    override val noteId: Long,
+    override var language: String?,
+    val segments: List<Segment>
+) : BaseSaveScriptCommand(noteId, AsrType.FULL, language) {
+    constructor(whisperxAsrResultResponse: WhisperxAsrResultResponse) : this(
+        noteId = whisperxAsrResultResponse.noteId,
+        segments = whisperxAsrResultResponse.segments,
+        language = whisperxAsrResultResponse.language
+    )
+
+    override fun toScripts(): List<Script> {
+        return segments.map { segment ->
+            Script(
+                asrType,
+                segment.text,
+                segment.speaker,
+                segment.startInMilliseconds,
+                segment.endInMilliseconds
+            )
         }
     }
 }

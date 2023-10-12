@@ -3,6 +3,7 @@ package com.team983.synnote.domain.note.applications
 import com.team983.synnote.common.exception.EntityNotFoundException
 import com.team983.synnote.common.status.ResultCode.*
 import com.team983.synnote.common.utils.RestTemplateRequester
+import com.team983.synnote.domain.note.domains.dto.BaseSaveScriptCommand
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
@@ -12,7 +13,6 @@ import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewListInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
-import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
 import com.team983.synnote.domain.note.domains.enums.DomainType
@@ -59,8 +59,8 @@ class NoteFacade(
 //        )
     }
 
-    fun saveScript(saveFullScriptCommand: SaveFullScriptCommand) {
-        noteService.saveScript(saveFullScriptCommand)
+    fun saveScript(saveScriptCommand: BaseSaveScriptCommand) {
+        noteService.saveScript(saveScriptCommand)
     }
 
     fun getNoteDetail(getNoteDetailCriterion: GetNoteDetailCriterion): NoteDetailInfo {

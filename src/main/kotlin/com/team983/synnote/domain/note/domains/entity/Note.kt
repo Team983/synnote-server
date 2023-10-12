@@ -82,6 +82,9 @@ class Note(
     protected var mutableScripts: MutableList<Script> = mutableListOf()
     val scripts: List<Script> get() = mutableScripts.toList()
 
+    @Column(name = "language", nullable = true)
+    var language: String? = null
+
     init {
         require(
             uploadType == UploadType.RECORDING && status == Status.RECORDING ||
@@ -118,5 +121,10 @@ class Note(
         }
 
         this.title = title
+    }
+
+    fun updateAsrCompleted(status: Status, language: String?) {
+        updateStatus(status)
+        this.language = language
     }
 }

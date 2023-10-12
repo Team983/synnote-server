@@ -17,7 +17,10 @@ import jakarta.persistence.Table
 @Table(name = "script")
 class Script(
     asrType: AsrType,
-    text: String
+    text: String,
+    speaker: String? = null,
+    start: Long? = null,
+    end: Long? = null
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,14 +36,16 @@ class Script(
         protected set
 
     @Column(name = "speaker", nullable = true, length = 20)
-    var speaker: String? = null
+    var speaker: String? = speaker
         protected set
 
     @Column(name = "start", nullable = true)
-    val start: Long? = null
+    var start: Long? = start
+        protected set
 
     @Column(name = "end", nullable = true)
-    val end: Long? = null
+    var end: Long? = end
+        protected set
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "note_id", nullable = false)

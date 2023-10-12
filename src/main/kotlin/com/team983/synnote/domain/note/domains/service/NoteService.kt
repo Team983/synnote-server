@@ -1,5 +1,6 @@
 package com.team983.synnote.domain.note.domains.service
 
+import com.team983.synnote.domain.note.domains.dto.BaseSaveScriptCommand
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
@@ -9,7 +10,6 @@ import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewListInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
-import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
 import com.team983.synnote.domain.note.domains.enums.DomainType
@@ -25,7 +25,7 @@ interface NoteService {
         endRecordingCommand: EndRecordingCommand
     ): NoteRecordingInfo
 
-    fun saveScript(saveFullScriptCommand: SaveFullScriptCommand)
+    fun saveScript(saveScriptCommand: BaseSaveScriptCommand)
 
     fun getNoteDetail(getNoteDetailCriterion: GetNoteDetailCriterion): NoteDetailInfo
 

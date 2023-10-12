@@ -23,6 +23,25 @@ data class AsrResultResponse(
     val texts: List<String>
 )
 
+data class WhisperxAsrResultResponse(
+    val noteId: Long,
+    val segments: List<Segment>,
+    val language: String
+)
+
+data class Segment(
+    val text: String,
+    val start: Long,
+    val end: Long,
+    val speaker: String
+) {
+    val startInMilliseconds: Long
+        get() = start * 1000
+
+    val endInMilliseconds: Long
+        get() = end * 1000
+}
+
 data class AsrErrorResponse(
     val noteId: Long,
     val message: String,

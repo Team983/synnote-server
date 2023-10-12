@@ -4,6 +4,7 @@ import com.team983.synnote.common.exception.AccessDeniedException
 import com.team983.synnote.common.exception.BusinessException
 import com.team983.synnote.common.exception.EntityNotFoundException
 import com.team983.synnote.common.status.ResultCode.*
+import com.team983.synnote.domain.note.domains.dto.BaseSaveScriptCommand
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
@@ -14,7 +15,6 @@ import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewListInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
-import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
 import com.team983.synnote.domain.note.domains.entity.Recording
@@ -89,10 +89,10 @@ class NoteServiceImpl(
         return NoteRecordingInfo(note)
     }
 
-    override fun saveScript(saveFullScriptCommand: SaveFullScriptCommand) {
-        val note = noteReader.getNoteById(saveFullScriptCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
-        saveFullScriptCommand.toScripts().forEach(note::attachScript)
-        note.updateStatus(Status.COMPLETED)
+    override fun saveScript(saveScriptCommand: BaseSaveScriptCommand) {
+        val note = noteReader.getNoteById(saveScriptCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
+        saveScriptCommand.toScripts().forEach(note::attachScript)
+        note.updateAsrCompleted(Status.COMPLETED, saveScriptCommand.language)
     }
 
     @Transactional(readOnly = true)
