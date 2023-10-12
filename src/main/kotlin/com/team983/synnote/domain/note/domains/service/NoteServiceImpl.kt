@@ -18,6 +18,7 @@ import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
 import com.team983.synnote.domain.note.domains.entity.Recording
+import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.enums.Status
 import com.team983.synnote.domain.note.interfaces.dto.AsrRequestResponse
 import org.springframework.stereotype.Service
@@ -64,6 +65,11 @@ class NoteServiceImpl(
             note.updateTitle(updateTitleCommand.title)
             NoteInfo(note)
         } ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
+
+    override fun getDomainType(noteId: Long): DomainType {
+        val note = noteReader.getNoteById(noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
+        return note.domainType
+    }
 
     override fun attachRecording(
         asrRequestResponse: AsrRequestResponse,

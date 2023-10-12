@@ -1,5 +1,6 @@
 package com.team983.synnote.common.utils
 
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.RequestEntity
 import org.springframework.http.ResponseEntity
@@ -11,7 +12,7 @@ import java.net.URI
 @Component
 class RestTemplateRequester {
 
-    fun <T> sendRequest(
+    fun <T> sendRequestToWhisper(
         url: String,
         responseType: Class<T>
     ): T {
@@ -36,4 +37,41 @@ class RestTemplateRequester {
             throw RuntimeException()
         }
     }
+
+    fun <T> sendRequestToWhisperX(
+        noteId: Long,
+        filename: String,
+        domainType: String,
+        responseType: Class<T>
+    ): T {
+        val restTemplate = RestTemplate()
+
+        val url = "http://220.118.70.197:8000/asr/$noteId"
+        val headers = HttpHeaders()
+        headers.set("serve_multiplexed_model_id", domainType)
+        val body = AsrRequest(filename)
+
+        val uri: URI = UriComponentsBuilder.fromHttpUrl(url)
+            .build()
+            .toUri()
+
+        val requestEntity: RequestEntity<Any> = RequestEntity<Any>(
+            body,
+            headers,
+            HttpMethod.POST,
+            uri
+        )
+
+        try {
+            val responseEntity: ResponseEntity<T> = restTemplate.exchange(requestEntity, responseType)
+            if (!responseEntity.statusCode.is2xxSuccessful) {
+                throw RuntimeException()
+            }
+            return responseEntity.body ?: throw RuntimeException()
+        } catch (ex: Exception) {
+            throw RuntimeException()
+        }
+    }
 }
+
+data class AsrRequest(val file_name: String)

@@ -15,6 +15,7 @@ import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
+import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.service.NoteService
 import com.team983.synnote.domain.note.interfaces.dto.AsrRequestResponse
 import com.team983.synnote.domain.user.domains.service.UserService
@@ -36,16 +37,26 @@ class NoteFacade(
 
     fun endRecording(endRecordingCommand: EndRecordingCommand): NoteRecordingInfo {
         noteService.hasNoteNoRecording(endRecordingCommand)
-        val asrRequestResponse = sendRequestAsrService(endRecordingCommand)
+        val domainType = noteService.getDomainType(endRecordingCommand.noteId)
+        val asrRequestResponse = sendRequestAsrService(endRecordingCommand, domainType)
         return noteService.attachRecording(asrRequestResponse, endRecordingCommand)
     }
 
-    private fun sendRequestAsrService(endRecordingCommand: EndRecordingCommand): AsrRequestResponse {
-        return restTemplateRequester.sendRequest(
-            "http://172.20.245.195:8081/asr" +
-                "/${endRecordingCommand.noteId}?filename=${endRecordingCommand.encodedFileName}",
+    private fun sendRequestAsrService(
+        endRecordingCommand: EndRecordingCommand,
+        domainType: DomainType
+    ): AsrRequestResponse {
+        return restTemplateRequester.sendRequestToWhisperX(
+            endRecordingCommand.noteId,
+            endRecordingCommand.encodedFileName,
+            domainType.name,
             AsrRequestResponse::class.java
         )
+//        return restTemplateRequester.sendRequestToWhisper(
+//            "http://172.20.245.195:8081/asr" +
+//                "/${endRecordingCommand.noteId}?filename=${endRecordingCommand.encodedFileName}",
+//            AsrRequestResponse::class.java
+//        )
     }
 
     fun saveScript(saveFullScriptCommand: SaveFullScriptCommand) {

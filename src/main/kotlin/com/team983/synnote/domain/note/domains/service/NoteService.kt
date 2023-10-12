@@ -12,6 +12,7 @@ import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.SaveFullScriptCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
+import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.interfaces.dto.AsrRequestResponse
 
 interface NoteService {
@@ -35,4 +36,6 @@ interface NoteService {
     fun updateNoteErrorStatus(updateErrorStatusCommand: UpdateErrorStatusCommand)
 
     fun updateTitle(updateTitleCommand: UpdateTitleCommand): NoteInfo
+
+    fun getDomainType(noteId: Long): DomainType
 }
