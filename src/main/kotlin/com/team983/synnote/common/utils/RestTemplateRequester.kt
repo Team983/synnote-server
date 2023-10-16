@@ -52,7 +52,7 @@ class RestTemplateRequester {
         headers.set("serve_multiplexed_model_id", domainType)
         val body = AsrRequest(filename)
 
-        log.info("filename: $filename")
+        log.info("전사 요청 => $filename")
 
         val uri: URI = UriComponentsBuilder.fromHttpUrl(url)
             .build()
@@ -72,7 +72,7 @@ class RestTemplateRequester {
             }
             return responseEntity.body ?: throw RuntimeException()
         } catch (ex: Exception) {
-            throw RuntimeException()
+            throw RuntimeException("전사 실패 => $filename")
         }
     }
 }
