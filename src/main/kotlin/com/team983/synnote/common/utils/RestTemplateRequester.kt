@@ -1,5 +1,6 @@
 package com.team983.synnote.common.utils
 
+import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.RequestEntity
@@ -50,6 +51,8 @@ class RestTemplateRequester {
         val headers = HttpHeaders()
         headers.set("serve_multiplexed_model_id", domainType)
         val body = AsrRequest(filename)
+
+        log.info("filename: $filename")
 
         val uri: URI = UriComponentsBuilder.fromHttpUrl(url)
             .build()
