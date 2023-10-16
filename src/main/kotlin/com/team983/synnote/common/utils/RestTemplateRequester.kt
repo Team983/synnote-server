@@ -47,7 +47,7 @@ class RestTemplateRequester {
     ): T {
         val restTemplate = RestTemplate()
 
-        val url = "http://220.118.70.197:8000/asr/$noteId"
+        val url = "https://team983.site/asr/$noteId"
         val headers = HttpHeaders()
         headers.set("serve_multiplexed_model_id", domainType)
         val body = AsrRequest(filename)
