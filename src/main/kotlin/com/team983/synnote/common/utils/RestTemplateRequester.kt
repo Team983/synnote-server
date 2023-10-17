@@ -49,8 +49,8 @@ class RestTemplateRequester {
 
         val url = "https://team983.site/asr/$noteId"
         val headers = HttpHeaders()
-        headers.set("serve_multiplexed_model_id", domainType)
-        val body = AsrRequest(filename)
+        headers.set("Content-Type", "application/json")
+        val body = AsrRequest(filename, domainType)
 
         log.info("전사 요청 => $filename")
 
@@ -77,4 +77,7 @@ class RestTemplateRequester {
     }
 }
 
-data class AsrRequest(val file_name: String)
+data class AsrRequest(
+    val filename: String,
+    val category: String
+)
