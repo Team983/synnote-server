@@ -82,6 +82,10 @@ class Note(
     protected var mutableScripts: MutableList<Script> = mutableListOf()
     val scripts: List<Script> get() = mutableScripts.toList()
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "note", cascade = [CascadeType.ALL], orphanRemoval = true)
+    protected var mutableMemos: MutableList<Memo> = mutableListOf()
+    val memos: List<Memo> get() = mutableMemos.toList()
+
     @Column(name = "language", nullable = true)
     var language: String? = null
 
@@ -111,6 +115,11 @@ class Note(
     fun attachScript(script: Script) {
         mutableScripts.add(script)
         script.linkToNote(this)
+    }
+
+    fun attachMemo(memo: Memo) {
+        mutableMemos.add(memo)
+        memo.linkToNote(this)
     }
 
     fun hasRecording(): Boolean = recording != null

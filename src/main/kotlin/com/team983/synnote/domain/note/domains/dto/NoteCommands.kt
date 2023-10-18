@@ -1,5 +1,6 @@
 package com.team983.synnote.domain.note.domains.dto
 
+import com.team983.synnote.domain.note.domains.entity.Memo
 import com.team983.synnote.domain.note.domains.entity.Note
 import com.team983.synnote.domain.note.domains.entity.Script
 import com.team983.synnote.domain.note.domains.enums.AsrType
@@ -10,6 +11,7 @@ import com.team983.synnote.domain.note.interfaces.dto.AsrErrorResponse
 import com.team983.synnote.domain.note.interfaces.dto.AsrResultResponse
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
+import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest.MemoRequest
 import com.team983.synnote.domain.note.interfaces.dto.Segment
 import com.team983.synnote.domain.note.interfaces.dto.UpdateTitleRequest
 import com.team983.synnote.domain.note.interfaces.dto.WhisperxAsrResultResponse
@@ -46,14 +48,25 @@ data class EndRecordingCommand(
     val userId: String,
     val noteId: Long,
     val encodedFileName: String,
-    val s3ObjectUrl: String
+    val s3ObjectUrl: String,
+    val memoList: List<MemoRequest>
 ) {
     constructor(userId: String, endRecordingRequest: EndRecordingRequest) : this(
         userId = userId,
         noteId = endRecordingRequest.noteId,
         encodedFileName = endRecordingRequest.encodedFileName,
-        s3ObjectUrl = endRecordingRequest.s3ObjectUrl
+        s3ObjectUrl = endRecordingRequest.s3ObjectUrl,
+        memoList = endRecordingRequest.memoList
     )
+
+    fun toMemos(): List<Memo> {
+        return memoList.map { memoRequest ->
+            Memo(
+                memoRequest.text,
+                memoRequest.start
+            )
+        }
+    }
 }
 
 abstract class BaseSaveScriptCommand(

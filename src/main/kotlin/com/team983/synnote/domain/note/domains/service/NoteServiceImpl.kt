@@ -71,7 +71,7 @@ class NoteServiceImpl(
         return note.domainType
     }
 
-    override fun attachRecording(
+    override fun attachRecordingAndMemo(
         asrRequestResponse: AsrRequestResponse,
         endRecordingCommand: EndRecordingCommand
     ): NoteRecordingInfo {
@@ -79,12 +79,14 @@ class NoteServiceImpl(
         if (asrRequestResponse.status == Status.PREPROCESSING_ERROR) {
             val record = Recording(endRecordingCommand.s3ObjectUrl, 0)
             note.attachRecording(record)
+            endRecordingCommand.toMemos().forEach(note::attachMemo)
             note.updateStatus(Status.PREPROCESSING_ERROR)
             return NoteRecordingInfo(note)
         }
 
         val record = asrRequestResponse.toEntity()
         note.attachRecording(record)
+        endRecordingCommand.toMemos().forEach(note::attachMemo)
         note.updateStatus(Status.PROCESSING)
         return NoteRecordingInfo(note)
     }

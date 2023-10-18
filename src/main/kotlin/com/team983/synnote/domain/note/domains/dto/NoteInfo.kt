@@ -1,5 +1,6 @@
 package com.team983.synnote.domain.note.domains.dto
 
+import com.team983.synnote.domain.note.domains.entity.Memo
 import com.team983.synnote.domain.note.domains.entity.Note
 import com.team983.synnote.domain.note.domains.entity.Recording
 import com.team983.synnote.domain.note.domains.entity.Script
@@ -75,7 +76,8 @@ data class NoteDetailInfo(
     val createdDate: LocalDateTime,
     val updatedDate: LocalDateTime,
     val recording: RecordingInfo?,
-    val scripts: List<ScriptInfo>
+    val scripts: List<ScriptInfo>,
+    val memos: List<MemoInfo>
 ) {
     constructor(note: Note) : this(
         id = note.id!!,
@@ -87,26 +89,39 @@ data class NoteDetailInfo(
         createdDate = note.createdDate!!,
         updatedDate = note.updatedDate!!,
         recording = note.recording?.let { RecordingInfo(it) },
-        scripts = note.scripts.map { ScriptInfo(it) }
+        scripts = note.scripts.map { ScriptInfo(it) },
+        memos = note.memos.map { MemoInfo(it) }
     )
-}
 
-data class ScriptInfo(
-    val id: Long,
-    val asrType: AsrType,
-    val text: String,
-    val speaker: String?,
-    val start: Long?,
-    val end: Long?
-) {
-    constructor(script: Script) : this(
-        id = script.id!!,
-        asrType = script.asrType,
-        text = script.text,
-        speaker = script.speaker,
-        start = script.start,
-        end = script.end
-    )
+    data class ScriptInfo(
+        val id: Long,
+        val asrType: AsrType,
+        val text: String,
+        val speaker: String?,
+        val start: Long?,
+        val end: Long?
+    ) {
+        constructor(script: Script) : this(
+            id = script.id!!,
+            asrType = script.asrType,
+            text = script.text,
+            speaker = script.speaker,
+            start = script.start,
+            end = script.end
+        )
+    }
+
+    data class MemoInfo(
+        val id: Long,
+        val text: String,
+        val start: Long
+    ) {
+        constructor(memo: Memo) : this(
+            id = memo.id!!,
+            text = memo.text,
+            start = memo.start
+        )
+    }
 }
 
 data class NoteOverviewInfo(

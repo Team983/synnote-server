@@ -4,12 +4,12 @@ import com.example.demo.common.annotation.ValidEnum
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo
+import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo.*
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewListInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.RecordingInfo
-import com.team983.synnote.domain.note.domains.dto.ScriptInfo
 import com.team983.synnote.domain.note.domains.enums.AsrType
 import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.enums.Status
@@ -79,7 +79,11 @@ data class EndRecordingRequest(
 
     @field:NotBlank
     @JsonProperty("s3ObjectUrl")
-    private val _s3ObjectUrl: String?
+    private val _s3ObjectUrl: String?,
+
+    @field:NotNull
+    @JsonProperty("memoList")
+    private val _memoList: List<MemoRequest>?
 
 ) {
     val noteId: Long
@@ -90,6 +94,25 @@ data class EndRecordingRequest(
 
     val s3ObjectUrl: String
         get() = _s3ObjectUrl!!
+
+    val memoList: List<MemoRequest>
+        get() = _memoList!!
+
+    data class MemoRequest(
+        @field:NotBlank
+        @JsonProperty("text")
+        private val _text: String?,
+
+        @field:NotNull
+        @JsonProperty("start")
+        private val _start: Long?
+    ) {
+        val text: String
+            get() = _text!!
+
+        val start: Long
+            get() = _start!!
+    }
 }
 
 data class NoteRecordingResponse(
@@ -130,7 +153,8 @@ data class NoteDetailResponse(
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val updatedDate: LocalDateTime,
     val recording: RecordingResponse?,
-    val scriptList: List<ScriptResponse>
+    val scriptList: List<ScriptResponse>,
+    val memoList: List<MemoResponse>
 ) {
     constructor(noteDetailInfo: NoteDetailInfo) : this(
         noteId = noteDetailInfo.id,
@@ -142,7 +166,8 @@ data class NoteDetailResponse(
         createdDate = noteDetailInfo.createdDate,
         updatedDate = noteDetailInfo.updatedDate,
         recording = noteDetailInfo.recording?.let { RecordingResponse(it) },
-        scriptList = noteDetailInfo.scripts.map { ScriptResponse(it) }
+        scriptList = noteDetailInfo.scripts.map { ScriptResponse(it) },
+        memoList = noteDetailInfo.memos.map { MemoResponse(it) }
     )
 
     data class ScriptResponse(
@@ -160,6 +185,18 @@ data class NoteDetailResponse(
             speaker = scriptInfo.speaker,
             start = scriptInfo.start,
             end = scriptInfo.end
+        )
+    }
+
+    data class MemoResponse(
+        val memoId: Long,
+        val text: String,
+        val start: Long
+    ) {
+        constructor(memoInfo: MemoInfo) : this(
+            memoId = memoInfo.id,
+            text = memoInfo.text,
+            start = memoInfo.start
         )
     }
 }
