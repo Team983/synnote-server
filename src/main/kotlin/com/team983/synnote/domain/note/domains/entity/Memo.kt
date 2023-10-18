@@ -37,4 +37,8 @@ class Memo(
     fun linkToNote(note: Note) {
         this.note = note
     }
+
+    fun updateText(text: String) {
+        this.text = text
+    }
 }

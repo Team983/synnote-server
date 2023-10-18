@@ -8,13 +8,19 @@ import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
 import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCriterion
 import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCriterion
+import com.team983.synnote.domain.note.domains.dto.UpdateMemoCommand
+import com.team983.synnote.domain.note.domains.dto.UpdateScriptCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
 import com.team983.synnote.domain.note.interfaces.dto.NoteResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteDetailResponse
+import com.team983.synnote.domain.note.interfaces.dto.NoteDetailResponse.MemoResponse
+import com.team983.synnote.domain.note.interfaces.dto.NoteDetailResponse.ScriptResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteOverviewListResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteRecordingResponse
+import com.team983.synnote.domain.note.interfaces.dto.UpdateMemoRequest
+import com.team983.synnote.domain.note.interfaces.dto.UpdateScriptRequest
 import com.team983.synnote.domain.note.interfaces.dto.UpdateTitleRequest
 import jakarta.validation.Valid
 import org.springframework.data.domain.PageRequest
@@ -107,5 +113,33 @@ class NoteController(
         val updateTitleCommand = UpdateTitleCommand(decodeJwt(encodedJwt).sub, noteId, updateTitleRequest)
         val noteResponse = NoteResponse(noteFacade.updateTitle(updateTitleCommand))
         return BaseResponse(data = noteResponse)
+    }
+
+    @PatchMapping("/api/v1/note/{noteId}/script/{scriptId}")
+    fun updateScript(
+        @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
+        @PathVariable("noteId") noteId: Long,
+        @PathVariable("scriptId") scriptId: Long,
+        @RequestBody
+        @Valid
+        updateScriptRequest: UpdateScriptRequest
+    ): BaseResponse<ScriptResponse> {
+        val updateScriptCommand = UpdateScriptCommand(decodeJwt(encodedJwt).sub, noteId, scriptId, updateScriptRequest)
+        val scriptResponse = ScriptResponse(noteFacade.updateScript(updateScriptCommand))
+        return BaseResponse(data = scriptResponse)
+    }
+
+    @PatchMapping("/api/v1/note/{noteId}/memo/{memoId}")
+    fun updateMemo(
+        @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
+        @PathVariable("noteId") noteId: Long,
+        @PathVariable("memoId") memoId: Long,
+        @RequestBody
+        @Valid
+        updateMemoRequest: UpdateMemoRequest
+    ): BaseResponse<MemoResponse> {
+        val updateMemoCommand = UpdateMemoCommand(decodeJwt(encodedJwt).sub, noteId, memoId, updateMemoRequest)
+        val memoResponse = MemoResponse(noteFacade.updateMemo(updateMemoCommand))
+        return BaseResponse(data = memoResponse)
     }
 }

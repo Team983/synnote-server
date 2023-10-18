@@ -259,3 +259,21 @@ data class UpdateTitleRequest(
     val title: String
         get() = _title!!
 }
+
+data class UpdateScriptRequest(
+    @field:NotBlank
+    @JsonProperty("text")
+    private val _text: String?
+) {
+    val text: String
+        get() = _text!!
+}
+
+data class UpdateMemoRequest(
+    @field:NotBlank
+    @JsonProperty("text")
+    private val _text: String?
+) {
+    val text: String
+        get() = _text!!
+}
