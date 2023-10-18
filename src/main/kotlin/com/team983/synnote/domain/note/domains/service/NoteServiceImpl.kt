@@ -11,12 +11,16 @@ import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
 import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCriterion
 import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCriterion
 import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo
+import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo.ScriptInfo
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewListInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
+import com.team983.synnote.domain.note.domains.dto.UpdateMemoCommand
+import com.team983.synnote.domain.note.domains.dto.UpdateScriptCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
+import com.team983.synnote.domain.note.domains.entity.Note
 import com.team983.synnote.domain.note.domains.entity.Recording
 import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.enums.Status
@@ -116,5 +120,28 @@ class NoteServiceImpl(
         }
         val noteOverviewInfos = notesSlice.content.map { NoteOverviewInfo(it) }
         return NoteOverviewListInfo(noteOverviewInfos, notesSlice.hasNext())
+    }
+
+    override fun updateScript(updateScriptCommand: UpdateScriptCommand): ScriptInfo {
+        val note = noteReader.getNoteById(updateScriptCommand.noteId)
+            ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
+        if (!note.isOwnedBy(updateScriptCommand.userId)) {
+            throw AccessDeniedException(NOTE_NOT_ACCESSED)
+        }
+        val script =
+            noteReader.getScriptById(updateScriptCommand.scriptId) ?: throw EntityNotFoundException(SCRIPT_NOTE_FOUND)
+        script.updateText(updateScriptCommand.text)
+        return ScriptInfo(script)
+    }
+
+    override fun updateMemo(updateMemoCommand: UpdateMemoCommand): NoteDetailInfo.MemoInfo {
+        val note = noteReader.getNoteById(updateMemoCommand.noteId)
+            ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
+        if (!note.isOwnedBy(updateMemoCommand.userId)) {
+            throw AccessDeniedException(NOTE_NOT_ACCESSED)
+        }
+        val memo = noteReader.getMemoById(updateMemoCommand.memoId) ?: throw EntityNotFoundException(MEMO_NOTE_FOUND)
+        memo.updateText(updateMemoCommand.text)
+        return NoteDetailInfo.MemoInfo(memo)
     }
 }

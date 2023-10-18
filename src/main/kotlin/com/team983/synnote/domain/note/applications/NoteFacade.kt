@@ -10,13 +10,15 @@ import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
 import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCriterion
 import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCriterion
 import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo
+import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo.*
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewListInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
+import com.team983.synnote.domain.note.domains.dto.UpdateMemoCommand
+import com.team983.synnote.domain.note.domains.dto.UpdateScriptCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
 import com.team983.synnote.domain.note.domains.enums.DomainType
-import com.team983.synnote.domain.note.domains.enums.Status
 import com.team983.synnote.domain.note.domains.service.NoteService
 import com.team983.synnote.domain.note.interfaces.dto.AsrRequestResponse
 import com.team983.synnote.domain.user.domains.service.UserService
@@ -77,4 +79,9 @@ class NoteFacade(
     }
 
     fun updateTitle(updateTitleCommand: UpdateTitleCommand): NoteInfo = noteService.updateTitle(updateTitleCommand)
+
+    fun updateScript(updateScriptCommand: UpdateScriptCommand): ScriptInfo =
+        noteService.updateScript(updateScriptCommand)
+
+    fun updateMemo(updateMemoCommand: UpdateMemoCommand): MemoInfo = noteService.updateMemo(updateMemoCommand)
 }

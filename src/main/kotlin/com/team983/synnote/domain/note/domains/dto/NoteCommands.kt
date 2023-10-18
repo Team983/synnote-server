@@ -13,6 +13,8 @@ import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest.MemoRequest
 import com.team983.synnote.domain.note.interfaces.dto.Segment
+import com.team983.synnote.domain.note.interfaces.dto.UpdateMemoRequest
+import com.team983.synnote.domain.note.interfaces.dto.UpdateScriptRequest
 import com.team983.synnote.domain.note.interfaces.dto.UpdateTitleRequest
 import com.team983.synnote.domain.note.interfaces.dto.WhisperxAsrResultResponse
 
@@ -136,5 +138,43 @@ data class UpdateErrorStatusCommand(
     constructor(asrErrorResponse: AsrErrorResponse) : this(
         noteId = asrErrorResponse.noteId,
         status = asrErrorResponse.status
+    )
+}
+
+data class UpdateScriptCommand(
+    val userId: String,
+    val noteId: Long,
+    val scriptId: Long,
+    val text: String
+) {
+    constructor(
+        userId: String,
+        noteId: Long,
+        scriptId: Long,
+        updateScriptRequest: UpdateScriptRequest
+    ) : this(
+        userId = userId,
+        noteId = noteId,
+        scriptId = scriptId,
+        text = updateScriptRequest.text
+    )
+}
+
+data class UpdateMemoCommand(
+    val userId: String,
+    val noteId: Long,
+    val memoId: Long,
+    val text: String
+) {
+    constructor(
+        userId: String,
+        noteId: Long,
+        memoId: Long,
+        updateMemoRequest: UpdateMemoRequest
+    ) : this(
+        userId = userId,
+        noteId = noteId,
+        memoId = memoId,
+        text = updateMemoRequest.text
     )
 }
