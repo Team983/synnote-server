@@ -52,7 +52,7 @@ class RestTemplateRequester {
         headers.set("Content-Type", "application/json")
         val body = AsrRequest(filename, domainType)
 
-        log.info("전사 요청 => $filename")
+        log.info("전사 요청 => $noteId, $filename")
 
         val uri: URI = UriComponentsBuilder.fromHttpUrl(url)
             .build()
