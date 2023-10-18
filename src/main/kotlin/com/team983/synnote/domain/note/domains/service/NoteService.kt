@@ -20,7 +20,7 @@ interface NoteService {
 
     fun deleteNote(deleteNoteCommand: DeleteNoteCommand): NoteInfo
 
-    fun attachRecording(
+    fun attachRecordingAndMemo(
         asrRequestResponse: AsrRequestResponse,
         endRecordingCommand: EndRecordingCommand
     ): NoteRecordingInfo

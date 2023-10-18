@@ -16,6 +16,7 @@ import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
 import com.team983.synnote.domain.note.domains.enums.DomainType
+import com.team983.synnote.domain.note.domains.enums.Status
 import com.team983.synnote.domain.note.domains.service.NoteService
 import com.team983.synnote.domain.note.interfaces.dto.AsrRequestResponse
 import com.team983.synnote.domain.user.domains.service.UserService
@@ -39,7 +40,7 @@ class NoteFacade(
         noteService.hasNoteNoRecording(endRecordingCommand)
         val domainType = noteService.getDomainType(endRecordingCommand.noteId)
         val asrRequestResponse = sendRequestAsrService(endRecordingCommand, domainType)
-        return noteService.attachRecording(asrRequestResponse, endRecordingCommand)
+        return noteService.attachRecordingAndMemo(asrRequestResponse, endRecordingCommand)
     }
 
     private fun sendRequestAsrService(
