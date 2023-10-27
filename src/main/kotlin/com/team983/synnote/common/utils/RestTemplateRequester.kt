@@ -1,5 +1,6 @@
 package com.team983.synnote.common.utils
 
+import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo.ScriptInfo
 import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -75,9 +76,47 @@ class RestTemplateRequester {
             throw RuntimeException("전사 실패 => $noteId, $filename")
         }
     }
+
+    fun sendNoteDetail(
+        noteId: Long,
+        userId: String,
+        scripts: List<ScriptInfo>
+    ) {
+        val restTemplate = RestTemplate()
+
+        val url = ""
+        val headers = HttpHeaders()
+        headers.set("Content-Type", "application/json")
+        val body = NoteDetailRequest(noteId, userId, scripts)
+
+        val uri: URI = UriComponentsBuilder.fromHttpUrl(url)
+            .build()
+            .toUri()
+
+        val requestEntity: RequestEntity<Any> = RequestEntity<Any>(
+            body,
+            HttpMethod.POST,
+            uri
+        )
+
+        try {
+            val responseEntity: ResponseEntity<Void> = restTemplate.exchange(requestEntity, Void::class.java)
+            if (!responseEntity.statusCode.is2xxSuccessful) {
+                throw RuntimeException()
+            }
+        } catch (ex: Exception) {
+            throw RuntimeException()
+        }
+    }
 }
 
 data class AsrRequest(
     val filename: String,
     val category: String
+)
+
+data class NoteDetailRequest(
+    val noteId: Long,
+    val userId: String,
+    val scripts: List<ScriptInfo>
 )

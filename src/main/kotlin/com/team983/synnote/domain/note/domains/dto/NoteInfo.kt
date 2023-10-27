@@ -68,6 +68,7 @@ data class RecordingInfo(
 
 data class NoteDetailInfo(
     val id: Long,
+    val userId: String,
     val title: String,
     val domainType: DomainType,
     val status: Status,
@@ -81,6 +82,7 @@ data class NoteDetailInfo(
 ) {
     constructor(note: Note) : this(
         id = note.id!!,
+        userId = note.userId,
         title = note.title,
         domainType = note.domainType,
         status = note.status,

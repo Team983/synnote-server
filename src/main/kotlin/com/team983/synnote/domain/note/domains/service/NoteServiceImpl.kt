@@ -94,10 +94,11 @@ class NoteServiceImpl(
         return NoteRecordingInfo(note)
     }
 
-    override fun saveScript(saveScriptCommand: BaseSaveScriptCommand) {
+    override fun saveScript(saveScriptCommand: BaseSaveScriptCommand): NoteDetailInfo {
         val note = noteReader.getNoteById(saveScriptCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
         saveScriptCommand.toScripts().forEach(note::attachScript)
         note.updateAsrCompleted(Status.COMPLETED, saveScriptCommand.language)
+        return NoteDetailInfo(note)
     }
 
     @Transactional(readOnly = true)

@@ -63,7 +63,12 @@ class NoteFacade(
     }
 
     fun saveScript(saveScriptCommand: BaseSaveScriptCommand) {
-        noteService.saveScript(saveScriptCommand)
+        val noteDetailInfo = noteService.saveScript(saveScriptCommand)
+        sendNoteDetail(noteDetailInfo)
+    }
+
+    private fun sendNoteDetail(noteDetailInfo: NoteDetailInfo) {
+        restTemplateRequester.sendNoteDetail(noteDetailInfo.id, noteDetailInfo.userId, noteDetailInfo.scripts)
     }
 
     fun getNoteDetail(getNoteDetailCriterion: GetNoteDetailCriterion): NoteDetailInfo {

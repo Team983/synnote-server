@@ -29,7 +29,7 @@ interface NoteService {
         endRecordingCommand: EndRecordingCommand
     ): NoteRecordingInfo
 
-    fun saveScript(saveScriptCommand: BaseSaveScriptCommand)
+    fun saveScript(saveScriptCommand: BaseSaveScriptCommand): NoteDetailInfo
 
     fun getNoteDetail(getNoteDetailCriterion: GetNoteDetailCriterion): NoteDetailInfo
 
