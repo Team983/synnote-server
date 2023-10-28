@@ -64,10 +64,10 @@ class NoteFacade(
 
     fun saveScript(saveScriptCommand: BaseSaveScriptCommand) {
         val noteDetailInfo = noteService.saveScript(saveScriptCommand)
-        sendNoteDetail(noteDetailInfo)
+        //sendNoteDetailToLlama(noteDetailInfo)
     }
 
-    private fun sendNoteDetail(noteDetailInfo: NoteDetailInfo) {
+    private fun sendNoteDetailToLlama(noteDetailInfo: NoteDetailInfo) {
         restTemplateRequester.sendNoteDetail(noteDetailInfo.id, noteDetailInfo.userId, noteDetailInfo.scripts)
     }
 
