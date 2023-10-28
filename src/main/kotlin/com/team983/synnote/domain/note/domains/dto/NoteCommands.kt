@@ -12,11 +12,11 @@ import com.team983.synnote.domain.note.interfaces.dto.AsrResultResponse
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest.MemoRequest
-import com.team983.synnote.domain.note.interfaces.dto.Segment
 import com.team983.synnote.domain.note.interfaces.dto.UpdateMemoRequest
 import com.team983.synnote.domain.note.interfaces.dto.UpdateScriptRequest
 import com.team983.synnote.domain.note.interfaces.dto.UpdateTitleRequest
 import com.team983.synnote.domain.note.interfaces.dto.WhisperxAsrResultResponse
+import com.team983.synnote.domain.note.interfaces.dto.WhisperxAsrResultResponse.Segment
 
 data class CreateNoteCommand(
     val userId: String,
