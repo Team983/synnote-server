@@ -55,11 +55,6 @@ class NoteFacade(
             domainType.name,
             AsrRequestResponse::class.java
         )
-//        return restTemplateRequester.sendRequestToWhisper(
-//            "http://172.20.245.195:8081/asr" +
-//                "/${endRecordingCommand.noteId}?filename=${endRecordingCommand.encodedFileName}",
-//            AsrRequestResponse::class.java
-//        )
     }
 
     fun saveScript(saveScriptCommand: BaseSaveScriptCommand) {
