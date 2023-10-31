@@ -147,7 +147,7 @@ class NoteController(
     @PostMapping("/api/v1/note/{noteId}/summary")
     fun createSummary(
         @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
-        @PathVariable("noteId") noteId: Long,
+        @PathVariable("noteId") noteId: Long
     ) {
         noteFacade.createSummary(CreateSummaryCommand(decodeJwt(encodedJwt).sub, noteId))
     }

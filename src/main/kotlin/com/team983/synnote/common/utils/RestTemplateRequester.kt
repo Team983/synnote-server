@@ -154,5 +154,5 @@ data class NoteDetailRequest(
 
 data class SummaryRequest(
     val noteId: Long,
-    val userId: String,
+    val userId: String
 )
