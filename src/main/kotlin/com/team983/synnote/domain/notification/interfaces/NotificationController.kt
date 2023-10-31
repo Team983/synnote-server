@@ -28,6 +28,4 @@ class NotificationController(
     fun subscribe(@PathVariable userId: String): SseEmitter? {
         return notificationService.subscribe(userId)
     }
-
-
 }
