@@ -15,6 +15,10 @@ spring:
       maximum-pool-size: 20
   flyway:
     enabled: false
+  data:
+    redis:
+      host: redis-service # redis-service
+      port: 6379
 cloud:
   aws:
     s3:
