@@ -3,6 +3,7 @@ package com.team983.synnote.domain.note.domains.dto
 import com.team983.synnote.domain.note.domains.entity.Memo
 import com.team983.synnote.domain.note.domains.entity.Note
 import com.team983.synnote.domain.note.domains.entity.Script
+import com.team983.synnote.domain.note.domains.entity.Summary
 import com.team983.synnote.domain.note.domains.enums.AsrType
 import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.enums.Status
@@ -12,6 +13,7 @@ import com.team983.synnote.domain.note.interfaces.dto.AsrResultResponse
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest.MemoRequest
+import com.team983.synnote.domain.note.interfaces.dto.SummaryResultResponse
 import com.team983.synnote.domain.note.interfaces.dto.UpdateMemoRequest
 import com.team983.synnote.domain.note.interfaces.dto.UpdateScriptRequest
 import com.team983.synnote.domain.note.interfaces.dto.UpdateTitleRequest
@@ -178,3 +180,24 @@ data class UpdateMemoCommand(
         text = updateMemoRequest.text
     )
 }
+
+data class SaveSummaryCommand(
+    val userId: String,
+    val noteId: Long,
+    val text: String
+) {
+    constructor(summaryResultResponse: SummaryResultResponse) : this(
+        userId = summaryResultResponse.userId,
+        noteId = summaryResultResponse.noteId,
+        text = summaryResultResponse.text
+    )
+
+    fun toSummary(): Summary {
+        return Summary(text = text)
+    }
+}
+
+data class CreateSummaryCommand(
+    val userId: String,
+    val noteId: Long
+)

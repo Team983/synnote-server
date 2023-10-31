@@ -12,6 +12,7 @@ import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo.ScriptInfo
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewListInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
+import com.team983.synnote.domain.note.domains.dto.SaveSummaryCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateMemoCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateScriptCommand
@@ -46,4 +47,6 @@ interface NoteService {
     fun updateScript(updateScriptCommand: UpdateScriptCommand): ScriptInfo
 
     fun updateMemo(updateMemoCommand: UpdateMemoCommand): MemoInfo
+
+    fun saveSummary(saveSummaryCommand: SaveSummaryCommand)
 }

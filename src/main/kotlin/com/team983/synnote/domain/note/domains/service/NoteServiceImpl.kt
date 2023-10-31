@@ -16,6 +16,7 @@ import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewListInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
+import com.team983.synnote.domain.note.domains.dto.SaveSummaryCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateMemoCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateScriptCommand
@@ -24,6 +25,8 @@ import com.team983.synnote.domain.note.domains.entity.Recording
 import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.enums.Status
 import com.team983.synnote.domain.note.interfaces.dto.AsrRequestResponse
+import jakarta.persistence.EntityManager
+import jakarta.persistence.PersistenceContext
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -31,7 +34,9 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class NoteServiceImpl(
     private val noteStore: NoteStore,
-    private val noteReader: NoteReader
+    private val noteReader: NoteReader,
+    @PersistenceContext
+    private val em: EntityManager
 ) : NoteService {
 
     override fun createNote(createNoteCommand: CreateNoteCommand): NoteInfo {
@@ -98,6 +103,7 @@ class NoteServiceImpl(
         val note = noteReader.getNoteById(saveScriptCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
         saveScriptCommand.toScripts().forEach(note::attachScript)
         note.updateAsrCompleted(Status.COMPLETED, saveScriptCommand.language)
+        em.flush()
         return NoteDetailInfo(note)
     }
 
@@ -143,5 +149,13 @@ class NoteServiceImpl(
         val memo = noteReader.getMemoById(updateMemoCommand.memoId) ?: throw EntityNotFoundException(MEMO_NOTE_FOUND)
         memo.updateText(updateMemoCommand.text)
         return NoteDetailInfo.MemoInfo(memo)
+    }
+
+    override fun saveSummary(saveSummaryCommand: SaveSummaryCommand) {
+        val note = noteReader.getNoteById(saveSummaryCommand.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
+        if (!note.isOwnedBy(saveSummaryCommand.userId)) {
+            throw AccessDeniedException(NOTE_NOT_ACCESSED)
+        }
+        note.attachSummary(saveSummaryCommand.toSummary())
     }
 }

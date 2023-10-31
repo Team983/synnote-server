@@ -4,6 +4,7 @@ import com.team983.synnote.common.authority.decodeJwt
 import com.team983.synnote.common.dto.BaseResponse
 import com.team983.synnote.domain.note.applications.NoteFacade
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
+import com.team983.synnote.domain.note.domains.dto.CreateSummaryCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
 import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCriterion
@@ -141,5 +142,13 @@ class NoteController(
         val updateMemoCommand = UpdateMemoCommand(decodeJwt(encodedJwt).sub, noteId, memoId, updateMemoRequest)
         val memoResponse = MemoResponse(noteFacade.updateMemo(updateMemoCommand))
         return BaseResponse(data = memoResponse)
+    }
+
+    @PostMapping("/api/v1/note/{noteId}/summary")
+    fun createSummary(
+        @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
+        @PathVariable("noteId") noteId: Long,
+    ) {
+        noteFacade.createSummary(CreateSummaryCommand(decodeJwt(encodedJwt).sub, noteId))
     }
 }

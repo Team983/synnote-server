@@ -86,6 +86,10 @@ class Note(
     protected var mutableMemos: MutableList<Memo> = mutableListOf()
     val memos: List<Memo> get() = mutableMemos.toList()
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "note", cascade = [CascadeType.ALL], orphanRemoval = true)
+    protected var mutableSummaries: MutableList<Summary> = mutableListOf()
+    val summaries: List<Summary> get() = mutableSummaries.toList()
+
     @Column(name = "language", nullable = true)
     var language: String? = null
 
@@ -120,6 +124,11 @@ class Note(
     fun attachMemo(memo: Memo) {
         mutableMemos.add(memo)
         memo.linkToNote(this)
+    }
+
+    fun attachSummary(summary: Summary) {
+        mutableSummaries.add(summary)
+        summary.linkToNote(this)
     }
 
     fun hasRecording(): Boolean = recording != null
