@@ -52,6 +52,9 @@ dependencies {
     // gson
     implementation("com.google.code.gson:gson:2.10.1")
 
+    //jackson-module-kotlin
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
     // jwt
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
@@ -73,6 +76,9 @@ dependencies {
 
     // Amazon S3
     implementation("io.awspring.cloud:spring-cloud-starter-aws:2.4.4")
+
+    // redis
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
     // test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
