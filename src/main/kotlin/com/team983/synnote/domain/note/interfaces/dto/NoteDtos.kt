@@ -10,6 +10,8 @@ import com.team983.synnote.domain.note.domains.dto.NoteOverviewInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewListInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.RecordingInfo
+import com.team983.synnote.domain.note.domains.dto.SummaryInfo
+import com.team983.synnote.domain.note.domains.dto.SummaryListInfo
 import com.team983.synnote.domain.note.domains.enums.AsrType
 import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.enums.Status
@@ -276,4 +278,32 @@ data class UpdateMemoRequest(
 ) {
     val text: String
         get() = _text!!
+}
+
+data class SummaryListResponse(
+    val noteId: Long,
+    val summaryList: List<SummaryResponse>
+) {
+    companion object {
+        fun fromSummaryListInfo(summaryListInfo: SummaryListInfo): SummaryListResponse {
+            val map = summaryListInfo.summaryInfos.map { SummaryResponse(it) }
+            return SummaryListResponse(summaryListInfo.noteId, map)
+        }
+    }
+
+    data class SummaryResponse(
+        val summaryId: Long,
+        val text: String,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val createdDate: LocalDateTime,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val updatedDate: LocalDateTime
+    ) {
+        constructor(summaryInfo: SummaryInfo) : this(
+            summaryId = summaryInfo.id,
+            text = summaryInfo.text,
+            createdDate = summaryInfo.createdDate,
+            updatedDate = summaryInfo.updatedDate
+        )
+    }
 }

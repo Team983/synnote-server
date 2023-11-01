@@ -9,6 +9,7 @@ import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
 import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCriterion
 import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCriterion
+import com.team983.synnote.domain.note.domains.dto.GetSummaryCriterion
 import com.team983.synnote.domain.note.domains.dto.UpdateMemoCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateScriptCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
@@ -20,6 +21,7 @@ import com.team983.synnote.domain.note.interfaces.dto.NoteDetailResponse.MemoRes
 import com.team983.synnote.domain.note.interfaces.dto.NoteDetailResponse.ScriptResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteOverviewListResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteRecordingResponse
+import com.team983.synnote.domain.note.interfaces.dto.SummaryListResponse
 import com.team983.synnote.domain.note.interfaces.dto.UpdateMemoRequest
 import com.team983.synnote.domain.note.interfaces.dto.UpdateScriptRequest
 import com.team983.synnote.domain.note.interfaces.dto.UpdateTitleRequest
@@ -150,5 +152,15 @@ class NoteController(
         @PathVariable("noteId") noteId: Long
     ) {
         noteFacade.createSummary(CreateSummaryCommand(decodeJwt(encodedJwt).sub, noteId))
+    }
+
+    @GetMapping("/api/v1/note/{noteId}/summary")
+    fun getSummary(
+        @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
+        @PathVariable("noteId") noteId: Long
+    ): BaseResponse<SummaryListResponse> {
+        val getSummaryCriterion = GetSummaryCriterion(decodeJwt(encodedJwt).sub, noteId)
+        val noteSummaryResponse = SummaryListResponse.fromSummaryListInfo(noteFacade.getSummary(getSummaryCriterion))
+        return BaseResponse(data = noteSummaryResponse)
     }
 }

@@ -11,3 +11,8 @@ data class GetNoteOverviewListCriterion(
     val userId: String,
     val pageable: PageRequest
 )
+
+data class GetSummaryCriterion(
+    val userId: String,
+    val noteId: Long
+)

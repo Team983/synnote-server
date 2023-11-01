@@ -6,6 +6,7 @@ import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
 import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCriterion
 import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCriterion
+import com.team983.synnote.domain.note.domains.dto.GetSummaryCriterion
 import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo
 import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo.MemoInfo
 import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo.ScriptInfo
@@ -13,6 +14,7 @@ import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewListInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.SaveSummaryCommand
+import com.team983.synnote.domain.note.domains.dto.SummaryListInfo
 import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateMemoCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateScriptCommand
@@ -49,4 +51,6 @@ interface NoteService {
     fun updateMemo(updateMemoCommand: UpdateMemoCommand): MemoInfo
 
     fun saveSummary(saveSummaryCommand: SaveSummaryCommand)
+
+    fun getSummary(getSummaryCriterion: GetSummaryCriterion): SummaryListInfo
 }

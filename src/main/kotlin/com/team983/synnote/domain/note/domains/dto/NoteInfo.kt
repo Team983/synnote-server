@@ -4,6 +4,7 @@ import com.team983.synnote.domain.note.domains.entity.Memo
 import com.team983.synnote.domain.note.domains.entity.Note
 import com.team983.synnote.domain.note.domains.entity.Recording
 import com.team983.synnote.domain.note.domains.entity.Script
+import com.team983.synnote.domain.note.domains.entity.Summary
 import com.team983.synnote.domain.note.domains.enums.AsrType
 import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.enums.Status
@@ -153,3 +154,19 @@ data class NoteOverviewInfo(
 }
 
 data class NoteOverviewListInfo(val noteOverviewInfos: List<NoteOverviewInfo>, val hasNext: Boolean)
+
+data class SummaryInfo(
+    val id: Long,
+    val text: String,
+    val createdDate: LocalDateTime,
+    val updatedDate: LocalDateTime
+) {
+    constructor(summary: Summary) : this(
+        id = summary.id!!,
+        text = summary.text,
+        createdDate = summary.createdDate!!,
+        updatedDate = summary.updatedDate!!
+    )
+}
+
+data class SummaryListInfo(val noteId: Long, val summaryInfos: List<SummaryInfo>)

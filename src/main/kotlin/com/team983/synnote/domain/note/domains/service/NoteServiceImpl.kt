@@ -10,6 +10,7 @@ import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
 import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCriterion
 import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCriterion
+import com.team983.synnote.domain.note.domains.dto.GetSummaryCriterion
 import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo
 import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo.ScriptInfo
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
@@ -17,6 +18,8 @@ import com.team983.synnote.domain.note.domains.dto.NoteOverviewInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewListInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
 import com.team983.synnote.domain.note.domains.dto.SaveSummaryCommand
+import com.team983.synnote.domain.note.domains.dto.SummaryInfo
+import com.team983.synnote.domain.note.domains.dto.SummaryListInfo
 import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateMemoCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateScriptCommand
@@ -157,5 +160,11 @@ class NoteServiceImpl(
             throw AccessDeniedException(NOTE_NOT_ACCESSED)
         }
         note.attachSummary(saveSummaryCommand.toSummary())
+    }
+
+    @Transactional(readOnly = true)
+    override fun getSummary(getSummaryCriterion: GetSummaryCriterion): SummaryListInfo {
+        val summaryInfos = noteReader.getSummaryByNoteId(getSummaryCriterion.noteId).map { SummaryInfo(it) }
+        return SummaryListInfo(getSummaryCriterion.noteId, summaryInfos)
     }
 }
