@@ -84,7 +84,7 @@ class RestTemplateRequester {
     ) {
         val restTemplate = RestTemplate()
 
-        val url = ""
+        val url = "http://llama-service.default.svc.cluster.local:8000/embed-text"
         val headers = HttpHeaders()
         headers.set("Content-Type", "application/json")
         val body = NoteDetailRequest(noteId, userId, scripts)
@@ -115,7 +115,7 @@ class RestTemplateRequester {
     ) {
         val restTemplate = RestTemplate()
 
-        val url = ""
+        val url = "http://llama-service.default.svc.cluster.local:8000/summary"
         val headers = HttpHeaders()
         headers.set("Content-Type", "application/json")
         val body = SummaryRequest(noteId, userId)

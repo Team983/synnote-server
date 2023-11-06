@@ -65,7 +65,7 @@ class NoteFacade(
 
     fun saveScript(saveScriptCommand: BaseSaveScriptCommand) {
         val noteDetailInfo = noteService.saveScript(saveScriptCommand)
-        //sendNoteDetailToLlama(noteDetailInfo)
+        sendNoteDetailToLlama(noteDetailInfo)
     }
 
     private fun sendNoteDetailToLlama(noteDetailInfo: NoteDetailInfo) {
