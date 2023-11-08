@@ -139,6 +139,38 @@ class RestTemplateRequester {
             throw RuntimeException()
         }
     }
+
+    fun sendQueryRequest(
+        noteId: Long,
+        userId: String,
+        query: String
+    ) {
+        val restTemplate = RestTemplate()
+
+        val url = "http://llama-service.default.svc.cluster.local:8000/query"
+        val headers = HttpHeaders()
+        headers.set("Content-Type", "application/json")
+        val body = QueryRequest(noteId, userId, query)
+
+        val uri: URI = UriComponentsBuilder.fromHttpUrl(url)
+            .build()
+            .toUri()
+
+        val requestEntity: RequestEntity<Any> = RequestEntity<Any>(
+            body,
+            HttpMethod.POST,
+            uri
+        )
+
+        try {
+            val responseEntity: ResponseEntity<Void> = restTemplate.exchange(requestEntity, Void::class.java)
+            if (!responseEntity.statusCode.is2xxSuccessful) {
+                throw RuntimeException()
+            }
+        } catch (ex: Exception) {
+            throw RuntimeException()
+        }
+    }
 }
 
 data class AsrRequest(
@@ -155,4 +187,10 @@ data class NoteDetailRequest(
 data class SummaryRequest(
     val noteId: Long,
     val userId: String
+)
+
+data class QueryRequest(
+    val noteId: Long,
+    val userId: String,
+    val query: String
 )

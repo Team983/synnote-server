@@ -5,6 +5,7 @@ import com.team983.synnote.common.status.ResultCode.*
 import com.team983.synnote.common.utils.RestTemplateRequester
 import com.team983.synnote.domain.note.domains.dto.BaseSaveScriptCommand
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
+import com.team983.synnote.domain.note.domains.dto.CreateQueryCommand
 import com.team983.synnote.domain.note.domains.dto.CreateSummaryCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
@@ -105,5 +106,13 @@ class NoteFacade(
 
     fun getSummary(getSummaryCriterion: GetSummaryCriterion): SummaryListInfo {
         return noteService.getSummary(getSummaryCriterion)
+    }
+
+    fun createQuery(createQueryCommand: CreateQueryCommand) {
+        restTemplateRequester.sendQueryRequest(
+            createQueryCommand.noteId,
+            createQueryCommand.userId,
+            createQueryCommand.query
+        )
     }
 }

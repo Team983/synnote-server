@@ -4,6 +4,7 @@ import com.team983.synnote.common.authority.decodeJwt
 import com.team983.synnote.common.dto.BaseResponse
 import com.team983.synnote.domain.note.applications.NoteFacade
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
+import com.team983.synnote.domain.note.domains.dto.CreateQueryCommand
 import com.team983.synnote.domain.note.domains.dto.CreateSummaryCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
@@ -14,6 +15,7 @@ import com.team983.synnote.domain.note.domains.dto.UpdateMemoCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateScriptCommand
 import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
+import com.team983.synnote.domain.note.interfaces.dto.CreateQueryRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
 import com.team983.synnote.domain.note.interfaces.dto.NoteResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteDetailResponse
@@ -162,5 +164,16 @@ class NoteController(
         val getSummaryCriterion = GetSummaryCriterion(decodeJwt(encodedJwt).sub, noteId)
         val noteSummaryResponse = SummaryListResponse.fromSummaryListInfo(noteFacade.getSummary(getSummaryCriterion))
         return BaseResponse(data = noteSummaryResponse)
+    }
+
+    @PostMapping("/api/v1/note/{noteId}/query")
+    fun createQuery(
+        @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
+        @PathVariable("noteId") noteId: Long,
+        @RequestBody
+        @Valid
+        createQueryRequest: CreateQueryRequest
+    ) {
+        noteFacade.createQuery(CreateQueryCommand(decodeJwt(encodedJwt).sub, noteId, createQueryRequest))
     }
 }

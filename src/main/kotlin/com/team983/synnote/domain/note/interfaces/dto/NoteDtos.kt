@@ -307,3 +307,12 @@ data class SummaryListResponse(
         )
     }
 }
+
+data class CreateQueryRequest(
+    @field:NotBlank
+    @JsonProperty("query")
+    private val _query: String?
+) {
+    val query: String
+        get() = _query!!
+}

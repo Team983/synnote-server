@@ -11,6 +11,7 @@ import com.team983.synnote.domain.note.domains.enums.UploadType
 import com.team983.synnote.domain.note.interfaces.dto.AsrErrorResponse
 import com.team983.synnote.domain.note.interfaces.dto.AsrResultResponse
 import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
+import com.team983.synnote.domain.note.interfaces.dto.CreateQueryRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest.MemoRequest
 import com.team983.synnote.domain.note.interfaces.dto.SummaryResultResponse
@@ -201,3 +202,15 @@ data class CreateSummaryCommand(
     val userId: String,
     val noteId: Long
 )
+
+data class CreateQueryCommand(
+    val userId: String,
+    val noteId: Long,
+    val query: String
+) {
+    constructor(userId: String, noteId: Long, createQueryRequest: CreateQueryRequest) : this(
+        userId = userId,
+        noteId = noteId,
+        query = createQueryRequest.query
+    )
+}
