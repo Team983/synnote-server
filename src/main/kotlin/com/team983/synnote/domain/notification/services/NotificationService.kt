@@ -1,7 +1,7 @@
 package com.team983.synnote.domain.notification.services
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.team983.synnote.domain.notification.dtos.SummaryCompletedDto
+import com.team983.synnote.domain.notification.dtos.CompletedDto
 import org.springframework.data.redis.connection.Message
 import org.springframework.data.redis.connection.MessageListener
 import org.springframework.data.redis.core.RedisOperations
@@ -14,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 
 @Service
 class NotificationService(
-    private val eventRedisOperations: RedisOperations<String, SummaryCompletedDto>,
+    private val eventRedisOperations: RedisOperations<String, CompletedDto>,
     private val redisMessageListenerContainer: RedisMessageListenerContainer,
     private val objectMapper: ObjectMapper
 ) {
@@ -24,7 +24,16 @@ class NotificationService(
     }
 
     fun sendSummaryCompleted(userId: String, noteId: Long) {
-        this.eventRedisOperations.convertAndSend(getChannelName(userId), SummaryCompletedDto(userId, noteId))
+        this.eventRedisOperations.convertAndSend(
+            getChannelName(userId), CompletedDto("Summmary", userId, noteId, "")
+        )
+    }
+
+    fun sendQueryCompleted(userId: String, noteId: Long, text: String) {
+        this.eventRedisOperations.convertAndSend(
+            getChannelName(userId),
+            CompletedDto("Query", userId, noteId, text)
+        )
     }
 
     fun subscribe(userId: String): SseEmitter? {
@@ -40,8 +49,9 @@ class NotificationService(
         emitters.add(emitter)
 
         val messageListener = MessageListener { message, pattern ->
-            val serialize: Any = serialize(message)
-            sendToClient(emitter, userId, serialize)
+            val serialize: CompletedDto = serialize(message)
+            val type = serialize.type
+            sendToClient(emitter, userId, serialize, type)
         }
 
         redisMessageListenerContainer.addMessageListener(messageListener, ChannelTopic.of(getChannelName(userId)))
@@ -49,12 +59,12 @@ class NotificationService(
         return emitter
     }
 
-    private fun sendToClient(emitter: SseEmitter, id: String, data: Any) {
+    private fun sendToClient(emitter: SseEmitter, id: String, data: Any, type: String) {
         try {
             emitter.send(
                 SseEmitter.event()
                     .id(id)
-                    .name("sse")
+                    .name(type)
                     .data(data)
             )
         } catch (e: IOException) {
@@ -66,8 +76,8 @@ class NotificationService(
         return "sample:topics:$userId"
     }
 
-    private fun serialize(message: Message): Any {
-        return objectMapper.readValue(message.getBody(), SummaryCompletedDto::class.java)
+    private fun serialize(message: Message): CompletedDto {
+        return objectMapper.readValue(message.getBody(), CompletedDto::class.java)
     }
 
     private fun checkEmitterStatus(emitter: SseEmitter, messageListener: MessageListener) {

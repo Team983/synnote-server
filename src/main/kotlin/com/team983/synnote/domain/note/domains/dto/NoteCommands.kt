@@ -14,6 +14,7 @@ import com.team983.synnote.domain.note.interfaces.dto.CreateNoteRequest
 import com.team983.synnote.domain.note.interfaces.dto.CreateQueryRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest.MemoRequest
+import com.team983.synnote.domain.note.interfaces.dto.QueryResultResponse
 import com.team983.synnote.domain.note.interfaces.dto.SummaryResultResponse
 import com.team983.synnote.domain.note.interfaces.dto.UpdateMemoRequest
 import com.team983.synnote.domain.note.interfaces.dto.UpdateScriptRequest
@@ -212,5 +213,17 @@ data class CreateQueryCommand(
         userId = userId,
         noteId = noteId,
         query = createQueryRequest.query
+    )
+}
+
+data class SaveQueryCommand(
+    val userId: String,
+    val noteId: Long,
+    val text: String
+) {
+    constructor(queryResultResponse: QueryResultResponse) : this(
+        userId = queryResultResponse.userId,
+        noteId = queryResultResponse.noteId,
+        text = queryResultResponse.text
     )
 }

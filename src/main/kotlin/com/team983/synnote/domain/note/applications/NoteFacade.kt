@@ -17,6 +17,7 @@ import com.team983.synnote.domain.note.domains.dto.NoteDetailInfo.*
 import com.team983.synnote.domain.note.domains.dto.NoteInfo
 import com.team983.synnote.domain.note.domains.dto.NoteOverviewListInfo
 import com.team983.synnote.domain.note.domains.dto.NoteRecordingInfo
+import com.team983.synnote.domain.note.domains.dto.SaveQueryCommand
 import com.team983.synnote.domain.note.domains.dto.SaveSummaryCommand
 import com.team983.synnote.domain.note.domains.dto.SummaryListInfo
 import com.team983.synnote.domain.note.domains.dto.UpdateErrorStatusCommand
@@ -113,6 +114,15 @@ class NoteFacade(
             createQueryCommand.noteId,
             createQueryCommand.userId,
             createQueryCommand.query
+        )
+    }
+
+    fun saveQuery(saveQueryCommand: SaveQueryCommand) {
+        // 사용자 Query 생성 완료 SSE
+        notificationService.sendQueryCompleted(
+            saveQueryCommand.userId,
+            saveQueryCommand.noteId,
+            saveQueryCommand.text
         )
     }
 }

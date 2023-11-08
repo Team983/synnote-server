@@ -3,7 +3,7 @@ package com.team983.synnote.common.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.team983.synnote.domain.notification.dtos.SummaryCompletedDto
+import com.team983.synnote.domain.notification.dtos.CompletedDto
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -46,9 +46,9 @@ class RedisConfig {
     fun eventRedisOperations(
         redisConnectionFactory: RedisConnectionFactory,
         objectMapper: ObjectMapper
-    ): RedisOperations<String, SummaryCompletedDto> {
-        val jsonRedisSerializer = Jackson2JsonRedisSerializer(objectMapper, SummaryCompletedDto::class.java)
-        val eventRedisTemplate = RedisTemplate<String, SummaryCompletedDto>()
+    ): RedisOperations<String, CompletedDto> {
+        val jsonRedisSerializer = Jackson2JsonRedisSerializer(objectMapper, CompletedDto::class.java)
+        val eventRedisTemplate = RedisTemplate<String, CompletedDto>()
         eventRedisTemplate.setConnectionFactory(redisConnectionFactory)
         eventRedisTemplate.setKeySerializer(RedisSerializer.string())
         eventRedisTemplate.setValueSerializer(jsonRedisSerializer)
