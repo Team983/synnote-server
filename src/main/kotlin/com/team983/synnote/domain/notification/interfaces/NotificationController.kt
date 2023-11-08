@@ -1,6 +1,6 @@
 package com.team983.synnote.domain.notification.interfaces
 
-import com.team983.synnote.domain.notification.dtos.SummaryCompletedDto
+import com.team983.synnote.domain.notification.dtos.CompletedDto
 import com.team983.synnote.domain.notification.services.NotificationService
 import org.springframework.data.redis.core.RedisOperations
 import org.springframework.http.MediaType
@@ -14,14 +14,14 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 @RequestMapping("/api/v1/notification")
 @RestController
 class NotificationController(
-    private val eventRedisOperations: RedisOperations<String, SummaryCompletedDto>,
+    private val eventRedisOperations: RedisOperations<String, CompletedDto>,
     private val notificationService: NotificationService
 ) {
 
     @PostMapping("/send-data/{id}")
     fun sendData(@PathVariable id: Long) {
         val iid: String = id.toString()
-        this.eventRedisOperations.convertAndSend(getChannelName(iid), SummaryCompletedDto(iid, 1))
+        this.eventRedisOperations.convertAndSend(getChannelName(iid), CompletedDto("Query", iid, id, ""))
     }
 
     private fun getChannelName(memberId: String): String {
