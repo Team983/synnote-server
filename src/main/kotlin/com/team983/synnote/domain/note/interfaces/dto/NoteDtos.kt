@@ -316,3 +316,25 @@ data class CreateQueryRequest(
     val query: String
         get() = _query!!
 }
+
+data class NoteSimilarityResponse(
+    val noteIdList: List<Long>,
+    val similarities: List<SimilarityResponse>
+) {
+    constructor(noteSimilarityResultResponse: NoteSimilarityResultResponse) : this(
+        noteIdList = noteSimilarityResultResponse.noteIds,
+        similarities = noteSimilarityResultResponse.similarities.map { SimilarityResponse(it) }
+    )
+
+    data class SimilarityResponse(
+        val source: Long,
+        val target: Long,
+        val value: Long
+    ) {
+        constructor(similarity: NoteSimilarityResultResponse.Similarity) : this(
+            source = similarity.source,
+            target = similarity.target,
+            value = similarity.value
+        )
+    }
+}

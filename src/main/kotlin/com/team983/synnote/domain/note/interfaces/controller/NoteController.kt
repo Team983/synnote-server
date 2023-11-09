@@ -23,6 +23,7 @@ import com.team983.synnote.domain.note.interfaces.dto.NoteDetailResponse.MemoRes
 import com.team983.synnote.domain.note.interfaces.dto.NoteDetailResponse.ScriptResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteOverviewListResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteRecordingResponse
+import com.team983.synnote.domain.note.interfaces.dto.NoteSimilarityResponse
 import com.team983.synnote.domain.note.interfaces.dto.SummaryListResponse
 import com.team983.synnote.domain.note.interfaces.dto.UpdateMemoRequest
 import com.team983.synnote.domain.note.interfaces.dto.UpdateScriptRequest
@@ -175,5 +176,13 @@ class NoteController(
         createQueryRequest: CreateQueryRequest
     ) {
         noteFacade.createQuery(CreateQueryCommand(decodeJwt(encodedJwt).sub, noteId, createQueryRequest))
+    }
+
+    @GetMapping("/api/v1/note/similarity")
+    fun getNoteSimilarity(
+        @RequestHeader("x-amzn-oidc-data") encodedJwt: String
+    ): BaseResponse<NoteSimilarityResponse> {
+        val noteSimilarityResponse = NoteSimilarityResponse(noteFacade.getNoteSimilarity(decodeJwt(encodedJwt).sub))
+        return BaseResponse(data = noteSimilarityResponse)
     }
 }

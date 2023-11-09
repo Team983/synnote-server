@@ -171,6 +171,33 @@ class RestTemplateRequester {
             throw RuntimeException()
         }
     }
+
+    fun <T> sendNoteSimilarityRequest(
+        userId: String,
+        responseType: Class<T>
+    ): T {
+        val restTemplate = RestTemplate()
+
+        val url = "http://llama-service.default.svc.cluster.local:8000/similarities?userId=$userId"
+        val uri: URI = UriComponentsBuilder.fromHttpUrl(url)
+            .build()
+            .toUri()
+
+        val requestEntity: RequestEntity<Any> = RequestEntity<Any>(
+            HttpMethod.GET,
+            uri
+        )
+
+        try {
+            val responseEntity: ResponseEntity<T> = restTemplate.exchange(requestEntity, responseType)
+            if (!responseEntity.statusCode.is2xxSuccessful) {
+                throw RuntimeException()
+            }
+            return responseEntity.body ?: throw RuntimeException()
+        } catch (ex: Exception) {
+            throw RuntimeException()
+        }
+    }
 }
 
 data class AsrRequest(

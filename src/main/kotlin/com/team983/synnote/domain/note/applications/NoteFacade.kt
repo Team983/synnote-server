@@ -27,6 +27,7 @@ import com.team983.synnote.domain.note.domains.dto.UpdateTitleCommand
 import com.team983.synnote.domain.note.domains.enums.DomainType
 import com.team983.synnote.domain.note.domains.service.NoteService
 import com.team983.synnote.domain.note.interfaces.dto.AsrRequestResponse
+import com.team983.synnote.domain.note.interfaces.dto.NoteSimilarityResultResponse
 import com.team983.synnote.domain.notification.services.NotificationService
 import com.team983.synnote.domain.user.domains.service.UserService
 import org.springframework.stereotype.Service
@@ -124,5 +125,9 @@ class NoteFacade(
             saveQueryCommand.noteId,
             saveQueryCommand.text
         )
+    }
+
+    fun getNoteSimilarity(userId: String): NoteSimilarityResultResponse {
+        return restTemplateRequester.sendNoteSimilarityRequest(userId, NoteSimilarityResultResponse::class.java)
     }
 }
