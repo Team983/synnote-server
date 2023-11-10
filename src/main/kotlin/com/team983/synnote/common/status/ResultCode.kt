@@ -16,5 +16,6 @@ enum class ResultCode(val code: String, val msg: String) {
     NOTE_ALREADY_HAS_RECORDING("N_04", "이미 녹음본이 존재하는 노트입니다."),
     NOTE_TITLE_LENGTH_EXCEEDED("N_05", "노트 제목의 길이가 50보다 초과되었습니다."),
     SCRIPT_NOTE_FOUND("N_06", "해당 스크립트 엔티티를 찾을 수 없습니다."),
-    MEMO_NOTE_FOUND("N_07", "해당 메모 엔티티를 찾을 수 없습니다.")
+    MEMO_NOTE_FOUND("N_07", "해당 메모 엔티티를 찾을 수 없습니다."),
+    KEYWORDS_NOT_FOUND("N_08", "해당 키워드 간의 관계를 찾을 수 없습니다.")
 }

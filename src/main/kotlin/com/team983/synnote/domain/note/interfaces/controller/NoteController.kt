@@ -1,5 +1,6 @@
 package com.team983.synnote.domain.note.interfaces.controller
 
+import com.google.gson.Gson
 import com.team983.synnote.common.authority.decodeJwt
 import com.team983.synnote.common.dto.BaseResponse
 import com.team983.synnote.domain.note.applications.NoteFacade
@@ -8,6 +9,7 @@ import com.team983.synnote.domain.note.domains.dto.CreateQueryCommand
 import com.team983.synnote.domain.note.domains.dto.CreateSummaryCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
+import com.team983.synnote.domain.note.domains.dto.GetKeywordsCriterion
 import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCriterion
 import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCriterion
 import com.team983.synnote.domain.note.domains.dto.GetSummaryCriterion
@@ -21,6 +23,8 @@ import com.team983.synnote.domain.note.interfaces.dto.NoteResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteDetailResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteDetailResponse.MemoResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteDetailResponse.ScriptResponse
+import com.team983.synnote.domain.note.interfaces.dto.NoteKeywordsResponse
+import com.team983.synnote.domain.note.interfaces.dto.NoteKeywordsResponse.Keywords
 import com.team983.synnote.domain.note.interfaces.dto.NoteOverviewListResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteRecordingResponse
 import com.team983.synnote.domain.note.interfaces.dto.NoteSimilarityResponse
@@ -184,5 +188,16 @@ class NoteController(
     ): BaseResponse<NoteSimilarityResponse> {
         val noteSimilarityResponse = NoteSimilarityResponse(noteFacade.getNoteSimilarity(decodeJwt(encodedJwt).sub))
         return BaseResponse(data = noteSimilarityResponse)
+    }
+
+    @GetMapping("/api/v1/note/{noteId}/keywords")
+    fun getNoteKeywords(
+        @RequestHeader("x-amzn-oidc-data") encodedJwt: String,
+        @PathVariable("noteId") noteId: Long
+    ): BaseResponse<NoteKeywordsResponse> {
+        val keywordsJson = noteFacade.getNoteKeywords(GetKeywordsCriterion(decodeJwt(encodedJwt).sub, noteId))
+        val gson = Gson()
+        val keywords = gson.fromJson(keywordsJson, Keywords::class.java)
+        return BaseResponse(data = NoteKeywordsResponse(keywords))
     }
 }

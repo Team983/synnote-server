@@ -4,6 +4,7 @@ import com.team983.synnote.domain.note.domains.dto.BaseSaveScriptCommand
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
+import com.team983.synnote.domain.note.domains.dto.GetKeywordsCriterion
 import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCriterion
 import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCriterion
 import com.team983.synnote.domain.note.domains.dto.GetSummaryCriterion
@@ -53,4 +54,6 @@ interface NoteService {
     fun saveSummary(saveSummaryCommand: SaveSummaryCommand)
 
     fun getSummary(getSummaryCriterion: GetSummaryCriterion): SummaryListInfo
+
+    fun getKeywords(getKeywordsCriterion: GetKeywordsCriterion): String
 }

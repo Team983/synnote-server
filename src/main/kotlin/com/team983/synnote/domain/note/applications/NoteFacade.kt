@@ -9,6 +9,7 @@ import com.team983.synnote.domain.note.domains.dto.CreateQueryCommand
 import com.team983.synnote.domain.note.domains.dto.CreateSummaryCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
+import com.team983.synnote.domain.note.domains.dto.GetKeywordsCriterion
 import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCriterion
 import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCriterion
 import com.team983.synnote.domain.note.domains.dto.GetSummaryCriterion
@@ -129,5 +130,9 @@ class NoteFacade(
 
     fun getNoteSimilarity(userId: String): NoteSimilarityResultResponse {
         return restTemplateRequester.sendNoteSimilarityRequest(userId, NoteSimilarityResultResponse::class.java)
+    }
+
+    fun getNoteKeywords(getKeywordsCriterion: GetKeywordsCriterion): String {
+        return noteService.getKeywords(getKeywordsCriterion)
     }
 }

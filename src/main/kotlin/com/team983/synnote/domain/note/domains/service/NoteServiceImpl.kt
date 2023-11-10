@@ -1,6 +1,5 @@
 package com.team983.synnote.domain.note.domains.service
 
-import com.google.gson.Gson
 import com.team983.synnote.common.exception.AccessDeniedException
 import com.team983.synnote.common.exception.BusinessException
 import com.team983.synnote.common.exception.EntityNotFoundException
@@ -9,6 +8,7 @@ import com.team983.synnote.domain.note.domains.dto.BaseSaveScriptCommand
 import com.team983.synnote.domain.note.domains.dto.CreateNoteCommand
 import com.team983.synnote.domain.note.domains.dto.DeleteNoteCommand
 import com.team983.synnote.domain.note.domains.dto.EndRecordingCommand
+import com.team983.synnote.domain.note.domains.dto.GetKeywordsCriterion
 import com.team983.synnote.domain.note.domains.dto.GetNoteDetailCriterion
 import com.team983.synnote.domain.note.domains.dto.GetNoteOverviewListCriterion
 import com.team983.synnote.domain.note.domains.dto.GetSummaryCriterion
@@ -168,5 +168,18 @@ class NoteServiceImpl(
     override fun getSummary(getSummaryCriterion: GetSummaryCriterion): SummaryListInfo {
         val summaryInfos = noteReader.getSummaryByNoteId(getSummaryCriterion.noteId).map { SummaryInfo(it) }
         return SummaryListInfo(getSummaryCriterion.noteId, summaryInfos)
+    }
+
+    override fun getKeywords(getKeywordsCriterion: GetKeywordsCriterion): String {
+        val note = noteReader.getNoteById(getKeywordsCriterion.noteId) ?: throw EntityNotFoundException(NOTE_NOT_FOUND)
+        if (!note.isOwnedBy(getKeywordsCriterion.userId)) {
+            throw AccessDeniedException(NOTE_NOT_ACCESSED)
+        }
+
+        if (note.keywords == null) {
+            throw EntityNotFoundException(KEYWORDS_NOT_FOUND)
+        }
+
+        return note.keywords!!
     }
 }

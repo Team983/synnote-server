@@ -338,3 +338,24 @@ data class NoteSimilarityResponse(
         )
     }
 }
+
+data class NoteKeywordsResponse(
+    val keywords: Keywords
+) {
+    data class Keywords(
+        val nodes: List<Node>,
+        val relations: List<Relation>
+    )
+
+    data class Node(
+        val id: Long,
+        val label: String,
+        val type: String
+    )
+
+    data class Relation(
+        val source: Long,
+        val target: Long,
+        val label: String
+    )
+}

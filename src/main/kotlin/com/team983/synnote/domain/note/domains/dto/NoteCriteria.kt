@@ -16,3 +16,8 @@ data class GetSummaryCriterion(
     val userId: String,
     val noteId: Long
 )
+
+data class GetKeywordsCriterion(
+    val userId: String,
+    val noteId: Long
+)
