@@ -93,6 +93,9 @@ class Note(
     @Column(name = "language", nullable = true)
     var language: String? = null
 
+    @Column(name = "keywords", nullable = true)
+    var keywords: String? = null
+
     init {
         require(
             uploadType == UploadType.RECORDING && status == Status.RECORDING ||
@@ -144,5 +147,9 @@ class Note(
     fun updateAsrCompleted(status: Status, language: String?) {
         updateStatus(status)
         this.language = language
+    }
+
+    fun attachKeywords(keywords: String) {
+        this.keywords = keywords
     }
 }

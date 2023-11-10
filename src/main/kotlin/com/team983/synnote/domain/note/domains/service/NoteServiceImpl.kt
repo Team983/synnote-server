@@ -1,5 +1,6 @@
 package com.team983.synnote.domain.note.domains.service
 
+import com.google.gson.Gson
 import com.team983.synnote.common.exception.AccessDeniedException
 import com.team983.synnote.common.exception.BusinessException
 import com.team983.synnote.common.exception.EntityNotFoundException
@@ -160,6 +161,10 @@ class NoteServiceImpl(
             throw AccessDeniedException(NOTE_NOT_ACCESSED)
         }
         note.attachSummary(saveSummaryCommand.toSummary())
+
+        val gson = Gson()
+        val keywordsJson = gson.toJson(saveSummaryCommand.keywords)
+        note.attachKeywords(keywordsJson)
     }
 
     @Transactional(readOnly = true)

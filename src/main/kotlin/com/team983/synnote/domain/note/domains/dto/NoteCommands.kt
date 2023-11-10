@@ -16,6 +16,7 @@ import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest
 import com.team983.synnote.domain.note.interfaces.dto.EndRecordingRequest.MemoRequest
 import com.team983.synnote.domain.note.interfaces.dto.QueryResultResponse
 import com.team983.synnote.domain.note.interfaces.dto.SummaryResultResponse
+import com.team983.synnote.domain.note.interfaces.dto.SummaryResultResponse.*
 import com.team983.synnote.domain.note.interfaces.dto.UpdateMemoRequest
 import com.team983.synnote.domain.note.interfaces.dto.UpdateScriptRequest
 import com.team983.synnote.domain.note.interfaces.dto.UpdateTitleRequest
@@ -186,12 +187,14 @@ data class UpdateMemoCommand(
 data class SaveSummaryCommand(
     val userId: String,
     val noteId: Long,
-    val text: String
+    val text: String,
+    val keywords: Keywords
 ) {
     constructor(summaryResultResponse: SummaryResultResponse) : this(
         userId = summaryResultResponse.userId,
         noteId = summaryResultResponse.noteId,
-        text = summaryResultResponse.text
+        text = summaryResultResponse.summary,
+        keywords = summaryResultResponse.keywords
     )
 
     fun toSummary(): Summary {

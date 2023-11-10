@@ -19,7 +19,7 @@ class NotificationService(
     private val objectMapper: ObjectMapper
 ) {
     companion object {
-        private const val DEFAULT_TIMEOUT = 60L * 1000
+        private const val DEFAULT_TIMEOUT = 60L * 1000 * 10
         private val emitters = CopyOnWriteArrayList<SseEmitter>()
     }
 
