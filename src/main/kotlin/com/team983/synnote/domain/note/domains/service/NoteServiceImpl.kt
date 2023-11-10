@@ -161,10 +161,7 @@ class NoteServiceImpl(
             throw AccessDeniedException(NOTE_NOT_ACCESSED)
         }
         note.attachSummary(saveSummaryCommand.toSummary())
-
-        val gson = Gson()
-        val keywordsJson = gson.toJson(saveSummaryCommand.keywords)
-        note.attachKeywords(keywordsJson)
+        note.attachKeywords(saveSummaryCommand.toKeywordsJson())
     }
 
     @Transactional(readOnly = true)

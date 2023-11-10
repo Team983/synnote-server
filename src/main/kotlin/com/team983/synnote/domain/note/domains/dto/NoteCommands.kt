@@ -1,5 +1,6 @@
 package com.team983.synnote.domain.note.domains.dto
 
+import com.google.gson.Gson
 import com.team983.synnote.domain.note.domains.entity.Memo
 import com.team983.synnote.domain.note.domains.entity.Note
 import com.team983.synnote.domain.note.domains.entity.Script
@@ -199,6 +200,11 @@ data class SaveSummaryCommand(
 
     fun toSummary(): Summary {
         return Summary(text = text)
+    }
+
+    fun toKeywordsJson(): String {
+        val gson = Gson()
+        return gson.toJson(keywords)
     }
 }
 
