@@ -24,7 +24,7 @@ class NotificationService(
     }
 
     fun sendSummaryCompleted(userId: String, noteId: Long) {
-        this.eventRedisOperations.convertAndSend(getChannelName(userId), CompletedDto("Summmary", userId, noteId, ""))
+        this.eventRedisOperations.convertAndSend(getChannelName(userId), CompletedDto("Summary", userId, noteId, ""))
     }
 
     fun sendQueryCompleted(userId: String, noteId: Long, text: String) {
