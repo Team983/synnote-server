@@ -198,6 +198,32 @@ class RestTemplateRequester {
             throw RuntimeException()
         }
     }
+
+    fun sendNoteDeleted(
+        userId: String,
+        noteId: Long
+    ) {
+        val restTemplate = RestTemplate()
+
+        val url = "http://llama-service.default.svc.cluster.local:8000/embed-text?userId=$userId&noteId=$noteId"
+        val uri: URI = UriComponentsBuilder.fromHttpUrl(url)
+            .build()
+            .toUri()
+
+        val requestEntity: RequestEntity<Any> = RequestEntity<Any>(
+            HttpMethod.DELETE,
+            uri
+        )
+
+        try {
+            val responseEntity: ResponseEntity<Void> = restTemplate.exchange(requestEntity, Void::class.java)
+            if (!responseEntity.statusCode.is2xxSuccessful) {
+                throw RuntimeException()
+            }
+        } catch (ex: Exception) {
+            throw RuntimeException()
+        }
+    }
 }
 
 data class AsrRequest(

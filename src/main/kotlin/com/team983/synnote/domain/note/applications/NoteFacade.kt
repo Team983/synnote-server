@@ -46,7 +46,10 @@ class NoteFacade(
         return noteService.createNote(createNoteCommand)
     }
 
-    fun deleteNote(deleteNoteCommand: DeleteNoteCommand): NoteInfo = noteService.deleteNote(deleteNoteCommand)
+    fun deleteNote(deleteNoteCommand: DeleteNoteCommand): NoteInfo {
+        restTemplateRequester.sendNoteDeleted(deleteNoteCommand.userId, deleteNoteCommand.noteId)
+        return noteService.deleteNote(deleteNoteCommand)
+    }
 
     fun endRecording(endRecordingCommand: EndRecordingCommand): NoteRecordingInfo {
         noteService.hasNoteNoRecording(endRecordingCommand)
