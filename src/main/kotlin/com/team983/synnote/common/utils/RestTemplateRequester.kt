@@ -73,6 +73,7 @@ class RestTemplateRequester {
             }
             return responseEntity.body ?: throw RuntimeException()
         } catch (ex: Exception) {
+            log.info("전사 실패 => $noteId, $filename")
             throw RuntimeException("전사 실패 => $noteId, $filename")
         }
     }

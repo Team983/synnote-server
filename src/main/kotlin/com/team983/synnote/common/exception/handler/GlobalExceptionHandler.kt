@@ -3,18 +3,16 @@ package com.team983.synnote.common.exception.handler
 import com.team983.synnote.common.dto.BaseResponse
 import com.team983.synnote.common.exception.BusinessException
 import com.team983.synnote.common.status.ResultCode
-import com.team983.synnote.common.utils.logger
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.FieldError
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.hibernate.query.sqm.tree.SqmNode.log
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
-    val log = logger()
-
     @ExceptionHandler(BusinessException::class)
     protected fun businessException(
         ex: BusinessException
@@ -52,7 +50,7 @@ class GlobalExceptionHandler {
     protected fun defaultException(
         ex: Exception
     ): ResponseEntity<BaseResponse<Map<String, String>>> {
-        log.error("Unprocessed Error", ex)
+        log.info(ex.message)
         val errors = mapOf("Unprocessed Error" to (ex.message ?: "Not Exception Message"))
         return ResponseEntity(
             BaseResponse(
