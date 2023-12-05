@@ -46,6 +46,7 @@ import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import org.hibernate.query.sqm.tree.SqmNode.log
 
 @RestController
 class NoteController(
@@ -83,6 +84,7 @@ class NoteController(
         @Valid
         endRecordingRequest: EndRecordingRequest
     ): BaseResponse<NoteRecordingResponse> {
+        log.info("전사 요청 시작 => ${endRecordingRequest.noteId}")
         val endRecordingCommand = EndRecordingCommand(decodeJwt(encodedJwt).sub, endRecordingRequest)
         val noteRecordingResponse = NoteRecordingResponse(noteFacade.endRecording(endRecordingCommand))
         return BaseResponse(data = noteRecordingResponse)
